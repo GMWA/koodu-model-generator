@@ -7,5 +7,5 @@ get_fields = {
     "description": fields.String(),
     "created_at": fields.String(),
     "updated_at": fields.String(),
-    "user_id": fields.INteger()
+    "user_id": fields.Integer()
 }
