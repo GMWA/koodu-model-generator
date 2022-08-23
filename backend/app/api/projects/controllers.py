@@ -43,7 +43,7 @@ class ProjectOneRessource(Resource):
         if not project_id:
             abort(500, "The id must be provided")
 
-        project = Project.query.get(id)
+        project = Project.query.get(project_id)
         if not project:
             abort(500, message="Bad project'S id")
 
@@ -59,7 +59,6 @@ class ProjectOneRessource(Resource):
         if args["description"]:
             project.name = args["description"]
 
-        db.session.add(project)
         db.session.commit()
 
     @jwt_required()
@@ -67,9 +66,9 @@ class ProjectOneRessource(Resource):
         if not project_id:
             abort(500, "The id must be provided")
 
-        project = Project.query.get(id)
+        project = Project.query.get(project_id)
         if not project:
-            abort(500, message="Bad project'S id")
+            abort(500, message="Bad project's id")
 
         user_id = get_jwt_identity()
         if user_id != project.user_id:
