@@ -14,6 +14,8 @@ class User(db.Model):
     phone = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(255), nullable=False)
     is_verified = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def generate_auth_token(self, expiration=600):
         pass
