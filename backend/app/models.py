@@ -47,7 +47,9 @@ class Attribut(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
-    is_primary = db.Column(db.Boolean, default=False)
+    primary_key = db.Column(db.Boolean, default=False)
+    index_key = db.Column(db.Boolean, default=False)
+    unique_key = db.Column(db.Boolean, default=False)
     type = db.Column(db.String(50))
     size = db.Column(db.Integer)
     description = db.Column(db.Text)
