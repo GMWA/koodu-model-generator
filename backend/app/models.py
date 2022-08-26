@@ -53,4 +53,6 @@ class Attribut(db.Model):
     type = db.Column(db.String(50))
     size = db.Column(db.Integer)
     description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     table_id = db.Column(db.Integer, db.ForeignKey("tables.id"))
