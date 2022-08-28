@@ -19,17 +19,13 @@ post_parser.add_argument(
 )
 post_parser.add_argument(
     "description",
+    default="",
     type=str,
     location=["args", "values", "form", "json", "headers"]
 )
 
 
 put_parser = reqparse.RequestParser()
-put_parser.add_argument(
-    "id",
-    type=int,
-    location=["args", "values", "form", "json", "headers"]
-)
 put_parser.add_argument(
     "name",
     required=True,
@@ -39,13 +35,5 @@ put_parser.add_argument(
 put_parser.add_argument(
     "description",
     type=str,
-    location=["args", "values", "form", "json", "headers"]
-)
-
-
-delete_parser = reqparse.RequestParser()
-delete_parser.add_argument(
-    "id",
-    type=int,
     location=["args", "values", "form", "json", "headers"]
 )
