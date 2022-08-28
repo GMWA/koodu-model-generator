@@ -5,7 +5,7 @@ from flask_restful import Resource, marshal_with
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from app import db
 from app.models import Project, User
-from .parsers import get_parser, post_parser, put_parser, delete_parser
+from .parsers import get_parser, post_parser, put_parser
 from .fields import get_fields
 
 
@@ -45,7 +45,7 @@ class ProjectOneRessource(Resource):
 
         project = Project.query.get(project_id)
         if not project:
-            abort(500, message="Bad project'S id")
+            abort(500, message="Bad project's id")
 
         user_id = get_jwt_identity()
         if user_id != project.user_id:
