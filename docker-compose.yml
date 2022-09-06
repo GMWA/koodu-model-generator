@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  db:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_USER: supertokens_user 
+      POSTGRES_PASSWORD: somePassword 
+      POSTGRES_DB: supertokens
+    ports:
+      - 5432:5432
+    networks:
+      - app_network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'pg_isready -U supertokens_user']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/code
+    tty: true
+    ports:
+      - "5000:5000"
+    command: python main.py
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm run dev"
+    stdin_open: true
+    tty: true
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+
+networks:
+  app_network:
+    driver: bridge
