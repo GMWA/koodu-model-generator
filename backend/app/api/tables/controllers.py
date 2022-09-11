@@ -21,8 +21,8 @@ class TablesAllRessource(Resource):
             
             return table
         else:
-            tables = Project.query.all()
-            return table
+            tables = Table.query.all()
+            return tables
 
     @jwt_required()
     def post(self):
@@ -61,7 +61,7 @@ class TableOneRessource(Resource):
             table.name = args["name"]
 
         if args["description"]:
-            table.name = args["description"]
+            table.description = args["description"]
 
         db.session.commit()
 
