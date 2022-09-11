@@ -29,6 +29,12 @@ post_parser.add_argument(
     location=["args", "values", "form", "json", "headers"]
 )
 post_parser.add_argument(
+    "size",
+    required=True,
+    type=int,
+    location=["args", "values", "form", "json", "headers"]
+)
+post_parser.add_argument(
     "description",
     type=str,
     default="",
@@ -69,6 +75,11 @@ put_parser.add_argument(
 put_parser.add_argument(
     "type",
     type=str,
+    location=["args", "values", "form", "json", "headers"]
+)
+put_parser.add_argument(
+    "size",
+    type=int,
     location=["args", "values", "form", "json", "headers"]
 )
 put_parser.add_argument(
