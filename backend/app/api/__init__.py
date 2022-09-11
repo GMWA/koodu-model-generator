@@ -1,6 +1,7 @@
 from flask_restful import Api
 from .projects.controllers import ProjectAllRessource, ProjectOneRessource
 from .users.controllers import UserAllResource, UserLoginResource, UserOneResource
+from .attributs.controllers import AttributAllRessource, AttributOneRessource
 
 
 def make_api(app):
@@ -9,6 +10,8 @@ def make_api(app):
 
     api.add_resource(ProjectAllRessource, "/v1/projects")
     api.add_resource(ProjectOneRessource, "/v1/projects/<int:project_id>")
+    api.add_resource(AttributAllRessource, "/v1/attributs")
+    api.add_resource(AttributOneRessource, "/v1/attributs/<int:attrib_id>")
     api.add_resource(UserAllResource, "/v1/users")
     api.add_resource(UserOneResource, "/v1/users/<int:project_id>")
     api.add_resource(UserLoginResource, "/v1/users/login")
