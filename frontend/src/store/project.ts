@@ -1,25 +1,44 @@
 // @ts-check
+import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { IProject } from "../types/projects.type";
-
-export type RootState = {
-    projects: IProject[];
-  };
+import { IProject, GetProjectResponse, RootProjectState } from "../types/projects.type";
+import { BASE_ENDPOINT } from "../configs";
 
 export const useProjectStore = defineStore({
     id: "projects",
     state: () => ({
         /** @type {IProject[]} */
-        projects: []
-    } as RootState),
-    
+        projects: [],
+        loading: false,
+        error: null
+    } as RootProjectState),
+
     getters: {
         items: (state) => state.projects
     },
 
     actions: {
-        getItems(){
-
+        async getItems(){
+            this.loading = true;
+            try {
+                const { data, status } = await axios.get<GetProjectResponse>(
+                    BASE_ENDPOINT + "projects",
+                    {
+                        headers: {
+                            Accept: 'application/json',
+                        },
+                    },
+                );            
+                this.projects = data.data;
+            } catch (error) {
+                if(axios.isAxiosError(error)) {
+                    this.error = error.message;
+                } else {
+                    this.error = "An unexpected error occurred";
+                }
+            } finally {
+                this.loading = false;
+            }
         },
         addItem(project: IProject){
             if(!project) return
