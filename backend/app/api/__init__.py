@@ -9,15 +9,15 @@ def make_api(app):
     """Create a Flask-Restx api, add some Ressources and add it to the app."""
     api = Api()
 
-    api.add_resource(AttributAllRessource, "/v1/attributs")
-    api.add_resource(AttributOneRessource, "/v1/attributs/<int:attrib_id>")
-    api.add_resource(ProjectAllRessource, "/v1/projects")
-    api.add_resource(ProjectOneRessource, "/v1/projects/<int:project_id>")
-    api.add_resource(TablesAllRessource, "/v1/tables")
-    api.add_resource(TableOneRessource, "/v1/tables/<int:table_id>")
-    api.add_resource(UserAllResource, "/v1/users")
-    api.add_resource(UserOneResource, "/v1/users/<int:project_id>")
-    api.add_resource(UserLoginResource, "/v1/users/login")
+    api.add_resource(AttributAllRessource, "/api/v1/attributs")
+    api.add_resource(AttributOneRessource, "/api/v1/attributs/<int:attrib_id>")
+    api.add_resource(ProjectAllRessource, "/api/v1/projects")
+    api.add_resource(ProjectOneRessource, "/api/v1/projects/<int:project_id>")
+    api.add_resource(TablesAllRessource, "/api/v1/tables")
+    api.add_resource(TableOneRessource, "/api/v1/tables/<int:table_id>")
+    api.add_resource(UserAllResource, "/api/v1/users")
+    api.add_resource(UserOneResource, "/api/v1/users/<int:project_id>")
+    api.add_resource(UserLoginResource, "/api/v1/users/login")
 
     api.init_app(app)
 

@@ -5,3 +5,13 @@ export interface IProject  {
     created_at?: string;
     updated_at?: string;
 }
+
+export type GetProjectResponse = {
+    data: IProject[];
+};
+
+export type RootProjectState = {
+    projects: IProject[];
+    loading: boolean,
+    error: null | string
+};
