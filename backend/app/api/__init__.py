@@ -6,7 +6,7 @@ from .tables.controllers import TablesAllRessource, TableOneRessource
 
 
 def make_api(app):
-    """Create a Flask-Restx api, add some Ressources and add it to the app."""
+    """Create a Flask-Restfull api, add some Ressources and add it to the app."""
     api = Api()
 
     api.add_resource(AttributAllRessource, "/api/v1/attributs")
