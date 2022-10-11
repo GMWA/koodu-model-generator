@@ -48,6 +48,8 @@ services:
       - "5173:5173"
     env_file:
       - ./frontend/.env
+    networks:
+      - app_network
 
 networks:
   app_network:
