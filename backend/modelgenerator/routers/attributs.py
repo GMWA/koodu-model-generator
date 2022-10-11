@@ -16,7 +16,7 @@ router = APIRouter(
 
 @router.get(
     "/",
-    response_model=List[AttributModel],
+    response_model=List[AttributSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
 async def read_attributs(db: Session = Depends(get_db)):
@@ -26,7 +26,7 @@ async def read_attributs(db: Session = Depends(get_db)):
 
 @router.get(
     "/{attribut_id}",
-    response_model=AttributModel,
+    response_model=AttributSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):

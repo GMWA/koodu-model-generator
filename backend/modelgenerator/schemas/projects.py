@@ -13,13 +13,13 @@ class ProjectCreate(ProjectBase):
 
 class ProjectUpdate(ProjectBase):
     id: int
-    description: Union[str, None]
-    user_id = Union[int, None]
+    description: Union[str, None] = None
+    user_id: Union[int, None] = None
 
 
 class Project(ProjectBase):
     id: int
-    description: Union[str, None]
-    created_at = Union[datetime, None]
-    updated_at = Union[datetime, None]
+    description: Union[str, None] = None
+    created_at: Union[datetime, None] = None
+    updated_at: Union[datetime, None] = None
     user_id = int

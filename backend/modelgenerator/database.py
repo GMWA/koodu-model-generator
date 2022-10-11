@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./modelgenerator.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/modelgenerator.db"
 
 if "sqlite" in SQLALCHEMY_DATABASE_URL:
     engine = create_engine(

@@ -16,7 +16,7 @@ router = APIRouter(
 
 @router.get(
     "/",
-    response_model=List[UserModel],
+    response_model=List[UserSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
 async def read_users(db: Session = Depends(get_db)):
@@ -26,7 +26,7 @@ async def read_users(db: Session = Depends(get_db)):
 
 @router.get(
     "/{user_id}",
-    response_model=UserModel,
+    response_model=UserSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def get_user(user_id: int, db: Session = Depends(get_db)):

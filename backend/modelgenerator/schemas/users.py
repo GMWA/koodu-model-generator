@@ -18,7 +18,7 @@ class UserUpdate(UserBase):
     firstname: Union[str, None]
     phone: Union[str, None]
     password: Union[str, None]
-    is_verified = Union[bool, None]
+    is_verified: Union[bool, None]
 
 
 class User(UserBase):
@@ -26,6 +26,6 @@ class User(UserBase):
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]
-    is_verified = Union[bool, None]
+    is_verified: Union[bool, None]
     created_at: datetime
     updated_at: datetime
