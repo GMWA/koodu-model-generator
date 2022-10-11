@@ -1,6 +1,9 @@
+from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..schemas.attributs import Attribut as AttributSchema
+from ..schemas.attributs import (Attribut as AttributSchema,
+                                AttributCreate as AttributCreateSchema,
+                                AttributUpdate as AttributUpdateSchema)
 from ..models import Attribut as AttributModel
 from ..dependencies import get_db
 
@@ -11,13 +14,21 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get(
+    "/",
+    response_model=List[AttributModel],
+    responses={403: {"description": "Operation forbidden"}}
+)
 async def read_attributs(db: Session = Depends(get_db)):
     data = db.query(AttributModel).all()
     return data
 
 
-@router.get("/{attribut_id}")
+@router.get(
+    "/{attribut_id}",
+    response_model=AttributModel,
+    responses={403: {"description": "Operation forbidden"}},
+)
 async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):
     data = db.query(AttributModel).filter_by(id=attribut_id).first()
     return data
@@ -25,21 +36,23 @@ async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):
 
 @router.post(
     "/",
-    tags=["attributs"],
+    response_model=AttributSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def create_attribut(attribut: AttributSchema, db: Session = Depends(get_db)):
+async def create_attribut(
+    attribut: AttributCreateSchema,
+    db: Session = Depends(get_db)
+):
     return {}
 
 
 @router.put(
     "/{attribut_id}",
-    tags=["attributs"],
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_attribut(
     attribut_id: int,
-    attribut: AttributSchema,
+    attribut: AttributUpdateSchema,
     db: Session = Depends(get_db)
 ):
     return {}
@@ -47,7 +60,6 @@ async def update_attribut(
 
 @router.delete(
     "/{attribut_id}",
-    tags=["attributs"],
     responses={403: {"description": "Operation forbidden"}},
 )
 async def delete_attribut(attribut_id: int, db: Session = Depends(get_db)):
