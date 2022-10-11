@@ -26,8 +26,8 @@ services:
       - ./backend:/code
     tty: true
     ports:
-      - "5000:5000"
-    command: python main.py
+      - "5000:8000"
+    command: uvicorn modelgenerator.server:app --reaload
     env_file:
       - ./backend/.env
 
