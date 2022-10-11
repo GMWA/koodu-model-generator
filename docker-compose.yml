@@ -17,19 +17,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
   backend:
     container_name: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/code
+      - ./backend:/home/code
     tty: true
     ports:
-      - "5000:8000"
-    command: uvicorn modelgenerator.server:app --reaload
+      - "8000:8000"
+    command: sh -c "uvicorn modelgenerator.server:app --reload --host 0.0.0.0 --port 8000"
     env_file:
       - ./backend/.env
+    networks:
+      - app_network
 
   frontend:
     container_name: frontend

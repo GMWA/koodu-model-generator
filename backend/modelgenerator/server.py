@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-
+import os
 from dotenv import load_dotenv
 load_dotenv()
-
+print(f"\n\n{os.environ.get('SQLALCHEMY_DATABASE_URL')}\n\n")
 from .models import Base
 from .routers.attributs import router as attributs_router
 from .routers.projects import router as projects_router
