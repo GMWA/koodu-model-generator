@@ -3,7 +3,9 @@
 </script>
 
 <template>
-	<div>Forgot Password</div>
+	<div>
+		Forgot Password
+	</div>
 </template>
 
 <style lang="sass" scoped>

@@ -3,7 +3,9 @@
 </script>
 
 <template>
-	<div>Auth view</div>
+	<div>
+		Auth 
+	</div>
 </template>
 
 <style lang="sass" scoped>
