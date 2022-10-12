@@ -3,9 +3,11 @@
 </script>
 
 <template>
-  <router-view></router-view>
+	<div>
+		Auth 
+	</div>
 </template>
 
-<style scoped>
+<style lang="sass" scoped>
 
 </style>

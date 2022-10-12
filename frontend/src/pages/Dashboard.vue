@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <router-view></router-view>
+	<div>Dashboard view</div>
 </template>
 
-<style scoped>
+<style lang="sass" scoped>
 
 </style>

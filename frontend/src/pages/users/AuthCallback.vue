@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <router-view></router-view>
+	<div>
+		Forgot Password
+	</div>
 </template>
 
 <style scoped>
