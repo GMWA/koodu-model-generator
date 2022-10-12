@@ -8,8 +8,9 @@
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "esModuleInterop": true,
+    "noUnusedLocals": false,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true
   },
