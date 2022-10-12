@@ -8,6 +8,7 @@ Session.addAxiosInterceptors(axios);
 
 import "./style.css";
 import App from "./App.vue";
+import router from "./router";
 
 SuperTokens.init({
   appInfo: {
@@ -17,4 +18,4 @@ SuperTokens.init({
   recipeList: [Session.init()]
 });
 
-createApp(App).mount("#app")
+createApp(App).use(router).mount("#app")
