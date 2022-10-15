@@ -1,35 +1,38 @@
 // @ts-check
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { ITable, GetTableResponse, RootTableState } from "../types/tables.type";
+import {
+	IAttribut,
+	GetAttributResponse,
+	RootAttributState } from "../types/attributs.type";
 import { BASE_ENDPOINT } from "../configs";
 
-export const useTableStore = defineStore({
-  id: "tables",
+export const useAttributStore = defineStore({
+  id: "attributs",
   state: () => ({
-    /** @type {ITable[]} */
-    tables: [],
+    /** @type {IAttribut[]} */
+    attributs: [],
     loading: false,
     error: null
-  } as RootTableState),
+  } as RootAttributState),
 
   getters: {
-    items: (state) => state.tables
+    items: (state) => state.attributs
   },
 
   actions: {
     async getItems(){
       this.loading = true;
       try {
-        const { data, status } = await axios.get<GetTableResponse>(
-          BASE_ENDPOINT + "tables",
+        const { data, status } = await axios.get<GetAttributResponse>(
+          BASE_ENDPOINT + "attributs",
           {
             headers: {
               Accept: 'application/json',
             },
           },
         );            
-        this.tables = data.data;
+        this.attributs = data.data;
       } catch (error) {
         if(axios.isAxiosError(error)) {
           this.error = error.message;
@@ -40,12 +43,12 @@ export const useTableStore = defineStore({
         this.loading = false;
       }
     },
-    async addItem(table: ITable){
+    async addItem(attribut: IAttribut){
       this.loading = true;
       try {
-        const { data, status } = await axios.post<ITable>(
-          BASE_ENDPOINT + `tables`,
-          {...table},
+        const { data, status } = await axios.post<IAttribut>(
+          BASE_ENDPOINT + `attributs`,
+          {...attribut},
           {
             headers: {
               "Content-Type": "application/json"
@@ -54,7 +57,7 @@ export const useTableStore = defineStore({
           },
         );
         if(status === 200){
-          this.tables.push(data);
+          this.attributs.push(data);
         }
       } catch(error) {
         if(axios.isAxiosError(error)) {
@@ -66,12 +69,12 @@ export const useTableStore = defineStore({
         this.loading = false;
       }
     },
-		async updateItem(NewTable: ITable){
+		async updateItem(newAttribut: IAttribut){
 			this.loading = true;
       try {
-        const { data, status } = await axios.put<ITable>(
-          BASE_ENDPOINT + `tables/${NewTable.id}`,
-          {...NewTable},
+        const { data, status } = await axios.put<IAttribut>(
+          BASE_ENDPOINT + `attributs/${newAttribut.id}`,
+          {...newAttribut},
           {
             headers: {
               "Content-Type": "application/json"
@@ -79,10 +82,10 @@ export const useTableStore = defineStore({
           },
         );
         if(status === 200){
-          const idx = this.tables.findIndex(
-                        elem => elem.id === NewTable.id
+          const idx = this.attributs.findIndex(
+                        elem => elem.id === newAttribut.id
           )
-          this.tables[idx] = {...data};
+          this.attributs[idx] = {...data};
         }
       } catch(error) {
         if(axios.isAxiosError(error)) {
@@ -97,8 +100,8 @@ export const useTableStore = defineStore({
     async removeItem(id: number){
       this.loading = true;
       try {
-        const { data, status } = await axios.delete<ITable>(
-          BASE_ENDPOINT + `tables/${id}`,
+        const { data, status } = await axios.delete<IAttribut>(
+          BASE_ENDPOINT + `attributs/${id}`,
           {
             headers: {
               "Content-Type": "application/json"
@@ -106,7 +109,7 @@ export const useTableStore = defineStore({
           },
         );
         if(status === 200){
-          this.tables = this.tables.filter(
+          this.attributs = this.attributs.filter(
             elem => elem.id !== id
           );
         }
@@ -124,5 +127,5 @@ export const useTableStore = defineStore({
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTableStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useAttributStore, import.meta.hot))
 }
