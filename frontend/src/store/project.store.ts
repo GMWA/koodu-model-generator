@@ -80,7 +80,7 @@ export const useProjectStore = defineStore({
         );
         if(status === 200){
           const idx = this.projects.findIndex(
-                        elem => elem.id === newProject.id
+            elem => elem.id === newProject.id
           )
           this.projects[idx] = {...data};
         }
