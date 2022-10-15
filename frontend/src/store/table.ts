@@ -66,12 +66,12 @@ export const useTableStore = defineStore({
         this.loading = false;
       }
     },
-		async updateItem(NewTable: ITable){
+		async updateItem(newTable: ITable){
 			this.loading = true;
       try {
         const { data, status } = await axios.put<ITable>(
-          BASE_ENDPOINT + `tables/${NewTable.id}`,
-          {...NewTable},
+          BASE_ENDPOINT + `tables/${newTable.id}`,
+          {...newTable},
           {
             headers: {
               "Content-Type": "application/json"
@@ -80,7 +80,7 @@ export const useTableStore = defineStore({
         );
         if(status === 200){
           const idx = this.tables.findIndex(
-                        elem => elem.id === NewTable.id
+                        elem => elem.id === newTable.id
           )
           this.tables[idx] = {...data};
         }
