@@ -80,7 +80,7 @@ export const useTableStore = defineStore({
         );
         if(status === 200){
           const idx = this.tables.findIndex(
-                        elem => elem.id === newTable.id
+            elem => elem.id === newTable.id
           )
           this.tables[idx] = {...data};
         }

@@ -83,7 +83,7 @@ export const useAttributStore = defineStore({
         );
         if(status === 200){
           const idx = this.attributs.findIndex(
-                        elem => elem.id === newAttribut.id
+            elem => elem.id === newAttribut.id
           )
           this.attributs[idx] = {...data};
         }
