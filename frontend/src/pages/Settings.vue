@@ -3,7 +3,9 @@
 </script>
 
 <template>
-	<div>Setting</div>
+	<div>
+		Settings
+	</div>
 </template>
 
 <style lang="scss" scoped>
