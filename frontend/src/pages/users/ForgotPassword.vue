@@ -34,10 +34,10 @@
       try {
         const response = await ThirdPartyEmailPassword.sendPasswordResetEmail({
           formFields: [
-              {
-                  id: "email",
-                  value: email.value,
-              },
+            {
+              id: "email",
+              value: email.value,
+            },
           ],
         });
         if (response.status !== "OK") {
