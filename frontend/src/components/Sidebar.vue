@@ -21,13 +21,13 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link class="button" to="/">
-				<span class="material-icons">home</span>
-				<span class="text">Home</span>
+			<router-link class="button" to="/dashboard">
+				<span class="material-icons">dashboard</span>
+				<span class="text">Dashboard</span>
 			</router-link>
-			<router-link class="button" to="/about">
-				<span class="material-icons">visibility</span>
-				<span class="text">About</span>
+			<router-link class="button" to="/projects">
+				<span class="material-icons">folder_copy</span>
+				<span class="text">Projects</span>
 			</router-link>
 			<router-link class="button" to="/team">
 				<span class="material-icons">group</span>

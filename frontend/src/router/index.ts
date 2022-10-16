@@ -5,12 +5,13 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: "/dashboard",
+      name: "dashboard",
       component: () => Dashboard
     },
     {
       path: "/auth",
+      name: "authentication",
       component: () => import(/* webpackChunkName: "Auth" */ "../pages/users/Auth.vue")
     },
     {
@@ -22,6 +23,16 @@ const router = createRouter({
       path: "/auth/reset-password",
       name: "resetpassword",
       component: () => import(/* webpackChunkName: "Password" */  "../pages/users/ForgotPassword.vue")
+    },
+    {
+      path: "/projects",
+      name: "projects",
+      component: () => import(/* webpackChunkName: "Projects" */  "../pages/Projects.vue")
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: () => import(/* webpackChunkName: "Settingd" */  "../pages/Settings.vue")
     }
   ]
 })
