@@ -1,9 +1,12 @@
 <script setup lang="ts">
-
+  import Sidebar from "./components/Sidebar.vue";
 </script>
 
 <template>
-  <router-view></router-view>
+   <div>
+    <Sidebar />
+    <router-view />
+  </div>
 </template>
 
 <style scoped>
