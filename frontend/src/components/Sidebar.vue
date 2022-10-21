@@ -29,13 +29,13 @@
 				<span class="material-icons">folder_copy</span>
 				<span class="text">Projects</span>
 			</router-link>
-			<router-link class="button" to="/team">
-				<span class="material-icons">group</span>
-				<span class="text">Team</span>
+			<router-link class="button" to="/editor">
+				<span class="material-icons">edit_note</span>
+				<span class="text">Notepad</span>
 			</router-link>
-			<router-link class="button" to="/contact">
-				<span class="material-icons">email</span>
-				<span class="text">Contact</span>
+			<router-link class="button" to="/supports">
+				<span class="material-icons">help</span>
+				<span class="text">Supports</span>
 			</router-link>
 		</div>
 
