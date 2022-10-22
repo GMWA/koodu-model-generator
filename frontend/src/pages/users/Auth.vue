@@ -139,14 +139,14 @@
 </script>
 
 <template>
-  <main class="home-page">
+  <main>
     <div class="min-h-screen min-w-screen bg-gray-100 text-gray-800 antialiased py-6 flex-col justify-center sm:py-12">
       <div class="relative py-3 sm:w-96 mx-auto text-center">
         <span class="text-3xl font-bold">
           Model Generator App
         </span>
         <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-          <div class="h-2 bg-green-400 rounded-t-md"></div>
+          <div class="h-3 bg-green-400 rounded-t-md"></div>
           <div class="px-8 py-6">
             <div class="w-full mt-0 text-center text-md">
               <span v-if="isSignIn">
@@ -168,6 +168,12 @@
                   Sign In
                 </span>
               </span>
+            </div>
+
+            <div v-if="error" class="w-full text-red-400">
+              <p>
+                {{ errorMessage }}
+              </p>
             </div>
 
             <button
@@ -217,12 +223,16 @@
             <button
               type="submit"
               class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-            >Login</button>
+            >
+              Login
+            </button>
             <div class="w-full mt-4 items-center text-center">
               <a
                 href="/auth/reset-password"
                 class="mt-4 text-sm hover:underline"
-              >Forgot Password?</a>
+              >
+                Forgot Password?
+              </a>
             </div>
           </div>
         </div>
