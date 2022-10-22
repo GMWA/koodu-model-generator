@@ -223,12 +223,16 @@
             <button
               type="submit"
               class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-            >Login</button>
+            >
+              Login
+            </button>
             <div class="w-full mt-4 items-center text-center">
               <a
                 href="/auth/reset-password"
                 class="mt-4 text-sm hover:underline"
-              >Forgot Password?</a>
+              >
+                Forgot Password?
+              </a>
             </div>
           </div>
         </div>
