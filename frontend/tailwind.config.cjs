@@ -8,11 +8,12 @@ module.exports = {
   theme: {
     colors: {
       white: colors.white,
+      black: colors.black,
       gray: colors.gray,
       green: colors.green,
-      blue: colors.sky,
-      red: colors.rose,
-      pink: colors.fuchsia,
+      blue: colors.blue,
+      red: colors.red,
+      pink: colors.pink,
       indigo: colors.indigo
     },
     fontFamily: {

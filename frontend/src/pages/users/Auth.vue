@@ -133,69 +133,102 @@
 
 	const checkForSession =  async () => {
 		if (await Session.doesSessionExist()) {
-			window.location.assign("/");
+			window.location.assign("/projects");
 		}
 	}
 </script>
 
 <template>
-  <div class="min-h-screen min-w-screen bg-gray-100 text-gray-800 antialiased py-6 flex-col justify-center sm:py-12">
-    <div class="relative py-3 sm:w-96 mx-auto text-center">
-      <span class="text-2xl font-light">
-        Login to your account
-      </span>
-      <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-        <div class="h-2 bg-green-400 rounded-t-md"></div>
-        <div class="px-8 py-6">
-          <button
-            type="submit"
-            class="mt-2 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-          >Login with Facebook</button>
+  <main class="home-page">
+    <div class="min-h-screen min-w-screen bg-gray-100 text-gray-800 antialiased py-6 flex-col justify-center sm:py-12">
+      <div class="relative py-3 sm:w-96 mx-auto text-center">
+        <span class="text-3xl font-bold">
+          Model Generator App
+        </span>
+        <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+          <div class="h-2 bg-green-400 rounded-t-md"></div>
+          <div class="px-8 py-6">
+            <div class="w-full mt-0 text-center text-md">
+              <span v-if="isSignIn">
+                Not yet registered?
+                <span
+                  class="hover:underline hover:cursor-pointer"
+                  v-on:click="goToSignUp"
+                >
+                  Sign Up
+                </span>
+              </span>
+              <span v-else
+              >
+                Already have an account?
+                <span
+                  class="hover:underline hover:cursor-pointer"
+                  v-on:click="goToSignIn"
+                >
+                  Sign In
+                </span>
+              </span>
+            </div>
 
-          <button
-            type="submit"
-            class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-          >Login with Google</button>
+            <button
+              type="submit"
+              class="mt-6 bg-blue-500 text-white py-2 px-6 w-full rounded-md hover:bg-blue-600"
+              @click="onFacebookPressed"
+            >
+              Login with Facebook
+            </button>
 
-          <button
-            type="submit"
-            class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-          >Login with Github</button>
+            <button
+              type="submit"
+              class="mt-4 bg-red-500 text-white py-2 px-6 w-full rounded-md hover:bg-red-600"
+              @click="onGooglePressed"
+            >
+              Login with Google
+            </button>
 
-          <label class="block font-semibold mt-10" for="username">
-            Enter your Username or Email
-          </label>
-          <input
-            class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
-            type="text"
-            name="username"
-            placeholder="Username or Email"
-          />
+            <button
+              type="submit"
+              class="mt-4 bg-gray-700 text-white py-2 px-6 w-full rounded-md hover:bg-gray-900"
+              @click="onGithubPressed"
+            >
+              Login with Github
+            </button>
 
-          <label class="block mt-5 font-semibold" for="password">
-            Enter your Password
-          </label>
-          <input
-            class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
+            <label class="block font-semibold mt-10" for="username">
+              Username or Email:
+            </label>
+            <input
+              class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
+              type="text"
+              name="username"
+              placeholder="Username or Email"
+            />
 
-          <button
-            type="submit"
-            class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
-          >Login</button>
-          <div class="w-full mt-4 items-center text-center">
-            <a
-              href="/auth/reset-password"
-              class="mt-4 text-sm hover:underline"
-            >Forgot Password?</a>
+            <label class="block mt-5 font-semibold" for="password">
+              Password:
+            </label>
+            <input
+              class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+
+            <button
+              type="submit"
+              class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
+            >Login</button>
+            <div class="w-full mt-4 items-center text-center">
+              <a
+                href="/auth/reset-password"
+                class="mt-4 text-sm hover:underline"
+              >Forgot Password?</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>

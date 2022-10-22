@@ -44,7 +44,7 @@ import Session from "supertokens-web-js/recipe/session";
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link class="button" to="/dashboard">
+			<router-link class="button" to="/">
 				<span class="material-icons">dashboard</span>
 				<span class="text">Dashboard</span>
 			</router-link>

@@ -5,7 +5,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/dashboard",
+      path: "/",
       name: "dashboard",
       component: () => Dashboard
     },
