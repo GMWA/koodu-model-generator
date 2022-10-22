@@ -55,67 +55,109 @@
 </script>
 
 <template>
-	<div class="fill">
-    <div class="form-container">
-      <div v-if="tokenPresent" class="form-content-container">
-        <div v-if="error" class="top-error-container">
-          <div class="error-message">{{ errorMessage }}</div>
-        </div>
-        <div v-if="!didSubmit">
-          <div class="form-text-header">Enter new password</div>
-          <div class="form-subtitle">Please enter your new password below</div>
+  <main>
+    <div class="min-h-screen min-w-screen bg-gray-100 text-gray-800 antialiased py-6 flex-col justify-center sm:py-12">
+      <div class="relative py-3 sm:w-96 mx-auto text-center">
+        <span class="text-3xl font-bold">
+          Model Generator App
+        </span>
+        <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+          <div class="h-3 bg-green-400 rounded-t-md"></div>
+          <div v-if="didSubmit" class="px-8 py-6">
+            <div class="w-full mt-0 text-center text-md">
+              <span>
+                Reset your password
+              </span>
+            </div>
 
-          <div class="input-section-container">
-            <div class="input-label">New Password</div>
-            <div class="input-container">
-              <div class="input-wrapper">
-                <input
-                  autocomplete="current-password"
-                  class="input"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  v-model="password"
-                />
-              </div>
+            <div v-if="error" class="w-full text-red-400">
+              <p>
+                {{ errorMessage }}
+              </p>
+            </div>
+
+            <label class="block font-semibold mt-4" for="passeword">
+              New Password:
+            </label>
+            <input
+              class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
+              type="password"
+              name="email"
+              placeholder="Password"
+            />
+            <button
+              type="submit"
+              class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
+              @click="onSubmitClicked"
+            >
+              Change Password
+            </button>
+
+            <div class="w-full mt-4 items-center text-center">
+              <a
+                href="/auth"
+                class="mt-4 text-sm hover:underline"
+              >
+                back to login?
+              </a>
             </div>
           </div>
+          <div v-else class="px-8 py-6">
+            <div class="w-full mt-0 text-center text-md">
+              <span>
+                Email to reset password
+              </span>
+            </div>
 
-          <div class="button-container">
-            <button @click="onSubmitClicked" class="form-button">Change Password</button>
-          </div>
-        </div>
-      </div>
-      <div v-else class="form-content-container">
-        <div v-if="error" class="top-error-container">
-          <div class="error-message">{{ errorMessage }}</div>
-      	</div>
-        <div v-if="!didSubmit">
-          <div class="form-text-header">Reset your password</div>
-          <div class="form-subtitle">We will send you an email to reset your password</div>
-
-          <div class="input-section-container">
-            <div class="input-label">Email</div>
-            <div class="input-container">
-              <div class="input-wrapper">
-                <input autocomplete="email" class="input" type="email" name="email" v-model="email" />
+            <div v-if="error" class="w-full text-red-400">
+              <p>
+                {{ errorMessage }}
+              </p>
+            </div>
+            <div v-if="!didSubmit" class="w-full">
+              <label class="block font-semibold mt-4" for="email">
+                Email:
+              </label>
+              <input
+                class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md"
+                type="text"
+                name="email"
+                placeholder="Email"
+              />
+              <button
+                type="submit"
+                class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
+              >
+                Email Me
+              </button>
+            </div>
+            <div v-else class="w-full">
+              <div class="w-full mt-0 text-center text-md">
+                <span>
+                  Please check your email for the password recovery link
+                  <span
+                    class="resend-button"
+                    @click="onSubmitClicked"
+                  >
+                    Resend
+                  </span>
+                </span>
               </div>
             </div>
-          </div>
 
-          <div class="button-container">
-            <button @click="onSubmitClicked" class="form-button">Email Me</button>
-          </div>
-        </div>
-        <div v-else>
-          <div class="confirmation">
-            Please check your email for the password recovery link
-            <span class="resend-button" @click="onSubmitClicked">Resend</span>
+            <div class="w-full mt-4 items-center text-center">
+              <a
+                href="/auth"
+                class="mt-4 text-sm hover:underline"
+              >
+                back to login?
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-	</div>
+  </main>
 </template>
 
 <style scoped>
