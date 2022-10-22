@@ -1,10 +1,33 @@
 <script setup lang="ts">
-	import { ref, Ref } from "vue";
+import Session from "supertokens-web-js/recipe/session";
+  import ThirdPartyEmailPassword from "supertokens-web-js/recipe/thirdpartyemailpassword";
+  import { ref, Ref, onMounted } from "vue";
+  import { API_DOMAIN } from "../configs";
 	const is_expanded: Ref<boolean> = ref(localStorage.getItem("is_expanded") === "true" ? true : false);
 	const ToggleMenu = () => {
 		is_expanded.value = !is_expanded.value;
 		localStorage.setItem("is_expanded", is_expanded.value);
 	}
+
+	const apiDomain = `http://localhost:8000`;
+
+  const session = ref(false);
+  const userId = ref("");
+
+  onMounted(async () => {
+    await checkForSession();
+  });
+
+  const checkForSession = async () => {
+    if (!(await Session.doesSessionExist())) {
+      // since a session does not exist, we send the user to the login page.
+      return window.location.assign("/auth");
+    }
+    const userID = await Session.getUserId();
+    // this will render the UI
+    session.value = true;
+    userId.value = userID;
+  }
 </script>
 
 <template>
