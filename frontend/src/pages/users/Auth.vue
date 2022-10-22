@@ -153,7 +153,7 @@
                 Not yet registered?
                 <span
                   class="hover:underline hover:cursor-pointer"
-                  v-on:click="goToSignUp"
+                  @click="goToSignUp"
                 >
                   Sign Up
                 </span>
@@ -163,7 +163,7 @@
                 Already have an account?
                 <span
                   class="hover:underline hover:cursor-pointer"
-                  v-on:click="goToSignIn"
+                  @click="goToSignIn"
                 >
                   Sign In
                 </span>
