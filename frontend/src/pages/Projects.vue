@@ -1,13 +1,16 @@
 <script setup lang="ts">
-
+	import Sidebar from "../components/Sidebar.vue";
 </script>
 
 <template>
 	<div>
-		Projects
+		<Sidebar />
+    <main class="home-page">
+			<div>Projects Page</div>
+    </main>
 	</div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
 
 </style>
