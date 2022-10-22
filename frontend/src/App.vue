@@ -1,13 +1,10 @@
 <script setup lang="ts">
-  import Sidebar from "./components/Sidebar.vue";
+
 </script>
 
 <template>
    <div class="app">
-	<Sidebar />
-    <main class="home-page">
-      <router-view />
-    </main>
+    <router-view />
   </div>
 </template>
 
