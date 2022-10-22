@@ -4,7 +4,7 @@
 
 <template>
    <div class="app">
-    <Sidebar />
+	<Sidebar />
     <main class="home-page">
       <router-view />
     </main>
