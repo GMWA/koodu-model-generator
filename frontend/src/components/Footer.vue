@@ -3,8 +3,10 @@
 </script>
 
 <template>
-  <div class="flex w-full rounded-3xl">
-    Footer
+  <div class="flex w-full items-center text-center bg-red">
+    <p class="text-md">
+			code generator app @gmwa
+		</p>
   </div>
 </template>
 
