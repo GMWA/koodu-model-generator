@@ -69,6 +69,10 @@ import Session from "supertokens-web-js/recipe/session";
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
 			</router-link>
+			<button class="button">
+				<span class="material-icons">logout</span>
+				<span class="text">Logout</span>
+			</button>
 		</div>
 	</aside>
 </template>
