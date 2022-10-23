@@ -3,7 +3,7 @@
 </script>
 
 <template>
-	<div>
+	<div class="flex">
 		<Sidebar />
     <main class="home-page">
 			<div>Settings page</div>
