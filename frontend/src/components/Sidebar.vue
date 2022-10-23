@@ -28,6 +28,11 @@ import Session from "supertokens-web-js/recipe/session";
     session.value = true;
     userId.value = userID;
   }
+
+	const signOut = () => {
+    ThirdPartyEmailPassword.signOut();
+    window.location.assign("/");
+  }
 </script>
 
 <template>
@@ -69,6 +74,10 @@ import Session from "supertokens-web-js/recipe/session";
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
 			</router-link>
+			<button class="button" @click="signOut">
+				<span class="material-icons">logout</span>
+				<span class="text">Logout</span>
+			</button>
 		</div>
 	</aside>
 </template>
