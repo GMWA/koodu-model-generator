@@ -15,7 +15,7 @@ import Session from "supertokens-web-js/recipe/session";
   const userId = ref("");
 
   onMounted(async () => {
-    await checkForSession();
+    // await checkForSession();
   });
 
   const checkForSession = async () => {
