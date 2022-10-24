@@ -6,8 +6,13 @@
 </script>
 
 <template>
-  <div class="flex w-full rounded-3xl">
-    Header
+  <div class="flex flex-col w-full rounded-3xl mb-10">
+    <p className='text-gray-400'>
+        {{ props.type }}
+      </p>
+      <p className='text-3xl font-extrabold tracking-tight text-slate-900'>
+        {{ props.title }}
+      </p>
   </div>
 </template>
 
