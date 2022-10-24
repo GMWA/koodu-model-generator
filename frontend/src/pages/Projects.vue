@@ -8,8 +8,11 @@
 	<div class="flex">
 		<Sidebar />
 
-    <main class="flex flex-col w-full">
-			<Header />
+    <main class="flex flex-col w-full ">
+			<Header
+				type="page"
+				title="Projects"
+			/>
 
 			<div>Projects Page</div>
 

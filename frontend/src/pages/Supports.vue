@@ -9,7 +9,10 @@
 		<Sidebar />
 		
     <main class="flex flex-col w-full">
-			<Header />
+			<Header
+				type="page"
+				title="Supports"
+			/>
 
 			<div>Supports Page</div>
 

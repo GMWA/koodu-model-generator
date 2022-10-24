@@ -9,7 +9,10 @@
 		<Sidebar />
 		
     <main class="flex flex-col w-full">
-			<Header />
+			<Header
+				type="page"
+				title="Settings"
+			/>
 
 			<div>Settings page</div>
     
