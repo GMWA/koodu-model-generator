@@ -74,7 +74,7 @@ import Session from "supertokens-web-js/recipe/session";
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
 			</router-link>
-			<button class="button" @click="signOut">
+			<button v-if="session" class="button" @click="signOut">
 				<span class="material-icons">logout</span>
 				<span class="text">Logout</span>
 			</button>
