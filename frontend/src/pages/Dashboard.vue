@@ -8,7 +8,10 @@
 	<div class="flex">
 		<Sidebar />
     <main class="flex flex-col w-full">
-			<Header />
+			<Header
+				type="page"
+				title="Dashboard"
+			/>
 			
 			<div>Dashboard Page</div>
 
