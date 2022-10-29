@@ -10,8 +10,8 @@
 
 <template>
 	<div
-		class="flex flex-col items-center
-		shadow shadow-inner hover:shadow-ls"
+		class="w-1/3 items-center p-3 m-2
+		shadow-md shadow-inner hover:shadow-2xl"
 	>
 		<div>
 			{{ project.name }}
