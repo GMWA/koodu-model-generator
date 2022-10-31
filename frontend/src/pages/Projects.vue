@@ -51,11 +51,11 @@
     	</main>
 		<div
 			aria-hidden="false"
-			class="`overflow-y-auto overflow-x-auto fixed items-center justify-center z-50 w-full md:inset-0 h-modal md:h-full"
+			class="overflow-y-auto overflow-x-auto fixed flex items-center justify-center bg-gray-900 z-50 w-full md:inset-0 md:h-full"
 			:class="{ hidden: is_add_btn_open }"
 		>
 			<div
-				class="absolute top-1/4 left-1/4 bg-gray-900 w-full max-w-2xl h-screen md:h-auto"
+				class="flex items-center justify-center bg-gray-900 w-full max-w-2xl h-screen md:h-auto"
 			>
 				<!-- Modal content -->
 				<div class="center bg-white rounded-lg shadow dark:bg-gray-700">
