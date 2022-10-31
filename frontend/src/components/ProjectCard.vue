@@ -10,7 +10,7 @@
 
 <template>
 	<div
-		class="w-1/3 items-center p-3 m-2
+		class="w-3/12 items-center p-2 m-2
 		shadow-md shadow-inner hover:shadow-2xl"
 	>
 		<div>

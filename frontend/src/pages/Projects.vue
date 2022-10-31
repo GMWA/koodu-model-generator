@@ -4,6 +4,9 @@
 	import Header from "../components/Header.vue";
 	import ProjectCard from "../components/ProjectCard.vue";
 	import { IProject } from "../types/projects.type";
+	import { ref, Ref } from "vue";
+
+	const is_add_btn_open: Ref = ref(false);
 
 	const projects : IProject[] = [
 		{id: 1, name: "Project 1", description: "Description of the project 1"},
@@ -24,6 +27,14 @@
 				type="page"
 				title="Projects"
 			/>
+
+			<div class="flex flex-row-reverse m-3 px-10 py-2">
+				<div class="w-12 h-12 rounded-full text-white bg-gray-900">
+					<button class="text-white-500 h-full w-full">
+						<span class="material-icons p-0 m-0">add</span>
+					</button>
+				</div>
+			</div>
 
 			<div class="flex flex-wrap w-full border-4 border-red wrap">
 				<ProjectCard
