@@ -40,7 +40,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-wrap w-full border-4 border-red wrap">
+			<div class="grid grid-cols-4 gap-4">
 				<ProjectCard
 					v-for="(project, idx) in projects" :key="idx"
 					:project="project"
