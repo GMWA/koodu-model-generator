@@ -19,6 +19,14 @@
 		<div>
 			{{ project.description }}
 		</div>
+		<div class="flex flex-row-reverse">
+			<button>
+				<span class="material-icons">delete</span>
+			</button>
+			<button>
+				<span class="material-icons">edit</span>
+			</button>
+		</div>
 	</div>
 </template>
 
