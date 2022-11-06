@@ -56,10 +56,10 @@
 			:class="{ hidden: is_add_btn_open }"
 		>
 			<div
-				class="flex items-center justify-center bg-gray-900 w-full max-w-2xl h-screen md:h-auto"
+				class="flex items-center justify-center w-full max-w-2xl h-screen md:h-auto"
 			>
 				<!-- Modal content -->
-				<div class="center bg-white rounded-lg shadow dark:bg-gray-700">
+				<div class="center bg-white rounded-lg shadow dark:bg-gray-700 w-full">
 					<!-- Modal header -->
 					<div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
 						<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -71,13 +71,32 @@
 						</button>
 					</div>
 					<!-- Modal body -->
-					<div class="p-6 space-y-6">
-						<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-							With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-						</p>
-						<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-							The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-						</p>
+					<div class="p-6 space-y-6 w-full">
+						<form
+							class="flex flex-col w-full"
+						>
+							<label for="name">Name:</label>
+							<input
+								type="text"
+								name="name"
+								class="form-input px-4 py-3 mt-1 rounded-2xl"
+								placeholder="Name"
+							/>
+							<label
+								class="mt-4"
+								for="desciption"
+							>
+								Description:
+							</label>
+							<textarea
+								name="description"
+								class="form-input px-4 py-3 mt-1 rounded-2xl"
+								rows="10"
+          						placeholder="Description"
+							>
+
+							</textarea>
+						</form>
 					</div>
 					<!-- Modal footer -->
 					<div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
