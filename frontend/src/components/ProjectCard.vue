@@ -6,6 +6,15 @@
 	}
 	const props = withDefaults(defineProps<ProjectProps>(), {});
 	const project = props.project;
+	const emit = defineEmits(['delete', 'edit']);
+
+	const handelEdit = () => {
+		emit('edit', project);
+	}
+
+	const handelDelete = () => {
+		emit('delete', project);
+	}
 </script>
 
 <template>
@@ -20,10 +29,16 @@
 			{{ project.description }}
 		</div>
 		<div class="flex flex-row-reverse">
-			<button>
+			<button
+				class=""
+				@click="handelDelete"
+			>
 				<span class="material-icons">delete</span>
 			</button>
-			<button>
+			<button
+				class=""
+				@click="handelEdit"
+			>
 				<span class="material-icons">edit</span>
 			</button>
 		</div>
