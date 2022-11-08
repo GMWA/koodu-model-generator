@@ -72,7 +72,7 @@
 			class="overflow-y-auto overflow-x-auto fixed flex items-center justify-center
 				  bg-gray-900 bg-opacity-50 z-50 w-full md:inset-0 md:h-full
 				  transition duration-150 ease-in-out"
-			:class="{ hidden: is_add_modal_open }"
+			:class="{ hidden: !is_add_modal_open }"
 		>
 			<div
 				class="flex items-center justify-center w-full max-w-2xl h-screen md:h-auto"
@@ -152,7 +152,7 @@
 			class="overflow-y-auto overflow-x-auto fixed flex items-center justify-center
 				  bg-gray-900 bg-opacity-50 z-50 w-full md:inset-0 md:h-full
 				  transition duration-150 ease-in-out"
-			:class="{ hidden: is_edit_modal_open }"
+			:class="{ hidden: !is_edit_modal_open }"
 		>
 			<div
 				class="flex items-center justify-center w-full max-w-2xl h-screen md:h-auto"
@@ -232,7 +232,7 @@
 			class="overflow-y-auto overflow-x-auto fixed flex items-center justify-center
 				  bg-gray-900 bg-opacity-50 z-50 w-full md:inset-0 md:h-full
 				  transition duration-150 ease-in-out"
-			:class="{ hidden: is_delete_modal_open }"
+			:class="{ hidden: !is_delete_modal_open }"
 		>
 			<div
 				class="flex items-center justify-center w-full max-w-2xl h-screen md:h-auto"
