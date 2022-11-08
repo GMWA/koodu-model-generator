@@ -10,9 +10,9 @@
 	const is_edit_modal_open: Ref = ref(false);
 	const is_delete_modal_open: Ref = ref(false);
 
-	const toCreateProject: IProject = {id:0, name: ""};
-	const toEditProject: IProject = {id:0, name: ""};
-	const toDeleteProject: IProject = {id:0, name: ""};
+	let toCreateProject: IProject = {id:0, name: ""};
+	let toEditProject: IProject = {id:0, name: ""};
+	let toDeleteProject: IProject = {id:0, name: ""};
 
 	const projects : IProject[] = [
 		{id: 1, name: "Project 1", description: "Description of the project 1"},
@@ -46,7 +46,7 @@
 				title="Projects"
 			/>
 
-			<div @click="openAddModel" class="flex flex-row-reverse m-3 px-10 py-2">
+			<div @click="openAddModal" class="flex flex-row-reverse m-3 px-10 py-2">
 				<div class="w-12 h-12 rounded-full text-white bg-gray-900">
 					<button class="text-white-500 h-full w-full">
 						<span class="material-icons p-0 m-0">add</span>
@@ -58,6 +58,8 @@
 				<ProjectCard
 					v-for="(project, idx) in projects" :key="idx"
 					:project="project"
+					@delete="openDeleteModal"
+					@edit="openEditModal"
 				/>
 			</div>
 
