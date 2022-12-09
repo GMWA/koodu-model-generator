@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "Projects" */  "../pages/Projects.vue")
     },
     {
+      path: "/project-details",
+      name: "projectdetails",
+      component: () => import(/* webpackChunkName: "ProjectDetails" */  "../pages/ProjectDetails.vue")
+    },
+    {
       path: "/editor",
       name: "editor",
       component: () => import(/* webpackChunkName: "Editor" */  "../pages/Editor.vue")
