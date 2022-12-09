@@ -30,7 +30,7 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "Projects" */  "../pages/Projects.vue")
     },
     {
-      path: "/project-details",
+      path: "/project-details/:id",
       name: "projectdetails",
       component: () => import(/* webpackChunkName: "ProjectDetails" */  "../pages/ProjectDetails.vue")
     },

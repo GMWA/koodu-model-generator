@@ -1,11 +1,15 @@
 <script setup lang="ts">
+	import { useRoute, useRouter } from "vue-router";
 	import Sidebar from "../components/Sidebar.vue";
 	import Footer from "../components/Footer.vue";
 	import Header from "../components/Header.vue";
 	import ProjectCard from "../components/ProjectCard.vue";
 	import { IProject } from "../types/projects.type";
 	import { reactive, ref, Ref } from "vue";
+	import { useProjectStore } from "../store/project.store";
 
+	const router = useRouter();
+	const route = useRoute();
 	const is_add_modal_open: Ref = ref(false);
 	const is_edit_modal_open: Ref = ref(false);
 	const is_delete_modal_open: Ref = ref(false);
@@ -38,6 +42,10 @@
 	const closeDeleteModal = () => {
 		is_delete_modal_open.value = false;
 	}
+
+	const navigateToProject = async (project: IProject) => {
+		await router.push(`/project-details/${project.id}` );
+	}
 </script>
 
 <template>
@@ -60,7 +68,8 @@
 
 			<div class="grid grid-cols-4 gap-4">
 				<ProjectCard
-					v-for="(project, idx) in projects" :key="idx"
+					v-for="(project, idx) in projects.items" :key="idx"
+					@click="navigateToProject(project)"
 					:project="project"
 					@delete="openDeleteModal"
 					@edit="openEditModal"
