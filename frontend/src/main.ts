@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 
 import axios from "axios";
 import SuperTokens from "supertokens-web-js";
@@ -18,4 +19,8 @@ SuperTokens.init({
   recipeList: [Session.init()]
 });
 
-createApp(App).use(router).mount("#app")
+const store = createPinia();
+const app = createApp(App);
+app.use(store);
+app.use(router);
+app.mount("#app");
