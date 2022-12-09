@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true
   },

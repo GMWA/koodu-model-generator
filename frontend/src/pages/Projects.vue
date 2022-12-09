@@ -1,27 +1,24 @@
 <script setup lang="ts">
+	import { useRoute, useRouter } from "vue-router";
 	import Sidebar from "../components/Sidebar.vue";
 	import Footer from "../components/Footer.vue";
 	import Header from "../components/Header.vue";
 	import ProjectCard from "../components/ProjectCard.vue";
 	import { IProject } from "../types/projects.type";
-	import { ref, Ref } from "vue";
+	import { reactive, ref, Ref } from "vue";
+	import { useProjectStore } from "../store/project.store";
 
+	const router = useRouter();
+	const route = useRoute();
 	const is_add_modal_open: Ref = ref(false);
 	const is_edit_modal_open: Ref = ref(false);
 	const is_delete_modal_open: Ref = ref(false);
 
-	let toCreateProject: IProject = {id:0, name: ""};
-	let toEditProject: IProject = {id:0, name: ""};
-	let toDeleteProject: IProject = {id:0, name: ""};
+	const toCreateProject: Ref<IProject> = ref({id:0, name: ""});
+	const toEditProject: Ref<IProject> = ref({id:0, name: ""});
+	const toDeleteProject: Ref<IProject> = ref({id:0, name: ""});
 
-	const projects : IProject[] = [
-		{id: 1, name: "Project 1", description: "Description of the project 1"},
-		{id: 2, name: "Project 2", description: "Description of the project 2"},
-		{id: 3, name: "Project 3", description: "Description of the project 3"},
-		{id: 4, name: "Project 4", description: "Description of the project 4"},
-		{id: 5, name: "Project 5", description: "Description of the project 5"},
-		{id: 6, name: "Project 6", description: "Description of the project 6"},
-	];
+	const projects = useProjectStore();
 
 	const openAddModal = () => {
 		is_add_modal_open.value = true;
@@ -31,7 +28,7 @@
 	}
 
 	const openEditModal = (project: IProject) => {
-		toEditProject = project;
+		toEditProject.value = {...project};
 		is_edit_modal_open.value = true;
 	}
 	const closeEditModal = () => {
@@ -39,11 +36,15 @@
 	}
 
 	const openDeleteModal = (project: IProject) => {
-		toDeleteProject = project;
+		toDeleteProject.value = {...project};
 		is_delete_modal_open.value = true;
 	}
 	const closeDeleteModal = () => {
 		is_delete_modal_open.value = false;
+	}
+
+	const navigateToProject = async (project: IProject) => {
+		await router.push(`/project-details/${project.id}` );
 	}
 </script>
 
@@ -67,7 +68,8 @@
 
 			<div class="grid grid-cols-4 gap-4">
 				<ProjectCard
-					v-for="(project, idx) in projects" :key="idx"
+					v-for="(project, idx) in projects.items" :key="idx"
+					@click="navigateToProject(project)"
 					:project="project"
 					@delete="openDeleteModal"
 					@edit="openEditModal"
@@ -95,7 +97,13 @@
 						<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
 							Add Project
 						</h3>
-						<button @click="closeAddModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+						<button
+							@click="closeAddModal"
+							type="button"
+							class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5
+								   ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+							data-modal-toggle="defaultModal"
+							>
 							<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
 							<span class="sr-only">Close modal</span>
 						</button>

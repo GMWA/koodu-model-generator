@@ -18,5 +18,7 @@ module.exports = {
       "prettier/prettier": "error",
       // not needed for vue 3
       "vue/no-multiple-template-root": "off",
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { 'varsIgnorePattern': '^_', "argsIgnorePattern": "^_" }],
   },
 }
