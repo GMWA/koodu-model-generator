@@ -58,19 +58,19 @@
 				title="Projects"
 			/>
 
-			<div @click="openAddModal" class="flex flex-row-reverse m-3 px-10 py-2">
-				<div class="w-12 h-12 rounded-full text-white bg-gray-900">
-					<button class="text-white-500 h-full w-full">
-						<span class="material-icons p-0 m-0">add</span>
+			<div @click="openAddModal" class="flex flex-row-reverse pr-20 px-10 py-2">
+				<div class="w-12 h-12 rounded-full text-white bg-green-600 content-center">
+					<button class="text-white font-bold content-center w-full h-full">
+						<span class="material-icons">add</span>
 					</button>
 				</div>
 			</div>
 
-			<div class="grid grid-cols-4 gap-4">
+			<div class="grid grid-cols-4 gap-4 pl-10 pr-20">
 				<ProjectCard
 					v-for="(project, idx) in projects.items" :key="idx"
-					@click="navigateToProject(project)"
 					:project="project"
+					@choose="navigateToProject(project)"
 					@delete="openDeleteModal"
 					@edit="openEditModal"
 				/>
