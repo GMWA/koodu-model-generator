@@ -13,7 +13,8 @@ module.exports = {
       blue: colors.blue,
       red: colors.red,
       pink: colors.pink,
-      indigo: colors.indigo
+      indigo: colors.indigo,
+      main1: "#1e293b"
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
