@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Sidebar from "../components/Sidebar.vue";
 import Footer from "../components/Footer.vue";
+import TablesComponent from "../components/TablesComponent.vue";
 import { useRouter, useRoute } from "vue-router";
 import { useProjectStore } from "../store/project.store";
 import { onMounted, reactive, ref, Ref, ReactiveEffect } from "vue";
@@ -19,7 +20,7 @@ let project: Ref<IProject> = ref({
   name: "",
 });
 
-const activeTab: Ref<string> = ref("configs");
+const activeTab: Ref<string> = ref("tables");
 
 onMounted(async () => {
   await projects.getItems();
@@ -53,21 +54,6 @@ const changeActiveTab = (newTAb: string) => {
             <li class="mr-2">
               <a
                 href="#"
-                @click="changeActiveTab('configs')"
-                class="inline-flex p-4 rounded-t-lg border-b-2 group"
-                :class="{
-                  'border-blue-600 active text-blue-600 dark:text-blue-500 dark:border-blue-500':
-                    activeTab === 'configs',
-                  'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300':
-                    activeTab !== 'configs',
-                }"
-              >
-                Configs
-              </a>
-            </li>
-            <li class="mr-2">
-              <a
-                href="#"
                 @click="changeActiveTab('tables')"
                 class="inline-flex p-4 rounded-t-lg border-b-2 group"
                 :class="{
@@ -78,6 +64,21 @@ const changeActiveTab = (newTAb: string) => {
                 }"
               >
                 Tables
+              </a>
+            </li>
+            <li class="mr-2">
+              <a
+                href="#"
+                @click="changeActiveTab('configs')"
+                class="inline-flex p-4 rounded-t-lg border-b-2 group"
+                :class="{
+                  'border-blue-600 active text-blue-600 dark:text-blue-500 dark:border-blue-500':
+                    activeTab === 'configs',
+                  'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300':
+                    activeTab !== 'configs',
+                }"
+              >
+                Configs
               </a>
             </li>
             <li class="mr-2">
@@ -121,9 +122,11 @@ const changeActiveTab = (newTAb: string) => {
         </div>
       </div>
 
-      <div class="flex w-full">
+      <div class="flex flex-row w-full">
+        <div class="flex w-full" v-if="activeTab === 'tables'">
+          <TablesComponent />
+        </div>
         <div v-if="activeTab === 'configs'">Configs</div>
-        <div v-if="activeTab === 'tables'">Tables</div>
         <div v-if="activeTab === 'settings'">Settings</div>
         <div v-if="activeTab === 'contacts'">Contacts</div>
       </div>
