@@ -1,25 +1,20 @@
 <script setup lang="ts">
-	import Sidebar from "../components/Sidebar.vue";
-	import Footer from "../components/Footer.vue";
-	import Header from "../components/Header.vue";
+import Sidebar from "../components/Sidebar.vue";
+import Footer from "../components/Footer.vue";
+import Header from "../components/Header.vue";
 </script>
 
 <template>
-	<div class="flex">
-		<Sidebar />
+  <div class="flex">
+    <Sidebar />
     <main class="flex flex-col w-full">
-			<Header
-				type="page"
-				title="Dashboard"
-			/>
-			
-			<div>Dashboard Page</div>
+      <Header type="page" title="Dashboard" />
 
-			<Footer />
+      <div>Dashboard Page</div>
+
+      <Footer />
     </main>
-	</div>
+  </div>
 </template>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

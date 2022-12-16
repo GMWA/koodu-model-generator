@@ -8,7 +8,14 @@ export const useTableStore = defineStore({
   id: "tables",
   state: () => ({
     /** @type {ITable[]} */
-    tables: [],
+    tables: [
+      {id: 1, name: "table 1", description: "Description of the table 1"},
+      {id: 2, name: "table 2", description: "Description of the table 2"},
+      {id: 3, name: "table 3", description: "Description of the table 3"},
+      {id: 4, name: "table 4", description: "Description of the table 4"},
+      {id: 5, name: "table 5", description: "Description of the table 5"},
+      {id: 6, name: "table 6", description: "Description of the table 6"}
+    ],
     loading: false,
     error: null
   } as RootTableState),
