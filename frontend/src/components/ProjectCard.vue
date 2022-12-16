@@ -6,38 +6,53 @@
 	}
 	const props = withDefaults(defineProps<ProjectProps>(), {});
 	const project = props.project;
-	const emit = defineEmits(['delete', 'edit']);
+	const emit = defineEmits(['delete', 'edit', 'choose']);
 
-	const handelEdit = () => {
+	const handleEdit = () => {
 		emit('edit', project);
 	}
 
-	const handelDelete = () => {
+	const handleDelete = () => {
 		emit('delete', project);
+	}
+
+	const handleChoose = () => {
+		emit('choose', project);
 	}
 </script>
 
 <template>
 	<div
 		class="w-full items-center p-2 m-2 rounded-md
-		shadow-2xl shadow-inner hover:shadow-md"
+		border-solid border border-gray-300"
 	>
-		<div>
-			{{ project.name }}
+		<div
+			class="hover:cursor-pointer"
+			@click="handleChoose"
+		>
+			<div
+				class="text-2xl font-bold mb-1"
+			>
+				{{ project.name }}
+			</div>
+			<hr />
+			<div
+				class="mt-4 mb-4"
+			>
+				{{ project.description }}
+			</div>
 		</div>
-		<div>
-			{{ project.description }}
-		</div>
-		<div class="flex flex-row-reverse">
+		<hr />
+		<div class="flex flex-row-reverse mt-1 mb-1">
 			<button
-				class=""
-				@click="handelDelete"
+				class="mr-2 text-red-700"
+				@click="handleDelete"
 			>
 				<span class="material-icons">delete</span>
 			</button>
 			<button
-				class=""
-				@click="handelEdit"
+				class="mr-2 text-main1"
+				@click="handleEdit"
 			>
 				<span class="material-icons">edit</span>
 			</button>
