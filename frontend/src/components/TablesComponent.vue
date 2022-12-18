@@ -7,12 +7,10 @@ import { useTableStore } from "../store/table.store";
 import { ITable } from "../types";
 
 const tables = useTableStore();
-let selectedTable: Ref<ITable> = ref(tables.items[0]);
+const selectedTable: Ref<ITable> = ref(tables.items[0]);
 
 const setSelectedTable = (tab: ITable) => {
-  console.log(tab);
   selectedTable.value = { ...tab };
-  console.log(selectedTable.value);
 };
 </script>
 
