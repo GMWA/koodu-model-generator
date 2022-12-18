@@ -11,7 +11,63 @@ export const useAttributStore = defineStore({
   id: "attributs",
   state: () => ({
     /** @type {IAttribut[]} */
-    attributs: [],
+    attributs: [
+      {
+        id: 1,
+        name: "name",
+        primary_key: true,
+        index_key: false,
+        unique_key: false,
+        type: "string",
+        size: 255,
+        table_id: 1,
+        description: "the name of the entity"
+      },
+      {
+        id: 2,
+        name: "attrib 2",
+        primary_key: false,
+        index_key: true,
+        unique_key: true,
+        type: "string",
+        size: 255,
+        table_id: 1,
+        description: "email"
+      },
+      {
+        id: 1,
+        name: "slug",
+        primary_key: false,
+        index_key: true,
+        unique_key: true,
+        type: "string",
+        size: 255,
+        table_id: 1,
+        description: "slug"
+      },
+      {
+        id: 1,
+        name: "price",
+        primary_key: false,
+        index_key: false,
+        unique_key: false,
+        type: "decimal",
+        size: 199.5,
+        table_id: 1,
+        description: "Price"
+      },
+      {
+        id: 1,
+        name: "user_id",
+        primary_key: false,
+        index_key: false,
+        unique_key: false,
+        type: "integer",
+        size: 10,
+        table_id: 1,
+        description: "ForeyKey"
+      },
+    ],
     loading: false,
     error: null
   } as RootAttributState),
