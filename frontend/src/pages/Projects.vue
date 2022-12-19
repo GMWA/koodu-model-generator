@@ -5,7 +5,7 @@ import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import ProjectCard from "../components/ProjectCard.vue";
 import { IProject } from "../types/projects.type";
-import { reactive, ref, Ref } from "vue";
+import { ref, Ref } from "vue";
 import { useProjectStore } from "../store/project.store";
 
 const router = useRouter();
