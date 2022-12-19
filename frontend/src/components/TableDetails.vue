@@ -12,6 +12,7 @@ let table: ITable = props.table;
 const emit = defineEmits(["delete", "edit", "choose"]);
 const attributs = useAttributStore();
 let selectedAttribut: IAttribut = attributs.items[0];
+console.log(attributs.items);
 
 watch(
   () => props.table,
@@ -21,7 +22,9 @@ watch(
 );
 
 const setSelectedAttribut = (attrib: IAttribut) => {
+  //console.log(event.target.value);
   selectedAttribut = { ...attrib };
+  console.log(selectedAttribut);
 };
 </script>
 
@@ -33,14 +36,14 @@ const setSelectedAttribut = (attrib: IAttribut) => {
     <hr />
     <div class="flex items-center align-middle w-full mt-2 mb-2">
       <select
-        id="countries"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        v-model="selectedAttribut"
       >
         <option
           v-for="(attrib, index) in attributs.items"
           :key="index"
-          :value="attrib.name"
-          @change="setSelectedAttribut(attrib)"
+          :value="attrib"
+          :selected="attrib.id === selectedAttribut.id"
         >
           {{ attrib.name }}
         </option>
@@ -58,10 +61,9 @@ const setSelectedAttribut = (attrib: IAttribut) => {
             >
             <input
               type="text"
-              id="first_name"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="John"
-              :value="selectedAttribut.name"
+              placeholder="Name"
+              v-model="selectedAttribut.name"
               required
             />
           </div>
@@ -73,6 +75,7 @@ const setSelectedAttribut = (attrib: IAttribut) => {
             >
             <select
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              v-model="selectedAttribut.type"
             >
               <option value="String">string</option>
               <option value="Integer">int</option>
@@ -102,8 +105,7 @@ const setSelectedAttribut = (attrib: IAttribut) => {
               >Is Index</label
             >
             <input
-              checked
-              id="red-checkbox"
+              v-model="selectedAttribut.index_key"
               type="checkbox"
               value=""
               class="w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -118,7 +120,8 @@ const setSelectedAttribut = (attrib: IAttribut) => {
             <input
               type="number"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="flowbite.com"
+              placeholder="Size"
+              v-model="selectedAttribut.size"
               required
             />
           </div>
@@ -129,8 +132,7 @@ const setSelectedAttribut = (attrib: IAttribut) => {
               >Is Primary key</label
             >
             <input
-              checked
-              id="red-checkbox"
+              v-model="selectedAttribut.primary_key"
               type="checkbox"
               value=""
               class="w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -144,6 +146,8 @@ const setSelectedAttribut = (attrib: IAttribut) => {
             >
             <textarea
               class="w-full h-20 bg-gray-100 rounded border-gray-300 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              placeholder="Description"
+              v-model="selectedAttribut.description"
             >
             </textarea>
           </div>
@@ -154,7 +158,7 @@ const setSelectedAttribut = (attrib: IAttribut) => {
               >Is Unique</label
             >
             <input
-              checked
+              v-model="selectedAttribut.unique_key"
               id="red-checkbox"
               type="checkbox"
               value=""
