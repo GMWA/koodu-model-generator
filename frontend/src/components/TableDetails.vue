@@ -2,7 +2,7 @@
 import { ITable } from "../types/tables.type";
 import { IAttribut } from "../types/attributs.type";
 import { useAttributStore } from "../store/attributs.store";
-import { watch } from "vue";
+import { watch, Ref, ref } from "vue";
 
 interface TableProps {
   table: ITable;
@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<TableProps>(), {});
 let table: ITable = props.table;
 const emit = defineEmits(["delete", "edit", "choose"]);
 const attributs = useAttributStore();
-let selectedAttribut: IAttribut = attributs.items[0];
+const selectedAttribut: Ref<IAttribut> = ref(attributs.items[0]);
 console.log(attributs.items);
 
 watch(
@@ -23,7 +23,7 @@ watch(
 
 const setSelectedAttribut = (attrib: IAttribut) => {
   //console.log(event.target.value);
-  selectedAttribut = { ...attrib };
+  selectedAttribut.value = { ...attrib };
   console.log(selectedAttribut);
 };
 </script>
@@ -31,7 +31,15 @@ const setSelectedAttribut = (attrib: IAttribut) => {
 <template>
   <div class="flex flex-col pl-2 w-full">
     <div class="flex w-full mt-2 mb-2 text-3xl font-bold">
-      Attributs for {{ table.name }}
+      <div class="flex flex-row w-full">
+        <div class="flex text-3xl font-bold">Attributs for {{ table.name }}</div>
+        <div class="grow"></div>
+        <div class="flex bg-green-700 w-10 h-10 rounded-full">
+          <button class="text-white text-xs font-bold w-full h-full">
+            <span class="material-icons">add</span>
+          </button>
+        </div>
+      </div>
     </div>
     <hr />
     <div class="flex items-center align-middle w-full mt-2 mb-2">
@@ -169,7 +177,7 @@ const setSelectedAttribut = (attrib: IAttribut) => {
 
         <button
           type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-grren-700 dark:focus:ring-green-800"
         >
           Submit
         </button>
