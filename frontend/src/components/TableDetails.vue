@@ -6,9 +6,11 @@ import { watch, Ref, ref } from "vue";
 
 interface TableProps {
   table: ITable;
+  tables: ITable[];
 }
 const props = withDefaults(defineProps<TableProps>(), {});
 let table: ITable = props.table;
+let tables: ITable[] = props.tables;
 const emit = defineEmits(["delete", "edit", "choose"]);
 const attributs = useAttributStore();
 const selectedAttribut: Ref<IAttribut> = ref(attributs.items[0]);
@@ -134,10 +136,10 @@ const deleteAttribut = () => {
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               v-model="selectedAttribut.type"
             >
-              <option value="String">string</option>
-              <option value="Integer">int</option>
-              <option value="Float">float</option>
-              <option value="Bool">bool</option>
+              <option value="string">String</option>
+              <option value="integer">Integer</option>
+              <option value="decimal">Decimal</option>
+              <option value="bool">Bool</option>
             </select>
           </div>
           <div>
@@ -149,10 +151,9 @@ const deleteAttribut = () => {
             <select
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="table1">Table 1</option>
-              <option value="table2">Table 2</option>
-              <option value="table3">Table 3</option>
-              <option value="table4">Table 3</option>
+              <option v-for="(tab, idx) in tables" :value="tab.id">
+                {{ tab.name }}
+              </option>
             </select>
           </div>
           <div>
