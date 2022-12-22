@@ -1,12 +1,22 @@
 <script lang="ts" , setup>
 import { ITable } from "../types/tables.type";
+import { ref, watch } from "vue";
 
 interface TableProps {
   table: ITable;
+  active: boolean;
 }
 const props = withDefaults(defineProps<TableProps>(), {});
 const table = props.table;
+const isActive = ref(props.active);
 const emit = defineEmits(["delete", "edit", "choose"]);
+
+watch(
+  () => props.active,
+  (first, second) => {
+    isActive.value = first;
+  }
+);
 
 const handleEdit = () => {
   emit("edit", table);
@@ -22,7 +32,10 @@ const handleChoose = () => {
 </script>
 
 <template>
-  <div class="flex flex-row w-full h-14 align-middle pr-2 hover:cursor-pointer">
+  <div
+    class="flex flex-row w-full h-14 align-middle pr-2 hover:cursor-pointer hover:bg-gray-200"
+    :class="{ 'bg-green-200': isActive }"
+  >
     <div class="pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
     <div class="grow"></div>
     <div class="mr-2">

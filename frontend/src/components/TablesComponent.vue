@@ -31,6 +31,7 @@ const setSelectedTable = (tab: ITable) => {
           v-for="(table, idx) in tables.items"
           :key="idx"
           :table="table"
+          :active="table.id === selectedTable.id"
           @choose="setSelectedTable(table)"
         />
       </div>
