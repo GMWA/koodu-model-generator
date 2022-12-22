@@ -13,7 +13,6 @@ const emit = defineEmits(["delete", "edit", "choose"]);
 const attributs = useAttributStore();
 const selectedAttribut: Ref<IAttribut> = ref(attributs.items[0]);
 const is_add_modal_open: Ref = ref(false);
-const is_edit_modal_open: Ref = ref(false);
 const is_delete_modal_open: Ref = ref(false);
 const toCreateAttribut: Ref<IAttribut> = ref({
   id: 0,
