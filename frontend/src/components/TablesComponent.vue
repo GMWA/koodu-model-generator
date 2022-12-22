@@ -22,16 +22,16 @@ const closeAddModal = () => {
   is_add_modal_open.value = false;
 };
 
-const openEditModal = () => {
-  toEditTable.value = { ...selectedTable.value };
+const openEditModal = (table: ITable) => {
+  toEditTable.value = { ...table };
   is_edit_modal_open.value = true;
 };
 const closeEditModal = () => {
   is_edit_modal_open.value = false;
 };
 
-const openDeleteModal = () => {
-  toDeleteTable.value = { ...selectedTable.value };
+const openDeleteModal = (table: ITable) => {
+  toDeleteTable.value = { ...table };
   is_delete_modal_open.value = true;
 };
 const closeDeleteModal = () => {
@@ -77,11 +77,13 @@ const deleteTable = () => {
           :table="table"
           :active="table.id === selectedTable.id"
           @choose="setSelectedTable(table)"
+          @delete="openDeleteModal"
+          @edit="openEditModal"
         />
       </div>
     </div>
     <div class="flex w-3/4">
-      <TableDetails :table="selectedTable" />
+      <TableDetails :table="selectedTable" :tables="tables.items" />
     </div>
 
     <!--Add Modal-->
@@ -178,7 +180,7 @@ const deleteTable = () => {
             class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600"
           >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              Edit Table
+              Edit {{ toEditTable.name }}
             </h3>
             <button
               @click="closeEditModal"
@@ -205,7 +207,7 @@ const deleteTable = () => {
           <!-- Modal body -->
           <div class="p-6 space-y-6 w-full">
             <form class="flex flex-col w-full">
-              <label for="name">Name:</label>
+              <label for="name">New name:</label>
               <input
                 type="text"
                 name="name"
@@ -213,7 +215,7 @@ const deleteTable = () => {
                 placeholder="Name"
                 v-model="toEditTable.name"
               />
-              <label class="mt-4" for="desciption"> Description: </label>
+              <label class="mt-4" for="desciption">New description: </label>
               <textarea
                 name="description"
                 class="form-input px-4 py-3 mt-1 rounded-2xl"
@@ -260,7 +262,7 @@ const deleteTable = () => {
             class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600"
           >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              Delete Table
+              Delete {{ toDeleteTable.name }}
             </h3>
             <button
               @click="closeDeleteModal"
@@ -287,7 +289,7 @@ const deleteTable = () => {
           <!-- Modal body -->
           <div class="p-6 space-y-6 w-full">
             <p class="text-2xl">
-              Are you sur you want to delete the Project {{ toDeleteTable.name }}?
+              Are you sur you want to delete {{ toDeleteTable.name }}?
             </p>
           </div>
           <!-- Modal footer -->

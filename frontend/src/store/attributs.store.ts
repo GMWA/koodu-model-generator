@@ -52,7 +52,7 @@ export const useAttributStore = defineStore({
         index_key: false,
         unique_key: false,
         type: "decimal",
-        size: 199.5,
+        size: 16,
         table_id: 1,
         description: "Price"
       },
