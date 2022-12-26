@@ -1,17 +1,17 @@
 export interface IProject  {
-    id: number;
-    name: string;
-    description?: string;
-    created_at?: string;
-    updated_at?: string;
+  id: number;
+  name: string;
+  description?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export type GetProjectResponse = {
-    data: IProject[];
+  data: IProject[];
 };
 
 export type RootProjectState = {
-    projects: IProject[];
-    loading: boolean,
-    error: null | string
+  projects: IProject[];
+  loading: boolean,
+  error: null | string
 };
