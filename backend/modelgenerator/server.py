@@ -67,7 +67,6 @@ init(
 
 
 app.add_middleware(get_middleware())
-# TODO: Add APIs
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[os.environ.get("WEBSITE_DOMAIN")],
@@ -77,10 +76,10 @@ app.add_middleware(
 )
 
 # Add the app Endpoints
-app.include_router(attributs_router)
-app.include_router(projects_router)
-app.include_router(tables_router)
-app.include_router(users_router)
+app.include_router(attributs_router, prefix="/api")
+app.include_router(projects_router, prefix="/api")
+app.include_router(tables_router, prefix="/api")
+app.include_router(users_router, prefix="/api")
 
 
 @app.get("/")
