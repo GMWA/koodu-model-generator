@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import ThirdPartyEmailPassword from "supertokens-web-js/recipe/thirdpartyemailpassword";
 import Session from "supertokens-web-js/recipe/session";
 import { ref, Ref, onMounted } from "vue";
 import { WEBSITE_DOMAIN } from "../../configs";
 
+const router = useRouter();
 const isSignIn = ref(true);
 const email = ref("");
 const password = ref("");
@@ -55,9 +57,10 @@ const signIn = async (_: Event) => {
         passwordError.value = item.error;
       }
     });
-    return;
+    console.log(response);
+  } else {
+    await router.push("/");
   }
-  window.location.assign("/");
 };
 
 const validateEmail = (email: string) => {
@@ -89,9 +92,10 @@ const signUp = async (_: Event) => {
         passwordError.value = item.error;
       }
     });
-    return;
+    console.log(response);
+  } else {
+    await router.push("/");
   }
-  window.location.assign("/");
 };
 
 const onSubmitPressed = (e: Event) => {
@@ -219,13 +223,16 @@ const checkForSession = async () => {
             <button
               type="submit"
               class="mt-4 bg-green-500 text-white py-2 px-6 w-full rounded-md hover:bg-green-600"
+              @click="onSubmitPressed"
             >
-              Login
+              {{ isSignIn ? "Login" : "Create an Account" }}
             </button>
             <div class="w-full mt-4 items-center text-center">
-              <a href="/auth/reset-password" class="mt-4 text-sm hover:underline">
-                Forgot Password?
-              </a>
+              <div v-if="isSignIn">
+                <router-link :to="{ path: `/auth/reset-password` }">
+                  Forgot Password?
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
