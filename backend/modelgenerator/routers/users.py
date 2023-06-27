@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..schemas.users import (User as UserSchema,
+from modelgenerator.schemas.users import (User as UserSchema,
                                 UserCreate as UserCreateSchema,
                                 UserUpdate as UserUpdateSchema)
-from ..models import User as UserModel
-from ..dependencies import get_db
+from modelgenerator.models import User as UserModel
+from modelgenerator.dependencies import get_db
 
 router = APIRouter(
     prefix="/users",
@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[UserSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
@@ -35,7 +35,7 @@ async def get_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/",
+    "",
     response_model=UserSchema,
     responses={403: {"description": "Operation forbidden"}},
 )

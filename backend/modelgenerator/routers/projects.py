@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..schemas.projects import (Project as ProjectSchema,
+from modelgenerator.schemas.projects import (Project as ProjectSchema,
                                 ProjectCreate as ProjectCreateSchema,
                                 ProjectUpdate as ProjectUpdateSchema)
-from ..models import Project as ProjectModel
-from ..dependencies import get_db
+from modelgenerator.models import Project as ProjectModel
+from modelgenerator.dependencies import get_db
 
 router = APIRouter(
     prefix="/projects",
@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[ProjectSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
@@ -35,7 +35,7 @@ async def get_project(project_id: int, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/",
+    "",
     response_model=ProjectSchema,
     responses={403: {"description": "Operation forbidden"}},
 )

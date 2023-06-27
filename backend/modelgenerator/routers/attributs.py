@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..schemas.attributs import (Attribut as AttributSchema,
+from modelgenerator.schemas.attributs import (Attribut as AttributSchema,
                                 AttributCreate as AttributCreateSchema,
                                 AttributUpdate as AttributUpdateSchema)
-from ..models import Attribut as AttributModel
-from ..dependencies import get_db
+from modelgenerator.models import Attribut as AttributModel
+from modelgenerator.dependencies import get_db
 
 router = APIRouter(
     prefix="/attributs",
@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[AttributSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
@@ -35,7 +35,7 @@ async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/",
+    "",
     response_model=AttributSchema,
     responses={403: {"description": "Operation forbidden"}},
 )

@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..schemas.tables import (Table as TableSchema,
+from modelgenerator.schemas.tables import (Table as TableSchema,
                                 TableCreate as TableCreateSchema,
                                 TableUpdate as TableUpdateSchema)
-from ..models import Table as TableModel
-from ..dependencies import get_db
+from modelgenerator.models import Table as TableModel
+from modelgenerator.dependencies import get_db
 
 router = APIRouter(
     prefix="/tables",
@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[TableSchema],
     responses={403: {"description": "Operation forbidden"}}
 )
@@ -35,7 +35,7 @@ async def get_Table(table_id: int, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/",
+    "",
     response_model=TableSchema,
     responses={403: {"description": "Operation forbidden"}},
 )

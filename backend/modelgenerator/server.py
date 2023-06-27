@@ -18,16 +18,16 @@ from supertokens_python.recipe.thirdpartyemailpassword import (
     Github
 )
 
-from .models import Base
-from .routers.attributs import router as attributs_router
-from .routers.projects import router as projects_router
-from .routers.tables import router as tables_router
-from .routers.users import router as users_router
-from .database import engine
+from modelgenerator.models import Base
+from modelgenerator.routers.attributs import router as attributs_router
+from modelgenerator.routers.projects import router as projects_router
+from modelgenerator.routers.tables import router as tables_router
+from modelgenerator.routers.users import router as users_router
+from modelgenerator.database import engine
 
 
 Base.metadata.create_all(bind=engine)
-app = FastAPI()
+app = FastAPI(debug=True)
 
 
 init(

@@ -22,7 +22,6 @@ SuperTokens.init({
     Session.init()
   ]
 });
-console.log("init");
 
 const store = createPinia();
 const app = createApp(App);
