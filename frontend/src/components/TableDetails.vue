@@ -2,7 +2,7 @@
 import { ITable } from "../types/tables.type";
 import { IAttribut } from "../types/attributs.type";
 import { useAttributStore } from "../store/attributs.store";
-import { watch, Ref, ref } from "vue";
+import { watch, Ref, ref, computed } from "vue";
 
 interface TableProps {
   table: ITable;
@@ -43,6 +43,8 @@ watch(
     table = { ...first };
   }
 );
+
+const items = computed(() => attributs.items);
 
 const setSelectedAttribut = (attrib: IAttribut) => {
   selectedAttribut.value = { ...attrib };
@@ -100,7 +102,7 @@ const deleteAttribut = async () => {
         v-model="selectedAttribut"
       >
         <option
-          v-for="(attrib, index) in attributs.items"
+          v-for="(attrib, index) in items"
           :key="index"
           :value="attrib"
           :selected="attrib.id === selectedAttribut.id"
