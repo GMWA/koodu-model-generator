@@ -5,7 +5,7 @@ import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import ProjectCard from "../components/ProjectCard.vue";
 import { IProject } from "../types/projects.type";
-import { ref, Ref } from "vue";
+import { ref, Ref, computed } from "vue";
 import { useProjectStore } from "../store/project.store";
 
 const router = useRouter();
@@ -19,6 +19,7 @@ const toEditProject: Ref<IProject> = ref({ id: 0, name: "" });
 const toDeleteProject: Ref<IProject> = ref({ id: 0, name: "" });
 
 const projects = useProjectStore();
+const items = computed(() => projects.items);
 
 const openAddModal = () => {
   is_add_modal_open.value = true;
@@ -39,6 +40,7 @@ const openDeleteModal = (project: IProject) => {
   toDeleteProject.value = { ...project };
   is_delete_modal_open.value = true;
 };
+
 const closeDeleteModal = () => {
   is_delete_modal_open.value = false;
 };
@@ -46,6 +48,12 @@ const closeDeleteModal = () => {
 const navigateToProject = async (project: IProject) => {
   await router.push(`/project-details/${project.id}`);
 };
+
+const deleteProject = async () => {
+  console.log(toDeleteProject.value);
+  await projects.removeItem(toDeleteProject.value.id);
+  closeDeleteModal();
+}
 </script>
 
 <template>
@@ -65,7 +73,7 @@ const navigateToProject = async (project: IProject) => {
 
       <div class="grid grid-cols-4 gap-4 pl-10 pr-20">
         <ProjectCard
-          v-for="(project, idx) in projects.items"
+          v-for="(project, idx) in items"
           :key="idx"
           :project="project"
           @choose="navigateToProject(project)"
@@ -290,6 +298,7 @@ const navigateToProject = async (project: IProject) => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="deleteProject"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
