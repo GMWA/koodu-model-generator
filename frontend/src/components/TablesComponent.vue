@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router";
-import { Ref, ref } from "vue";
+import { Ref, ref, computed } from "vue";
 import TableCard from "./TableCard.vue";
 import TableDetails from "./TableDetails.vue";
 import { useTableStore } from "../store/table.store";
@@ -14,6 +14,8 @@ const is_delete_modal_open: Ref = ref(false);
 const toCreateTable: Ref<ITable> = ref({ id: 0, name: "" });
 const toEditTable: Ref<ITable> = ref({ id: 0, name: "" });
 const toDeleteTable: Ref<ITable> = ref({ id: 0, name: "" });
+
+const items = computed(() => tables.items);
 
 const openAddModal = () => {
   is_add_modal_open.value = true;
@@ -50,8 +52,9 @@ const editTable = () => {
   console.log(selectedTable);
 };
 
-const deleteTable = () => {
-  console.log(toDeleteTable);
+const deleteTable = async () => {
+  await tables.removeItem(toDeleteTable.value.id);
+  closeDeleteModal()
 };
 </script>
 
@@ -72,7 +75,7 @@ const deleteTable = () => {
       </div>
       <div class="flex flex-col mt-3">
         <TableCard
-          v-for="(table, idx) in tables.items"
+          v-for="(table, idx) in items"
           :key="idx"
           :table="table"
           :active="table.id === selectedTable.id"
@@ -297,6 +300,7 @@ const deleteTable = () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="deleteTable"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
