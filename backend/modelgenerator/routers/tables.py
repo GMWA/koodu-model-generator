@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from modelgenerator.schemas.tables import (Table as TableSchema,
                                 TableCreate as TableCreateSchema,
@@ -60,7 +60,16 @@ async def update_table(
 
 @router.delete(
     "/{table_id}",
+    response_model=TableSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def delete_Table(table_id: int, db: Session = Depends(get_db)):
-    return {}
+    table = db.query(TableModel).get(table_id)
+    if not table:
+        raise HTTPException(status_code=400, detail="Bad table's id!")
+    try:
+        db.delete(table)
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return table
