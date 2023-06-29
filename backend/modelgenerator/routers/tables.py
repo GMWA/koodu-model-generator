@@ -43,7 +43,17 @@ async def create_table(
     table: TableCreateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_table = TableModel()
+    db_table.name = table.name
+    if table.description:
+        db_table.description = table.description
+    try:
+        db.add(db_table)
+        db.commit()
+        db.refresh(db_table)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_table
 
 
 @router.put(
