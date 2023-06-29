@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from modelgenerator.schemas.attributs import (Attribut as AttributSchema,
                                 AttributCreate as AttributCreateSchema,
@@ -60,7 +60,16 @@ async def update_attribut(
 
 @router.delete(
     "/{attribut_id}",
+    response_model=AttributSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def delete_attribut(attribut_id: int, db: Session = Depends(get_db)):
-    return {}
+    attrib = db.query(AttributModel).get(attribut_id)
+    if not attrib:
+        raise HTTPException(status_code=400, detail="Bad attribut's id!")
+    try:
+        db.delete(attrib)
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return attrib
