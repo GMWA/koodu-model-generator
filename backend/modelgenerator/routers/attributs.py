@@ -71,7 +71,22 @@ async def update_attribut(
     attribut: AttributUpdateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_attrib: AttributModel = db.query(AttributModel).get(attribut_id)
+    if not db_attrib:
+        raise HTTPException(status_code=400, detail="Bad project's id!")
+    try:
+        db_attrib.name = attribut.name
+        db_attrib.primary_key = attribut.primary_key
+        db_attrib.index_key = attribut.index_key
+        db_attrib.unique_key = attribut.unique_key
+        db_attrib.type = attribut.type
+        db_attrib.size = attribut.size
+        if attribut.description:
+            db_attrib.description = attribut.description
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_attrib
 
 
 @router.delete(
