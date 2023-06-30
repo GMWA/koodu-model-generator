@@ -8,7 +8,7 @@ class ProjectBase(BaseModel):
 
 
 class ProjectCreate(ProjectBase):
-    pass
+    description: Union[str, None] = None
 
 
 class ProjectUpdate(ProjectBase):
@@ -23,3 +23,6 @@ class Project(ProjectBase):
     created_at: Union[datetime, None] = None
     updated_at: Union[datetime, None] = None
     user_id = int
+
+    class Config:
+        orm_mode = True

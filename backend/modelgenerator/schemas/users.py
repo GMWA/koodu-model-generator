@@ -29,3 +29,6 @@ class User(UserBase):
     is_verified: Union[bool, None]
     created_at: datetime
     updated_at: datetime
+
+    class Config:
+        orm_mode = True
