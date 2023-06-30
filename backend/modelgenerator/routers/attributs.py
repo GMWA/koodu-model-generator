@@ -30,7 +30,7 @@ async def read_attributs(db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):
-    data = db.query(AttributModel).filter_by(id=attribut_id).first()
+    data = db.query(AttributModel).get(attribut_id)
     return data
 
 
@@ -43,7 +43,23 @@ async def create_attribut(
     attribut: AttributCreateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_attribut = AttributModel()
+    db_attribut.table_id = attribut.table_id
+    db_attribut.name = attribut.name
+    db_attribut.primary_key = attribut.primary_key
+    db_attribut.index_key = attribut.index_key
+    db_attribut.unique_key = attribut.unique_key
+    db_attribut.type = attribut.type
+    db_attribut.size = attribut.size
+    if attribut.description:
+        db_attribut.description = attribut.description
+    try:
+        db.add(db_attribut)
+        db.commit()
+        db.refresh(db_attribut)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_attribut
 
 
 @router.put(
