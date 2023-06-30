@@ -46,14 +46,18 @@ async def create_project(
     db_project: ProjectModel = ProjectModel()
     db_project.name = project.name
     db_project.description = project.description
-    db.add(db_project)
-    db.commit()
-    db.refresh(db_project)
-    return db_project
+    try:
+        db.add(db_project)
+        db.commit()
+        db.refresh(db_project)
+        return db_project
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.put(
     "/{project_id}",
+    response_model=ProjectSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_project(
@@ -61,7 +65,17 @@ async def update_project(
     project: ProjectUpdateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_project: ProjectModel = db.query(ProjectModel).get(project_id)
+    if not db_project:
+        raise HTTPException(status_code=400, detail="Bad project's id!")
+    try:
+        db_project.name = project.name
+        if project.description:
+            db_project.description = project.description
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_project
 
 
 @router.delete(

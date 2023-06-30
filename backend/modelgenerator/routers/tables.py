@@ -30,7 +30,7 @@ async def read_tables(db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def get_Table(table_id: int, db: Session = Depends(get_db)):
-    data = db.query(TableModel).filter_by(id=table_id).first()
+    data = db.query(TableModel).get(table_id)
     return data
 
 
@@ -43,7 +43,17 @@ async def create_table(
     table: TableCreateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_table = TableModel()
+    db_table.name = table.name
+    if table.description:
+        db_table.description = table.description
+    try:
+        db.add(db_table)
+        db.commit()
+        db.refresh(db_table)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_table
 
 
 @router.put(
@@ -55,7 +65,17 @@ async def update_table(
     table: TableUpdateSchema,
     db: Session = Depends(get_db)
 ):
-    return {}
+    db_table: TableModel = db.query(TableModel).get(table_id)
+    if not db_table:
+        raise HTTPException(status_code=400, detail="Bad project's id!")
+    try:
+        db_table.name = table.name
+        if table.description:
+            db_table.description = table.description
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_table
 
 
 @router.delete(

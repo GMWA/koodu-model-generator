@@ -11,6 +11,7 @@ class AttributBase(BaseModel):
     unique_key: bool
     type: choice(["int", "str"])
     size: Union[int, None]
+    table_id: int
 
 
 class AttributCreate(AttributBase):
@@ -20,7 +21,6 @@ class AttributCreate(AttributBase):
 class AttributUpdate(AttributBase):
     id: int
     description: Union[str, None]
-    table_id: Union[int, None]
 
 
 class Attribut(AttributBase):
@@ -29,4 +29,7 @@ class Attribut(AttributBase):
     created_at: datetime
     updated_at: datetime
     table_id: int
+
+    class Config:
+        orm_mode = True
     
