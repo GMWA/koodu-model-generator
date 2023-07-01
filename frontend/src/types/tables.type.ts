@@ -6,12 +6,12 @@ export interface ITable  {
   updated_at?: string;
 }
 
-export type GetTableResponse = {
+export interface IGetTableResponse {
   data: ITable[];
 };
 
-export type RootTableState = {
+export interface IRootTableState {
   tables: ITable[];
-  loading: boolean,
-  error: null | string
+  loading: boolean;
+  error: null | string;
 };

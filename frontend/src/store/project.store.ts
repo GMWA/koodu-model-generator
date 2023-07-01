@@ -1,49 +1,46 @@
 // @ts-check
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { IProject, GetProjectResponse, RootProjectState } from "../types/projects.type";
+import { IProject, IGetProjectResponse, IRootProjectState } from "../types/projects.type";
 import { BASE_ENDPOINT } from "../configs";
 
 export const useProjectStore = defineStore({
-  id: "project",
+  id: "projectState",
   state: () => ({
     /** @type {IProject[]} */
-    projects: [
-      {id: 1, name: "Project 1", description: "Description of the project 1"},
-      {id: 2, name: "Project 2", description: "Description of the project 2"},
-      {id: 3, name: "Project 3", description: "Description of the project 3"},
-      {id: 4, name: "Project 4", description: "Description of the project 4"},
-      {id: 5, name: "Project 5", description: "Description of the project 5"},
-      {id: 6, name: "Project 6", description: "Description of the project 6"},
-    ],
+    projects: [] as IProject[],
     loading: false,
     error: null
-  } as RootProjectState),
+  } as IRootProjectState),
 
   getters: {
     items: (state) => state.projects
   },
 
   actions: {
-    async getItems(){
+    async getItems() {
+      // Set the loading state to true
       this.loading = true;
       try {
-        const { data, status } = await axios.get<GetProjectResponse>(
+        const { data, status } = await axios.get<IGetProjectResponse>(
           BASE_ENDPOINT + "projects",
           {
             headers: {
               Accept: 'application/json',
             },
           },
-        );            
+        );
+        // Update the projects array with the response data
         this.projects = data.data;
       } catch (error) {
-        if(axios.isAxiosError(error)) {
+        // Handle errors and set the error state
+        if (axios.isAxiosError(error)) {
           this.error = error.message;
         } else {
           this.error = "An unexpected error occurred";
         }
       } finally {
+        // Set the loading state back to false
         this.loading = false;
       }
     },
@@ -57,7 +54,7 @@ export const useProjectStore = defineStore({
             headers: {
               "Content-Type": "application/json"
             },
-                        
+
           },
         );
         if(status === 200){

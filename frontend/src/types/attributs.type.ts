@@ -12,11 +12,11 @@ export interface IAttribut  {
   table_id: number;
 };
 
-export type GetAttributResponse = {
+export interface IGetAttributResponse {
   data: IAttribut[];
 };
 
-export type RootAttributState = {
+export interface IRootAttributState {
   attributs: IAttribut[];
   loading: boolean,
   error: null | string
