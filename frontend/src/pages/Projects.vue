@@ -5,7 +5,7 @@ import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import ProjectCard from "../components/ProjectCard.vue";
 import { IProject } from "../types/projects.type";
-import { ref, Ref, computed } from "vue";
+import { ref, Ref, computed, onMounted } from "vue";
 import { useProjectStore } from "../store/project.store";
 
 const router = useRouter();
@@ -19,6 +19,7 @@ const toEditProject: Ref<IProject> = ref({ id: 0, name: "" });
 const toDeleteProject: Ref<IProject> = ref({ id: 0, name: "" });
 
 const projects = useProjectStore();
+
 const items = computed(() => projects.items);
 
 const openAddModal = () => {
@@ -54,6 +55,23 @@ const deleteProject = async () => {
   await projects.removeItem(toDeleteProject.value.id);
   closeDeleteModal();
 }
+
+const updateProject = async () => {
+  await projects.updateItem(toEditProject.value);
+  toEditProject.value = { id: 0, name: "" };
+  await closeEditModal();
+}
+
+const createProject = async () => {
+  await projects.addItem(toCreateProject.value);
+  toCreateProject.value = { id: 0, name: "" };
+  await closeDeleteModal();
+}
+
+onMounted(async () => {
+  await projects.getItems();
+  console.log(projects.items)
+});
 </script>
 
 <template>
@@ -73,6 +91,7 @@ const deleteProject = async () => {
 
       <div class="grid grid-cols-4 gap-4 pl-10 pr-20">
         <ProjectCard
+          v-if="items"
           v-for="(project, idx) in items"
           :key="idx"
           :project="project"
@@ -150,6 +169,7 @@ const deleteProject = async () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="createProject"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -232,6 +252,7 @@ const deleteProject = async () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="updateProject"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
