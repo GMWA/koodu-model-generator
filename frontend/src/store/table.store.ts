@@ -1,7 +1,7 @@
 // @ts-check
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { ITable, GetTableResponse, RootTableState } from "../types/tables.type";
+import { ITable, IGetTableResponse, IRootTableState } from "../types/tables.type";
 import { BASE_ENDPOINT } from "../configs";
 
 export const useTableStore = defineStore({
@@ -18,7 +18,7 @@ export const useTableStore = defineStore({
     ],
     loading: false,
     error: null
-  } as RootTableState),
+  } as IRootTableState),
 
   getters: {
     items: (state) => state.tables
@@ -28,14 +28,14 @@ export const useTableStore = defineStore({
     async getItems(){
       this.loading = true;
       try {
-        const { data, status } = await axios.get<GetTableResponse>(
+        const { data, status } = await axios.get<IGetTableResponse>(
           BASE_ENDPOINT + "tables",
           {
             headers: {
               Accept: 'application/json',
             },
           },
-        );            
+        );
         this.tables = data.data;
       } catch (error) {
         if(axios.isAxiosError(error)) {
@@ -57,7 +57,7 @@ export const useTableStore = defineStore({
             headers: {
               "Content-Type": "application/json"
             },
-                        
+
           },
         );
         if(status === 200){

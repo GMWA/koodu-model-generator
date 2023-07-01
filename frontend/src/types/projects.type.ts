@@ -6,12 +6,13 @@ export interface IProject  {
   updated_at?: string;
 }
 
-export type GetProjectResponse = {
+export interface IGetProjectResponse {
   data: IProject[];
+  status: number;
 };
 
-export type RootProjectState = {
+export interface IRootProjectState {
   projects: IProject[];
-  loading: boolean,
-  error: null | string
+  loading: boolean;
+  error: null | string;
 };

@@ -3,8 +3,8 @@ import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
 import {
 	IAttribut,
-	GetAttributResponse,
-	RootAttributState } from "../types/attributs.type";
+	IGetAttributResponse,
+	IRootAttributState } from "../types/attributs.type";
 import { BASE_ENDPOINT } from "../configs";
 
 export const useAttributStore = defineStore({
@@ -70,7 +70,7 @@ export const useAttributStore = defineStore({
     ],
     loading: false,
     error: null
-  } as RootAttributState),
+  } as IRootAttributState),
 
   getters: {
     items: (state) => state.attributs
@@ -80,14 +80,14 @@ export const useAttributStore = defineStore({
     async getItems(){
       this.loading = true;
       try {
-        const { data, status } = await axios.get<GetAttributResponse>(
+        const { data, status } = await axios.get<IGetAttributResponse>(
           BASE_ENDPOINT + "attributs",
           {
             headers: {
               Accept: 'application/json',
             },
           },
-        );            
+        );
         this.attributs = data.data;
       } catch (error) {
         if(axios.isAxiosError(error)) {
@@ -109,7 +109,7 @@ export const useAttributStore = defineStore({
             headers: {
               "Content-Type": "application/json"
             },
-                        
+
           },
         );
         if(status === 200){
