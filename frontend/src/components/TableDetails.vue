@@ -13,29 +13,22 @@ let table: ITable = props.table;
 let tables: ITable[] = props.tables;
 const emit = defineEmits(["delete", "edit", "choose"]);
 const attributs = useAttributStore();
+const DEFAULT_ATTRIBUT: IAttribut = {
+  id: 0,
+  name: "",
+  table_id: table.id,
+  index_key: false,
+  primary_key: false,
+  unique_key: false,
+  type: "",
+  size: 0,
+};
 const selectedAttribut: Ref<IAttribut> = ref(attributs.items[0]);
 const is_add_modal_open: Ref = ref(false);
 const is_delete_modal_open: Ref = ref(false);
-const toCreateAttribut: Ref<IAttribut> = ref({
-  id: 0,
-  name: "",
-  table_id: table.id,
-  index_key: false,
-  primary_key: false,
-  unique_key: false,
-  type: "",
-  size: 0,
-});
-const toDeleteAttribut: Ref<IAttribut> = ref({
-  id: 0,
-  name: "",
-  table_id: table.id,
-  index_key: false,
-  primary_key: false,
-  unique_key: false,
-  type: "",
-  size: 0,
-});
+const toCreateAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
+const toEditAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
+const toDeleteAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
 
 watch(
   () => props.table,
@@ -45,7 +38,6 @@ watch(
 );
 
 const items = computed(() => attributs.items);
-
 const setSelectedAttribut = (attrib: IAttribut) => {
   selectedAttribut.value = { ...attrib };
 };
@@ -65,16 +57,21 @@ const closeDeleteModal = () => {
   is_delete_modal_open.value = false;
 };
 
-const addAttribut = () => {
-  console.log(toCreateAttribut);
+const addAttribut = async () => {
+  await attributs.updateItem(toCreateAttribut.value);
+  toCreateAttribut.value = {...DEFAULT_ATTRIBUT};
+  closeAddModal();
 };
 
-const editAttribut = () => {
+const editAttribut = async () => {
+  await attributs.addItem(toEditAttribut.value);
+  toEditAttribut.value = {...DEFAULT_ATTRIBUT};
   console.log(selectedAttribut);
 };
 
 const deleteAttribut = async () => {
   await attributs.removeItem(toDeleteAttribut.value.id);
+  toDeleteAttribut.value = {...DEFAULT_ATTRIBUT};
   closeDeleteModal();
 };
 </script>
@@ -243,7 +240,7 @@ const deleteAttribut = async () => {
       </div>
     </div>
 
-    <!--Add Modal-->
+    <!--Edit Modal-->
 
     <div
       class="overflow-y-auto overflow-x-auto fixed flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 w-full md:inset-0 md:h-full transition duration-150 ease-in-out"
@@ -308,6 +305,7 @@ const deleteAttribut = async () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="editAttribut"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
