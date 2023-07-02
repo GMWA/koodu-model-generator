@@ -7,13 +7,15 @@ import { useTableStore } from "../store/table.store";
 import { ITable } from "../types";
 
 const tables = useTableStore();
+
+const DEFAULT_TABLE: ITable = { id: 0, name: "" };
 const selectedTable: Ref<ITable> = ref(tables.items[0]);
 const is_add_modal_open: Ref = ref(false);
 const is_edit_modal_open: Ref = ref(false);
 const is_delete_modal_open: Ref = ref(false);
-const toCreateTable: Ref<ITable> = ref({ id: 0, name: "" });
-const toEditTable: Ref<ITable> = ref({ id: 0, name: "" });
-const toDeleteTable: Ref<ITable> = ref({ id: 0, name: "" });
+const toCreateTable: Ref<ITable> = ref(DEFAULT_TABLE);
+const toEditTable: Ref<ITable> = ref(DEFAULT_TABLE);
+const toDeleteTable: Ref<ITable> = ref(DEFAULT_TABLE);
 
 const items = computed(() => tables.items);
 
@@ -45,15 +47,20 @@ const setSelectedTable = (tab: ITable) => {
 };
 
 const addTable = () => {
-  console.log(toCreateTable);
+  tables.addItem(toCreateTable.value);
+  toCreateTable.value = {...DEFAULT_TABLE};
+  closeAddModal();
 };
 
 const editTable = () => {
-  console.log(selectedTable);
+  tables.addItem(toCreateTable.value);
+  toEditTable.value = {...DEFAULT_TABLE};
+  closeEditModal();
 };
 
 const deleteTable = async () => {
   await tables.removeItem(toDeleteTable.value.id);
+  toDeleteTable.value = {...DEFAULT_TABLE};
   closeDeleteModal()
 };
 </script>
@@ -152,6 +159,7 @@ const deleteTable = async () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="addTable"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -234,6 +242,7 @@ const deleteTable = async () => {
             class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
           >
             <button
+              @click="editTable"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
