@@ -183,5 +183,5 @@ export const useAttributStore = defineStore({
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAttributStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useAttributStore as any, import.meta.hot))
 }
