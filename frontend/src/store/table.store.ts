@@ -131,5 +131,5 @@ export const useTableStore = defineStore({
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTableStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useTableStore as any, import.meta.hot))
 }
