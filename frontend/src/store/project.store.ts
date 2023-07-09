@@ -8,7 +8,7 @@ export const useProjectStore = defineStore({
   id: "projectState",
   state: () => ({
     /** @type {IProject[]} */
-    projects: [] as IProject[],
+    projects: [],
     loading: false,
     error: null
   } as IRootProjectState),
@@ -31,7 +31,12 @@ export const useProjectStore = defineStore({
           },
         );
         // Update the projects array with the response data
-        this.projects = data.data;
+        if(status == 200){
+          console.log(data);
+          console.log(this.items);
+          this.projects = data.data;
+          console.log(this.projects);
+        }
       } catch (error) {
         // Handle errors and set the error state
         if (axios.isAxiosError(error)) {
@@ -102,7 +107,7 @@ export const useProjectStore = defineStore({
       this.loading = true;
       try {
         const { data, status } = await axios.delete<IProject>(
-          BASE_ENDPOINT + `tables/${id}`,
+          BASE_ENDPOINT + `projects/${id}`,
           {
             headers: {
               "Content-Type": "application/json"
