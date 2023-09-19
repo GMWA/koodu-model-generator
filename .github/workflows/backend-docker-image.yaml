@@ -6,11 +6,11 @@ on:
       - actions
     paths:
       - backend/**
-      - .github/workflows/backend-docker-images.yaml
+      - .github/workflows/backend-docker-image.yaml
 
 env:
   REGISTRY: index.docker.io
-  IMAGE_NAME: ${{ secrets.DOCKER_BACKEND_IMAGE_NAME }}-backend
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}-backend
 
 jobs:
   build-and-push-image:

@@ -6,11 +6,11 @@ on:
       - actions
     paths:
       - frontend/**
-      - .github/workflows/frontend-docker-images.yaml
+      - .github/workflows/frontend-docker-image.yaml
 
 env:
   REGISTRY: index.docker.io
-  IMAGE_NAME: ${{ secrets.DOCKER_FRONTEND_IMAGE_NAME }}-frontend
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}-frontend
 
 jobs:
   build-and-push-image:
@@ -42,7 +42,7 @@ jobs:
         with:
           context: ./frontend
           build-args: |
-            baseURL={{ secrets.DOCKER_FRONTEND_IMAGE_NAME }}
+            baseURL={{ secrets.DOCKER_FRONTEND_BASE_URL }}
 
           push: true
           tags: ${{ steps.meta.outputs.tags }}
