@@ -1,10 +1,11 @@
-from typing import List, Union
+from typing import Union
 from pydantic import BaseModel
 from datetime import datetime
 
 
 class ProjectBase(BaseModel):
     name: str
+    user_id: str
 
 
 class ProjectCreate(ProjectBase):
@@ -14,15 +15,12 @@ class ProjectCreate(ProjectBase):
 class ProjectUpdate(ProjectBase):
     id: int
     description: Union[str, None] = None
-    user_id: Union[int, None] = None
-
 
 class Project(ProjectBase):
     id: int
     description: Union[str, None] = None
     created_at: Union[datetime, None] = None
     updated_at: Union[datetime, None] = None
-    user_id = int
 
     class Config:
         orm_mode = True

@@ -9,7 +9,7 @@ from modelgenerator.database import Base
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(String(255), primary_key=True, index=True)
     email = Column(String(120), unique=True, nullable=False)
     username = Column(String(255), unique=True)
     lastname = Column(String(255))
@@ -32,7 +32,7 @@ class Project(Base):
     description = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(String(255), ForeignKey("users.id"))
 
 
 class Table(Base):
