@@ -45,6 +45,7 @@ async def create_project(
 ):
     db_project: ProjectModel = ProjectModel()
     db_project.name = project.name
+    db_project.user_id = project.user_id
     db_project.description = project.description
     try:
         db.add(db_project)
@@ -65,7 +66,7 @@ async def update_project(
     project: ProjectUpdateSchema,
     db: Session = Depends(get_db)
 ):
-    db_project: ProjectModel = db.query(ProjectModel).get(project_id)
+    db_project: ProjectModel = db.query(ProjectModel).filter_by(user_id=project.user_id).first()
     if not db_project:
         raise HTTPException(status_code=400, detail="Bad project's id!")
     try:

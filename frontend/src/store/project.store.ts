@@ -1,7 +1,7 @@
 // @ts-check
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { IProject, IGetProjectResponse, IRootProjectState } from "../types/projects.type";
+import { IProject, IRootProjectState } from "../types/projects.type";
 import { BASE_ENDPOINT } from "../configs";
 
 export const useProjectStore = defineStore({
@@ -19,10 +19,9 @@ export const useProjectStore = defineStore({
 
   actions: {
     async getItems() {
-      // Set the loading state to true
       this.loading = true;
       try {
-        const { data, status } = await axios.get<IGetProjectResponse>(
+        const { data, status } = await axios.get<IProject[]>(
           BASE_ENDPOINT + "projects",
           {
             headers: {
@@ -30,36 +29,30 @@ export const useProjectStore = defineStore({
             },
           },
         );
-        // Update the projects array with the response data
-        if(status == 200){
-          console.log(data);
-          console.log(this.items);
-          this.projects = data.data;
-          console.log(this.projects);
+        if (status == 200){
+          this.projects = data;
         }
       } catch (error) {
-        // Handle errors and set the error state
         if (axios.isAxiosError(error)) {
           this.error = error.message;
         } else {
           this.error = "An unexpected error occurred";
         }
       } finally {
-        // Set the loading state back to false
         this.loading = false;
       }
     },
     async addItem(project: IProject){
       this.loading = true;
+      console.log(project)
       try {
         const { data, status } = await axios.post<IProject>(
           BASE_ENDPOINT + `projects`,
-          {...project},
+          project,
           {
             headers: {
               "Content-Type": "application/json"
-            },
-
+            }
           },
         );
         if(status === 200){
@@ -133,5 +126,5 @@ export const useProjectStore = defineStore({
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useProjectStore as any, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useProjectStore, import.meta.hot))
 }

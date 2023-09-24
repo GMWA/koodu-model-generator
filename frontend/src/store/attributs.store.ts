@@ -1,10 +1,7 @@
 // @ts-check
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import {
-	IAttribut,
-	IGetAttributResponse,
-	IRootAttributState } from "../types/attributs.type";
+import { IAttribut, IRootAttributState } from "../types/attributs.type";
 import { BASE_ENDPOINT } from "../configs";
 
 export const useAttributStore = defineStore({
@@ -80,7 +77,7 @@ export const useAttributStore = defineStore({
     async getItems(){
       this.loading = true;
       try {
-        const { data, status } = await axios.get<IGetAttributResponse>(
+        const { data, status } = await axios.get<IAttribut[]>(
           BASE_ENDPOINT + "attributs",
           {
             headers: {
@@ -88,7 +85,9 @@ export const useAttributStore = defineStore({
             },
           },
         );
-        this.attributs = data.data;
+        if (status === 200){
+          this.attributs = data;
+        }
       } catch (error) {
         if(axios.isAxiosError(error)) {
           this.error = error.message;
