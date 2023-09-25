@@ -13,7 +13,7 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(UserBase):
-    id: int
+    id: str
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]
@@ -22,7 +22,7 @@ class UserUpdate(UserBase):
 
 
 class User(UserBase):
-    id: int
+    id: str
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]

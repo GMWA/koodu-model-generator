@@ -15,7 +15,6 @@ class TableCreate(TableBase):
 class TableUpdate(TableBase):
     id: int
     description: Union[str, None]
-    table_id: Union[int, None]
 
 
 class Table(TableBase):
@@ -23,7 +22,6 @@ class Table(TableBase):
     description: Union[str, None]
     created_at: datetime
     updated_at: datetime
-    user_id: int
 
     class Config:
         orm_mode = True
