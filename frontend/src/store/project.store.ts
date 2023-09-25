@@ -42,6 +42,33 @@ export const useProjectStore = defineStore({
         this.loading = false;
       }
     },
+    async getItem(projectId: string) : Promise<IProject | null> {
+      this.loading = true;
+      try {
+        const { data, status } = await axios.get<IProject>(
+          BASE_ENDPOINT + `projects/${projectId}`,
+          {
+            headers: {
+              Accept: 'application/json',
+            }
+          }
+        );
+        if(status == 200){
+          return data;
+        }else{
+          return null;
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          this.error = error.message;
+        } else {
+          this.error = "An unexpected error occurred";
+        }
+        return null;
+      } finally {
+        this.loading = false;
+      }
+    },
     async addItem(project: IProject){
       this.loading = true;
       console.log(project)
