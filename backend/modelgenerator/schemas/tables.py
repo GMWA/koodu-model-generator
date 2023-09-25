@@ -5,6 +5,7 @@ from datetime import datetime
 
 class TableBase(BaseModel):
     name: str
+    project_id: int
 
 
 class TableCreate(TableBase):

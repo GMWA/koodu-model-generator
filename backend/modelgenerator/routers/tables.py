@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from modelgenerator.schemas.tables import (Table as TableSchema,
                                 TableCreate as TableCreateSchema,
                                 TableUpdate as TableUpdateSchema)
-from modelgenerator.models import Table as TableModel
+from modelgenerator.models import (Table as TableModel,
+                                   Project as ProjectModel)
 from modelgenerator.dependencies import get_db
 
 router = APIRouter(
@@ -21,6 +22,16 @@ router = APIRouter(
 )
 async def read_tables(db: Session = Depends(get_db)):
     data = db.query(TableModel).all()
+    return data
+
+
+@router.get(
+    "/project/{project_id}",
+    response_model=List[TableSchema],
+    responses={403: {"description": "Operation forbidden"}}
+)
+async def read_tables(project_id: int, db: Session = Depends(get_db)):
+    data = db.query(TableModel).filter_by(project_id=project_id).all()
     return data
 
 
@@ -43,8 +54,12 @@ async def create_table(
     table: TableCreateSchema,
     db: Session = Depends(get_db)
 ):
+    db_project: ProjectModel = db.query(ProjectModel).get(table.project_id)
+    if not db_project:
+        raise HTTPException(status_code=404, detail="Project Not found!")
     db_table = TableModel()
     db_table.name = table.name
+    db_table.project_id = table.project_id
     if table.description:
         db_table.description = table.description
     try:
