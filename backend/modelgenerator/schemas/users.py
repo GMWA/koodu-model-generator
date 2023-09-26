@@ -5,28 +5,27 @@ from datetime import datetime
 
 class UserBase(BaseModel):
     email: str
-    username: str
+    thirdparty: str
 
 
 class UserCreate(UserBase):
-    description: Union[str, None]
+    pass
 
 
 class UserUpdate(UserBase):
-    id: int
+    id: str
+    username: Union[str, None] = None
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]
-    password: Union[str, None]
-    is_verified: Union[bool, None]
 
 
 class User(UserBase):
-    id: int
+    id: str
+    username: Union[str, None] = None
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]
-    is_verified: Union[bool, None]
     created_at: datetime
     updated_at: datetime
 
