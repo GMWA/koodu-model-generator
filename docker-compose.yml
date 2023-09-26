@@ -1,23 +1,6 @@
 version: '3'
 
 services:
-  db:
-    image: 'postgres:latest'
-    environment:
-      POSTGRES_USER: supertokens_user 
-      POSTGRES_PASSWORD: somePassword 
-      POSTGRES_DB: supertokens
-    ports:
-      - 5432:5432
-    networks:
-      - app_network
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'pg_isready -U supertokens_user']
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   backend:
     container_name: backend
     build:
