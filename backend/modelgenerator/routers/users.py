@@ -1,11 +1,15 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from modelgenerator.schemas.users import (User as UserSchema,
                                 UserCreate as UserCreateSchema,
                                 UserUpdate as UserUpdateSchema)
 from modelgenerator.models import User as UserModel
 from modelgenerator.dependencies import get_db
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.thirdpartyemailpassword.asyncio import get_user_by_id
+from supertokens_python.recipe.session import SessionContainer
+
 
 router = APIRouter(
     prefix="/users",
@@ -40,10 +44,26 @@ async def get_user(user_id: int, db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def create_user(
-    user: UserCreateSchema,
+    session: SessionContainer = Depends(verify_session()),
     db: Session = Depends(get_db)
 ):
-    return {}
+    user_id = session.get_user_id()
+    s_user = await get_user_by_id(user_id)
+    if not s_user:
+        raise HTTPException(status_code=500, detail="Not logged user!")
+
+    db_user = UserModel()
+    db_user.id = s_user.user_id
+    db_user.email = s_user.email
+    db_user.thirdparty = s_user.third_party_info
+    db_user.created_at = s_user.time_joined
+    db_user.updated_at = s_user.time_joined
+
+    try:
+        db.add(db_user)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return db_user
 
 
 @router.put(
