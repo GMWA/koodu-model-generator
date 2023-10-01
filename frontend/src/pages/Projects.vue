@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Session from "supertokens-web-js/recipe/session";
 import { useRoute, useRouter } from "vue-router";
 import Sidebar from "../components/Sidebar.vue";
 import Footer from "../components/Footer.vue";
@@ -7,20 +8,23 @@ import ProjectCard from "../components/ProjectCard.vue";
 import { IProject } from "../types/projects.type";
 import { ref, Ref, computed, onMounted } from "vue";
 import { useProjectStore } from "../store/project.store";
+import { useUserStore } from "../store/user.store";
 
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
 const is_add_modal_open: Ref = ref(false);
 const is_edit_modal_open: Ref = ref(false);
 const is_delete_modal_open: Ref = ref(false);
+const userId: Ref<string> = ref("");
 
-const toCreateProject: Ref<IProject> = ref({ id: 0, name: "" });
-const toEditProject: Ref<IProject> = ref({ id: 0, name: "" });
-const toDeleteProject: Ref<IProject> = ref({ id: 0, name: "" });
+const toCreateProject: Ref<IProject> = ref({ id: 0, user_id: userId.value, name: ""});
+const toEditProject: Ref<IProject> = ref({ id: 0, user_id: userId.value, name: "" });
+const toDeleteProject: Ref<IProject> = ref({ id: 0, user_id: userId.value, name: "" });
 
-const projects = useProjectStore();
+const projectsStore = useProjectStore();
 
-const items = computed(() => projects.items);
+const items = computed(() => projectsStore.projects);
 
 const openAddModal = () => {
   is_add_modal_open.value = true;
@@ -52,35 +56,52 @@ const navigateToProject = async (project: IProject) => {
 
 const deleteProject = async () => {
   console.log(toDeleteProject.value);
-  await projects.removeItem(toDeleteProject.value.id);
+  await projectsStore.removeItem(toDeleteProject.value.id);
   closeDeleteModal();
 }
 
 const updateProject = async () => {
-  await projects.updateItem(toEditProject.value);
-  toEditProject.value = { id: 0, name: "" };
+  await projectsStore.updateItem(toEditProject.value);
+  toEditProject.value = { id: 0, user_id: userId.value, name: "" };
   await closeEditModal();
 }
 
 const createProject = async () => {
-  await projects.addItem(toCreateProject.value);
-  toCreateProject.value = { id: 0, name: "" };
-  await closeDeleteModal();
+  await projectsStore.addItem({
+    ...toCreateProject.value,
+    user_id: userId.value
+  });
+  toCreateProject.value = { id: 0, user_id: userId.value, name: "" };
+  await closeAddModal();
+}
+
+const checkAndSaveUser = async () => {
+  if(await Session.doesSessionExist()){
+    const userId = await Session.getUserId();
+    const user = await userStore.getItem(userId);
+    if (!user){
+      const db_user = await userStore.addItem();
+      if (db_user != null){
+        userStore.logged_user = {...db_user};
+      }
+    }else{
+      userStore.logged_user = {...user};
+    }
+  }
 }
 
 onMounted(async () => {
-  await projects.getItems();
-  console.log(projects.items)
+  await checkAndSaveUser()
+  await projectsStore.getItems();
+  userId.value = await Session.getUserId();
 });
 </script>
 
 <template>
   <div class="flex w-full">
     <Sidebar />
-
     <main class="flex flex-col w-full">
       <Header type="page" title="Projects" />
-
       <div @click="openAddModal" class="flex flex-row-reverse pr-20 px-10 py-2">
         <div class="w-12 h-12 rounded-full text-white bg-green-600 content-center">
           <button class="text-white font-bold content-center w-full h-full">
@@ -91,7 +112,7 @@ onMounted(async () => {
 
       <div class="grid grid-cols-4 gap-4 pl-10 pr-20">
         <ProjectCard
-          v-if="items"
+          v-if="items && items.length > 0"
           v-for="(project, idx) in items"
           :key="idx"
           :project="project"

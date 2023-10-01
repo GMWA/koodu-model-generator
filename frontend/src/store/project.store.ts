@@ -71,7 +71,6 @@ export const useProjectStore = defineStore({
     },
     async addItem(project: IProject){
       this.loading = true;
-      console.log(project)
       try {
         const { data, status } = await axios.post<IProject>(
           BASE_ENDPOINT + `projects`,
