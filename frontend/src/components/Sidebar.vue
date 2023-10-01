@@ -2,7 +2,7 @@
 import Session from "supertokens-web-js/recipe/session";
 import ThirdPartyEmailPassword from "supertokens-web-js/recipe/thirdpartyemailpassword";
 import { ref, Ref, onMounted } from "vue";
-import { API_DOMAIN } from "../configs";
+import { API_DOMAIN } from "@/configs";
 const is_expanded: Ref<boolean> = ref(
   localStorage.getItem("is_expanded") === "true" ? true : false
 );
@@ -49,11 +49,11 @@ const signOut = async () => {
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link class="button" to="/projects">
+      <router-link class="button" to="/">
         <span class="material-icons">folder_copy</span>
         <span class="text">Projects</span>
       </router-link>
-      <router-link class="button" to="/">
+      <router-link class="button" to="/dashboard">
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>

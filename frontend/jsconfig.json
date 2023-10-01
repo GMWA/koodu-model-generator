@@ -1,5 +1,14 @@
 {
-    "include": [
-        "./src/**/*"
-    ]
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@components": ["src/store/*"],
+      "@types": ["src/types/*"],
+      "@store": ["src/components/*"],
+      "@configs": ["src/configs/*"]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

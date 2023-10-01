@@ -14,7 +14,14 @@
     "noUnusedParameters": false,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "@components": ["src/store/*"],
+      "@types": ["src/types/*"],
+      "@store": ["src/components/*"],
+      "@configs": ["src/configs/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
