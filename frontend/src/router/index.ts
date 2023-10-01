@@ -5,7 +5,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: "/dasboard",
       name: "dashboard",
       component: () => Dashboard
     },
@@ -18,14 +18,14 @@ const router = createRouter({
       path: "/auth/callback/:provider",
       name: "authcallback",
       component: () => import(/* webpackChunkName: "Callback" */  "../pages/users/AuthCallback.vue")
-    }, 
+    },
     {
       path: "/auth/reset-password",
       name: "resetpassword",
       component: () => import(/* webpackChunkName: "Password" */  "../pages/users/ForgotPassword.vue")
     },
     {
-      path: "/projects",
+      path: "/",
       name: "projects",
       component: () => import(/* webpackChunkName: "Projects" */  "../pages/Projects.vue")
     },

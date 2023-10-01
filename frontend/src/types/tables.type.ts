@@ -1,6 +1,7 @@
 export interface ITable  {
   id: number;
   name: string;
+  project_id: number;
   description?: string;
   created_at?: string;
   updated_at?: string;
