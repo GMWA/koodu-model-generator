@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router";
-import { Ref, ref, computed } from "vue";
+import { Ref, ref, computed, onMounted } from "vue";
 import TableCard from "./TableCard.vue";
 import TableDetails from "./TableDetails.vue";
 import { useTableStore } from "../store/table.store";
 import { ITable } from "../types";
 
-const tables = useTableStore();
-
-const DEFAULT_TABLE: ITable = { id: 0, name: "" };
-const selectedTable: Ref<ITable> = ref(tables.items[0]);
+const tableStore = useTableStore();
+interface IProjectRoute {
+  projectId: number;
+};
+const props = defineProps<IProjectRoute>();
+const DEFAULT_TABLE: ITable = { id: 0, name: "", project_id: props.projectId};
+const selectedTable: Ref<ITable> = ref(DEFAULT_TABLE);
 const is_add_modal_open: Ref = ref(false);
 const is_edit_modal_open: Ref = ref(false);
 const is_delete_modal_open: Ref = ref(false);
@@ -17,7 +20,7 @@ const toCreateTable: Ref<ITable> = ref(DEFAULT_TABLE);
 const toEditTable: Ref<ITable> = ref(DEFAULT_TABLE);
 const toDeleteTable: Ref<ITable> = ref(DEFAULT_TABLE);
 
-const items = computed(() => tables.items);
+const items = computed(() => tableStore.items);
 
 const openAddModal = () => {
   is_add_modal_open.value = true;
@@ -47,22 +50,33 @@ const setSelectedTable = (tab: ITable) => {
 };
 
 const addTable = () => {
-  tables.addItem(toCreateTable.value);
+  toCreateTable.value.project_id = props.projectId;
+  tableStore.addItem(toCreateTable.value);
+  console.log(props);
+  console.log(toCreateTable.value);
   toCreateTable.value = {...DEFAULT_TABLE};
   closeAddModal();
 };
 
 const editTable = () => {
-  tables.addItem(toCreateTable.value);
+  tableStore.addItem(toCreateTable.value);
   toEditTable.value = {...DEFAULT_TABLE};
   closeEditModal();
 };
 
 const deleteTable = async () => {
-  await tables.removeItem(toDeleteTable.value.id);
+  await tableStore.removeItem(toDeleteTable.value.id);
   toDeleteTable.value = {...DEFAULT_TABLE};
   closeDeleteModal()
 };
+
+onMounted(async () => {
+  await tableStore.getItems();
+  if(items.value.length > 0){
+    selectedTable.value = {...items.value[0]};
+  }
+  toCreateTable.value.project_id = props.projectId;
+})
 </script>
 
 <template>
@@ -93,7 +107,11 @@ const deleteTable = async () => {
       </div>
     </div>
     <div class="flex w-3/4">
-      <TableDetails :table="selectedTable" :tables="tables.items" />
+      <TableDetails
+        v-if="selectedTable"
+        :table="selectedTable"
+        :tables="tableStore.items"
+      />
     </div>
 
     <!--Add Modal-->

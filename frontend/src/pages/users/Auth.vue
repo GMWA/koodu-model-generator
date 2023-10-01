@@ -142,7 +142,8 @@ const onFacebookPressed = async () => {
 
 const checkForSession = async () => {
   if (await Session.doesSessionExist()) {
-    window.location.assign("/projects");
+    console.log("session exist");
+    window.location.assign("/");
   }
 };
 </script>

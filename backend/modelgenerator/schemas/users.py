@@ -6,6 +6,7 @@ from datetime import datetime
 class UserBase(BaseModel):
     email: str
     thirdparty: str
+    is_admin: bool
 
 
 class UserCreate(UserBase):

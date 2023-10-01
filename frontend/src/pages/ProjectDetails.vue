@@ -4,30 +4,31 @@ import Footer from "../components/Footer.vue";
 import TablesComponent from "../components/TablesComponent.vue";
 import { useRouter, useRoute } from "vue-router";
 import { useProjectStore } from "../store/project.store";
-import { onMounted, reactive, ref, Ref, ReactiveEffect } from "vue";
+import { onMounted, ref, Ref } from "vue";
 import { IProject } from "../types/projects.type";
 
-interface IProjectRoute {
-  id: number;
-}
-const projects = useProjectStore();
-//const props = defineProps<ITodoRoute>();
+const projectStore = useProjectStore();
 const router = useRouter();
 const route = useRoute();
 let projectId: Ref<string | string[]> = ref("");
 let project: Ref<IProject> = ref({
   id: 0,
+  user_id: "",
   name: "",
 });
 
 const activeTab: Ref<string> = ref("tables");
 
 onMounted(async () => {
-  await projects.getItems();
   await router.isReady();
   projectId.value = route.params.id;
-  const idx = projects.items.findIndex((elem) => String(elem.id) === projectId.value);
-  project.value = { ...projects.items[idx] };
+  console.log(projectId.value)
+  const resp = await projectStore.getItem(String(projectId.value));
+  if(resp !== null){
+    project.value = {...resp};
+  }else{
+    await router.push("/");
+  }
 });
 
 const changeActiveTab = (newTAb: string) => {
@@ -124,7 +125,7 @@ const changeActiveTab = (newTAb: string) => {
 
       <div class="flex flex-row w-full">
         <div class="flex w-full" v-if="activeTab === 'tables'">
-          <TablesComponent />
+          <TablesComponent :projectId="project.id"/>
         </div>
         <div v-if="activeTab === 'configs'">Configs</div>
         <div v-if="activeTab === 'settings'">Settings</div>

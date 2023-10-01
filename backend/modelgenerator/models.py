@@ -16,6 +16,7 @@ class User(Base):
     firstname = Column(String(255))
     phone = Column(String(20), unique=True)
     thirdparty = Column(String(50), default="")
+    is_admin = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
