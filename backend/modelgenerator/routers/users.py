@@ -1,4 +1,5 @@
 from typing import List
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from modelgenerator.schemas.users import (User as UserSchema,
@@ -33,9 +34,11 @@ async def read_users(db: Session = Depends(get_db)):
     response_model=UserSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def get_user(user_id: int, db: Session = Depends(get_db)):
-    data = db.query(UserModel).filter_by(id=user_id).first()
-    return data
+async def get_user(user_id: str, db: Session = Depends(get_db)):
+    user = db.query(UserModel).filter_by(id=user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="user not found")
+    return user
 
 
 @router.post(
@@ -51,16 +54,16 @@ async def create_user(
     s_user = await get_user_by_id(user_id)
     if not s_user:
         raise HTTPException(status_code=500, detail="Not logged user!")
-
     db_user = UserModel()
     db_user.id = s_user.user_id
     db_user.email = s_user.email
-    db_user.thirdparty = s_user.third_party_info
-    db_user.created_at = s_user.time_joined
-    db_user.updated_at = s_user.time_joined
-
+    db_user.thirdparty = s_user.third_party_info.id
+    db_user.created_at = datetime.fromtimestamp(s_user.time_joined/1e3)
+    db_user.updated_at = datetime.fromtimestamp(s_user.time_joined/1e3)
     try:
         db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return db_user
