@@ -29,8 +29,8 @@ const checkForSession = async () => {
   userId.value = userID;
 };
 
-const signOut = () => {
-  ThirdPartyEmailPassword.signOut();
+const signOut = async () => {
+  await ThirdPartyEmailPassword.signOut();
   window.location.assign("/");
 };
 </script>
@@ -49,13 +49,13 @@ const signOut = () => {
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link class="button" to="/">
-        <span class="material-icons">dashboard</span>
-        <span class="text">Dashboard</span>
-      </router-link>
       <router-link class="button" to="/projects">
         <span class="material-icons">folder_copy</span>
         <span class="text">Projects</span>
+      </router-link>
+      <router-link class="button" to="/">
+        <span class="material-icons">dashboard</span>
+        <span class="text">Dashboard</span>
       </router-link>
       <router-link class="button" to="/editor">
         <span class="material-icons">edit_note</span>
