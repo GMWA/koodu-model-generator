@@ -25,6 +25,16 @@ async def read_attributs(db: Session = Depends(get_db)):
 
 
 @router.get(
+    "/table/{table_id}}",
+    response_model=List[AttributSchema],
+    responses={403: {"description": "Operation forbidden"}}
+)
+async def read_attributs_by_table(table_id: int, db: Session = Depends(get_db)):
+    data = db.query(AttributModel).filter_by(table_id=table_id).all()
+    return data
+
+
+@router.get(
     "/{attribut_id}",
     response_model=AttributSchema,
     responses={403: {"description": "Operation forbidden"}},
