@@ -5,7 +5,7 @@ export interface IAttribut  {
   index_key: boolean;
   unique_key: boolean;
   type: string;
-  size: number;
+  size?: number;
   description?: string;
   created_at?: string;
   updated_at?: string;

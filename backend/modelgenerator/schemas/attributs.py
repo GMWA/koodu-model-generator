@@ -15,7 +15,7 @@ class AttributBase(BaseModel):
 
 
 class AttributCreate(AttributBase):
-    description: Union[str, None]
+    description: Union[str, None] = None
 
 
 class AttributUpdate(AttributBase):

@@ -8,63 +8,7 @@ export const useAttributStore = defineStore({
   id: "attributs",
   state: () => ({
     /** @type {IAttribut[]} */
-    attributs: [
-      {
-        id: 1,
-        name: "name",
-        primary_key: true,
-        index_key: false,
-        unique_key: false,
-        type: "string",
-        size: 255,
-        table_id: 1,
-        description: "the name of the entity"
-      },
-      {
-        id: 2,
-        name: "attrib 2",
-        primary_key: false,
-        index_key: true,
-        unique_key: true,
-        type: "string",
-        size: 255,
-        table_id: 1,
-        description: "email"
-      },
-      {
-        id: 1,
-        name: "slug",
-        primary_key: false,
-        index_key: true,
-        unique_key: true,
-        type: "string",
-        size: 255,
-        table_id: 1,
-        description: "slug"
-      },
-      {
-        id: 1,
-        name: "price",
-        primary_key: false,
-        index_key: false,
-        unique_key: false,
-        type: "decimal",
-        size: 16,
-        table_id: 1,
-        description: "Price"
-      },
-      {
-        id: 1,
-        name: "user_id",
-        primary_key: false,
-        index_key: false,
-        unique_key: false,
-        type: "integer",
-        size: 10,
-        table_id: 1,
-        description: "ForeyKey"
-      },
-    ],
+    attributs: [],
     loading: false,
     error: null
   } as IRootAttributState),
@@ -98,8 +42,33 @@ export const useAttributStore = defineStore({
         this.loading = false;
       }
     },
+    async getItemsByProject(projectId: number){
+      this.loading = true;
+      try {
+        const { data, status } = await axios.get<IAttribut[]>(
+          BASE_ENDPOINT + `attributs/table/${projectId}`,
+          {
+            headers: {
+              Accept: 'application/json',
+            },
+          },
+        );
+        if(status == 200){
+          this.attributs = data;
+        }
+      } catch (error) {
+        if(axios.isAxiosError(error)) {
+          this.error = error.message;
+        } else {
+          this.error = "An unexpected error occurred";
+        }
+      } finally {
+        this.loading = false;
+      }
+    },
     async addItem(attribut: IAttribut){
       this.loading = true;
+      console.log(attribut);
       try {
         const { data, status } = await axios.post<IAttribut>(
           BASE_ENDPOINT + `attributs`,
