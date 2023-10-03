@@ -28,7 +28,8 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from modelgenerator.models import Base, Attribut, Project, Table, User
+from modelgenerator.database import Base
+from modelgenerator.models import Attribut, Project, Table, User
 target_metadata = Base.metadata
 #print(f"\n\n{target_metadata}\n\n{os.environ['SQLALCHEMY_DATABASE_URL']}\n\n")
 # other values from the config, defined by the needs of env.py,
