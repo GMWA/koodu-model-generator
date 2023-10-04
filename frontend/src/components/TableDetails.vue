@@ -246,36 +246,55 @@ onMounted(async () => {
                   </label>
                 </div>
               </div>
-              <div class="flex w-full gap-3">
+              <div class="flex w-full gap-5 items-center justify-center">
                 <div class="flex flex-1 flex-col">
                   <label for="name">Name:</label>
-                  <input type="text" name="name" class="form-input px-4 py-3 mt-1 rounded-2xl" placeholder="Name"
+                  <input type="text" name="name" class="form-input p-2.5 mt-1 rounded-lg" placeholder="Name"
                     v-model="toCreateAttribut.name" />
                 </div>
                 <div class="flex flex-1 flex-col">
                   <label for="name">Type:</label>
                   <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="form-input p-2.5 mt-1 rounded-lg"
                     v-model="toCreateAttribut.type">
                     <option v-for="(elem, idx) in attributTypes" :key="idx" :value="elem.value"> {{ elem.name }} </option>
                   </select>
                 </div>
               </div>
 
-              <div class="flex w-full gap-3">
+              <div class="flex w-full gap-5 items-center justify-center">
                 <div class="flex flex-1 flex-col">
                   <label for="name">Size:</label>
-                  <input type="text" name="name" class="form-input px-4 py-3 mt-1 rounded-2xl" placeholder="Name"
-                    v-model="toCreateAttribut.name" />
+                  <input type="number" name="name" class="form-input p-2.5 mt-1 rounded-lg" placeholder="Size"
+                    v-model="toCreateAttribut.size" />
                 </div>
                 <div class="flex flex-1 flex-col">
+                  <label
+                    v-if="toCreateAttribut.type=='ref'"
+                    for="table"
+                  >Table</label>
+                  <select
+                    class="form-input p-2.5 mt-1 rounded-lg"
+                    v-if="toCreateAttribut.type=='ref'"
+                  >
+                    <option v-for="(tab, idx) in tables" :value="tab.id">
+                      {{ tab.name }}
+                    </option>
+                  </select>
                 </div>
               </div>
 
-              <label class="mt-4" for="desciption"> Description: </label>
-              <textarea name="description" class="form-input px-4 py-3 mt-1 rounded-2xl" rows="3"
-                placeholder="Description" v-model="toCreateAttribut.description">
-              </textarea>
+              <div class="flex flex-col w-full items-start justify-center">
+                <label for="desciption">Description: </label>
+                <textarea
+                  name="description"
+                  class="form-input p-2.5 mt-1 rounded-lg w-full"
+                  rows="3"
+                  placeholder="Description"
+                  v-model="toCreateAttribut.description"
+                >
+                </textarea>
+              </div>
             </form>
           </div>
           <!-- Modal footer -->

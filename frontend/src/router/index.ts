@@ -5,9 +5,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/dasboard",
+      path: "/dashboard",
       name: "dashboard",
-      component: () => Dashboard
+      component: () => import(/* webpackChunkName: "Dasboard" */ "../pages/Dashboard.vue")
     },
     {
       path: "/auth",
