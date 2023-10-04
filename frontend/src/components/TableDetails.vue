@@ -265,8 +265,8 @@ onMounted(async () => {
               <div class="flex w-full gap-5 items-center justify-center">
                 <div class="flex flex-1 flex-col">
                   <label for="name">Size:</label>
-                  <input type="text" name="name" class="form-input p-2.5 mt-1 rounded-lg" placeholder="Size"
-                    v-model="toCreateAttribut.name" />
+                  <input type="number" name="name" class="form-input p-2.5 mt-1 rounded-lg" placeholder="Size"
+                    v-model="toCreateAttribut.size" />
                 </div>
                 <div class="flex flex-1 flex-col">
                   <label
