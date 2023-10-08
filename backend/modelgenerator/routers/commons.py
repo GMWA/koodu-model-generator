@@ -16,11 +16,11 @@ router = APIRouter(
 )
 
 @router.get(
-    "project-json/{project_id}",
+    "/project-json/{project_id}",
     response_model=CommonProject,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def get_project(project_id: int, db: Session = Depends(get_db)):
+async def get_project_as_json(project_id: int, db: Session = Depends(get_db)):
     data: ProjectModel = db.query(ProjectModel).filter_by(id=project_id).first()
     if not data:
         raise HTTPException(status_code=400, detail="Bad project's id!")

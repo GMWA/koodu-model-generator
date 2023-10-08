@@ -20,6 +20,7 @@ from supertokens_python.recipe.thirdpartyemailpassword import (
 
 from modelgenerator.models import Base
 from modelgenerator.routers.attributs import router as attributs_router
+from modelgenerator.routers.commons import router as commons_router
 from modelgenerator.routers.projects import router as projects_router
 from modelgenerator.routers.tables import router as tables_router
 from modelgenerator.routers.users import router as users_router
@@ -27,7 +28,7 @@ from modelgenerator.database import engine
 
 
 Base.metadata.create_all(bind=engine)
-app = FastAPI(debug=True)
+app = FastAPI(docs_url="/api/docs")
 
 
 init(
@@ -77,6 +78,7 @@ app.add_middleware(
 
 # Add the app Endpoints
 app.include_router(attributs_router, prefix="/api")
+app.include_router(commons_router, prefix="/api")
 app.include_router(projects_router, prefix="/api")
 app.include_router(tables_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
