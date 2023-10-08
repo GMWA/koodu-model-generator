@@ -1,16 +1,17 @@
-from typing import List
 from datetime import datetime
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modelgenerator.schemas.users import (User as UserSchema,
-                                UserCreate as UserCreateSchema,
-                                UserUpdate as UserUpdateSchema)
-from modelgenerator.models import User as UserModel
-from modelgenerator.dependencies import get_db
-from supertokens_python.recipe.session.framework.fastapi import verify_session
-from supertokens_python.recipe.thirdpartyemailpassword.asyncio import get_user_by_id
 from supertokens_python.recipe.session import SessionContainer
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.thirdpartyemailpassword.asyncio import \
+    get_user_by_id
 
+from modelgenerator.dependencies import get_db
+from modelgenerator.models import User as UserModel
+from modelgenerator.schemas.users import User as UserSchema
+from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
 
 router = APIRouter(
     prefix="/users",
@@ -22,7 +23,7 @@ router = APIRouter(
 @router.get(
     "",
     response_model=List[UserSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_users(db: Session = Depends(get_db)):
     data = db.query(UserModel).all()
@@ -47,8 +48,7 @@ async def get_user(user_id: str, db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def create_user(
-    session: SessionContainer = Depends(verify_session()),
-    db: Session = Depends(get_db)
+    session: SessionContainer = Depends(verify_session()), db: Session = Depends(get_db)
 ):
     user_id = session.get_user_id()
     s_user = await get_user_by_id(user_id)
@@ -58,8 +58,8 @@ async def create_user(
     db_user.id = s_user.user_id
     db_user.email = s_user.email
     db_user.thirdparty = s_user.third_party_info.id
-    db_user.created_at = datetime.fromtimestamp(s_user.time_joined/1e3)
-    db_user.updated_at = datetime.fromtimestamp(s_user.time_joined/1e3)
+    db_user.created_at = datetime.fromtimestamp(s_user.time_joined / 1e3)
+    db_user.updated_at = datetime.fromtimestamp(s_user.time_joined / 1e3)
     try:
         db.add(db_user)
         db.commit()
@@ -74,9 +74,7 @@ async def create_user(
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_user(
-    user_id: int,
-    user: UserUpdateSchema,
-    db: Session = Depends(get_db)
+    user_id: int, user: UserUpdateSchema, db: Session = Depends(get_db)
 ):
     return {}
 

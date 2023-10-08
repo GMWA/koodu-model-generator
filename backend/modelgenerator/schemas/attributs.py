@@ -1,7 +1,8 @@
-from typing import List, Union
+from datetime import datetime
+from typing import Union
+
 from pydantic import BaseModel
 from pydantic_choices import choice
-from datetime import datetime
 
 
 class AttributBase(BaseModel):
@@ -32,4 +33,3 @@ class Attribut(AttributBase):
 
     class Config:
         orm_mode = True
-    

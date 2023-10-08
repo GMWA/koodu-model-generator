@@ -1,6 +1,7 @@
-from typing import List, Union
-from pydantic import BaseModel
 from datetime import datetime
+from typing import Union
+
+from pydantic import BaseModel
 
 
 class TableBase(BaseModel):

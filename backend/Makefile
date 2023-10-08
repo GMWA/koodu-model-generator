@@ -21,6 +21,10 @@ $(CONFIG_FILE):
 ##install-deps: setup your prod environment
 install-deps: venv $(CONFIG_FILE)
 
+##install-dev-deps: setup your dev environment
+install-dev-deps: install-deps $(CONFIG_FILE)
+	$(PYTHON) -m pip install -r requirements-dev.txt
+
 ##run: run the api locally
 run: install-deps
 	$(UVICORN) modelgenerator.server:app --reload
@@ -32,6 +36,12 @@ docker-build:
 ##docker-run: using docker to run the back image
 docker-run: docker-build
 	docker run -ti -p 8000:8000 -v data:/app/data --rm modelgenerator_back:latest
+
+##lint: the source code using black, isort, flake8
+lint: install-dev-deps venv
+	$(PYTHON) -m black modelgenerator
+	$(PYTHON) -m isort modelgenerator
+	$(PYTHON) -m flake8 modelgenerator --show-source --statistics --ignore=F821,E501,E402
 
 ##clean: clean the virtualenv
 clean:

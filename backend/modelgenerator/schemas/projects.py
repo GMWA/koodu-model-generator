@@ -1,6 +1,7 @@
-from typing import Union
-from pydantic import BaseModel
 from datetime import datetime
+from typing import Union
+
+from pydantic import BaseModel
 
 
 class ProjectBase(BaseModel):
@@ -15,6 +16,7 @@ class ProjectCreate(ProjectBase):
 class ProjectUpdate(ProjectBase):
     id: int
     description: Union[str, None] = None
+
 
 class Project(ProjectBase):
     id: int

@@ -1,11 +1,15 @@
 from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modelgenerator.schemas.projects import (Project as ProjectSchema,
-                                ProjectCreate as ProjectCreateSchema,
-                                ProjectUpdate as ProjectUpdateSchema)
-from modelgenerator.models import Project as ProjectModel
+
 from modelgenerator.dependencies import get_db
+from modelgenerator.models import Project as ProjectModel
+from modelgenerator.schemas.projects import Project as ProjectSchema
+from modelgenerator.schemas.projects import \
+    ProjectCreate as ProjectCreateSchema
+from modelgenerator.schemas.projects import \
+    ProjectUpdate as ProjectUpdateSchema
 
 router = APIRouter(
     prefix="/projects",
@@ -17,7 +21,7 @@ router = APIRouter(
 @router.get(
     "",
     response_model=List[ProjectSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_projects(db: Session = Depends(get_db)):
     data = db.query(ProjectModel).all()
@@ -39,10 +43,7 @@ async def get_project(project_id: int, db: Session = Depends(get_db)):
     response_model=ProjectSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def create_project(
-    project: ProjectCreateSchema,
-    db: Session = Depends(get_db)
-):
+async def create_project(project: ProjectCreateSchema, db: Session = Depends(get_db)):
     db_project: ProjectModel = ProjectModel()
     db_project.name = project.name
     db_project.user_id = project.user_id
@@ -62,11 +63,11 @@ async def create_project(
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_project(
-    project_id: int,
-    project: ProjectUpdateSchema,
-    db: Session = Depends(get_db)
+    project_id: int, project: ProjectUpdateSchema, db: Session = Depends(get_db)
 ):
-    db_project: ProjectModel = db.query(ProjectModel).filter_by(user_id=project.user_id).first()
+    db_project: ProjectModel = (
+        db.query(ProjectModel).filter_by(user_id=project.user_id).first()
+    )
     if not db_project:
         raise HTTPException(status_code=400, detail="Bad project's id!")
     try:
