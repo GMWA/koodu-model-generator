@@ -1,11 +1,15 @@
 from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modelgenerator.schemas.attributs import (Attribut as AttributSchema,
-                                AttributCreate as AttributCreateSchema,
-                                AttributUpdate as AttributUpdateSchema)
-from modelgenerator.models import Attribut as AttributModel
+
 from modelgenerator.dependencies import get_db
+from modelgenerator.models import Attribut as AttributModel
+from modelgenerator.schemas.attributs import Attribut as AttributSchema
+from modelgenerator.schemas.attributs import \
+    AttributCreate as AttributCreateSchema
+from modelgenerator.schemas.attributs import \
+    AttributUpdate as AttributUpdateSchema
 
 router = APIRouter(
     prefix="/attributs",
@@ -17,7 +21,7 @@ router = APIRouter(
 @router.get(
     "",
     response_model=List[AttributSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_attributs(db: Session = Depends(get_db)):
     data = db.query(AttributModel).all()
@@ -27,7 +31,7 @@ async def read_attributs(db: Session = Depends(get_db)):
 @router.get(
     "/table/{table_id}",
     response_model=List[AttributSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_attributs_by_table(table_id: int, db: Session = Depends(get_db)):
     data = db.query(AttributModel).filter_by(table_id=table_id).all()
@@ -50,8 +54,7 @@ async def get_attribut(attribut_id: int, db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def create_attribut(
-    attribut: AttributCreateSchema,
-    db: Session = Depends(get_db)
+    attribut: AttributCreateSchema, db: Session = Depends(get_db)
 ):
     db_attribut = AttributModel()
     db_attribut.table_id = attribut.table_id
@@ -77,9 +80,7 @@ async def create_attribut(
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_attribut(
-    attribut_id: int,
-    attribut: AttributUpdateSchema,
-    db: Session = Depends(get_db)
+    attribut_id: int, attribut: AttributUpdateSchema, db: Session = Depends(get_db)
 ):
     db_attrib: AttributModel = db.query(AttributModel).get(attribut_id)
     if not db_attrib:

@@ -1,12 +1,14 @@
 from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modelgenerator.schemas.tables import (Table as TableSchema,
-                                TableCreate as TableCreateSchema,
-                                TableUpdate as TableUpdateSchema)
-from modelgenerator.models import (Table as TableModel,
-                                   Project as ProjectModel)
+
 from modelgenerator.dependencies import get_db
+from modelgenerator.models import Project as ProjectModel
+from modelgenerator.models import Table as TableModel
+from modelgenerator.schemas.tables import Table as TableSchema
+from modelgenerator.schemas.tables import TableCreate as TableCreateSchema
+from modelgenerator.schemas.tables import TableUpdate as TableUpdateSchema
 
 router = APIRouter(
     prefix="/tables",
@@ -18,7 +20,7 @@ router = APIRouter(
 @router.get(
     "",
     response_model=List[TableSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_tables(db: Session = Depends(get_db)):
     data = db.query(TableModel).all()
@@ -28,7 +30,7 @@ async def read_tables(db: Session = Depends(get_db)):
 @router.get(
     "/project/{project_id}",
     response_model=List[TableSchema],
-    responses={403: {"description": "Operation forbidden"}}
+    responses={403: {"description": "Operation forbidden"}},
 )
 async def read_tables_by_project(project_id: int, db: Session = Depends(get_db)):
     data = db.query(TableModel).filter_by(project_id=project_id).all()
@@ -50,10 +52,7 @@ async def get_Table(table_id: int, db: Session = Depends(get_db)):
     response_model=TableSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def create_table(
-    table: TableCreateSchema,
-    db: Session = Depends(get_db)
-):
+async def create_table(table: TableCreateSchema, db: Session = Depends(get_db)):
     db_project: ProjectModel = db.query(ProjectModel).get(table.project_id)
     if not db_project:
         raise HTTPException(status_code=404, detail="Project Not found!")
@@ -76,9 +75,7 @@ async def create_table(
     responses={403: {"description": "Operation forbidden"}},
 )
 async def update_table(
-    table_id: int,
-    table: TableUpdateSchema,
-    db: Session = Depends(get_db)
+    table_id: int, table: TableUpdateSchema, db: Session = Depends(get_db)
 ):
     db_table: TableModel = db.query(TableModel).get(table_id)
     if not db_table:

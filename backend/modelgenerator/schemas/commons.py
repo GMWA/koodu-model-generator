@@ -1,7 +1,8 @@
-from typing import Union, List
+from datetime import datetime
+from typing import List, Union
+
 from pydantic import BaseModel
 from pydantic_choices import choice
-from datetime import datetime
 
 
 class CommonBase(BaseModel):

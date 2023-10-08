@@ -1,7 +1,8 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy import DateTime, Text
-from sqlalchemy.orm import relationship
 from datetime import datetime
+
+from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
+                        Text)
+from sqlalchemy.orm import relationship
 
 from modelgenerator.database import Base
 
@@ -34,7 +35,7 @@ class User(Base):
             "thirdparty": self.thirdparty,
             "is_admin": self.is_admin,
             "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "updated_at": self.updated_at,
         }
 
 
@@ -55,7 +56,7 @@ class Project(Base):
             "description": self.description,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "user_id": self.user_id
+            "user_id": self.user_id,
         }
 
 
@@ -76,7 +77,7 @@ class Table(Base):
             "description": self.description,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "project_id": self.project_id
+            "project_id": self.project_id,
         }
 
 
@@ -107,5 +108,5 @@ class Attribut(Base):
             "description": self.description,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "table_id": self.table_id
+            "table_id": self.table_id,
         }
