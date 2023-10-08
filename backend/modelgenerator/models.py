@@ -23,6 +23,20 @@ class User(Base):
     def generate_auth_token(self, expiration=600):
         pass
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "username": self.username,
+            "lastname": self.lastname,
+            "firstname": self.firstname,
+            "phone": self.phone,
+            "thirdparty": self.thirdparty,
+            "is_admin": self.is_admin,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -34,6 +48,16 @@ class Project(Base):
     updated_at = Column(DateTime, default=datetime.utcnow)
     user_id = Column(String(255), ForeignKey("users.id"))
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "user_id": self.user_id
+        }
+
 
 class Table(Base):
     __tablename__ = "tables"
@@ -44,6 +68,17 @@ class Table(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
     project_id = Column(Integer, ForeignKey("projects.id"))
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "project_id": self.project_id
+        }
+
 
 class Attribut(Base):
     __tablename__ = "attributs"
@@ -59,3 +94,18 @@ class Attribut(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
     table_id = Column(Integer, ForeignKey("tables.id"))
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "primary_key": self.primary_key,
+            "index_key": self.index_key,
+            "unique_key": self.unique_key,
+            "type": self.type,
+            "size": self.size,
+            "description": self.description,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "table_id": self.table_id
+        }
