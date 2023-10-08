@@ -11,7 +11,6 @@ from supertokens_python.recipe.thirdpartyemailpassword.asyncio import \
 from modelgenerator.dependencies import get_db
 from modelgenerator.models import User as UserModel
 from modelgenerator.schemas.users import User as UserSchema
-from modelgenerator.schemas.users import UserCreate as UserCreateSchema
 from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
 
 router = APIRouter(

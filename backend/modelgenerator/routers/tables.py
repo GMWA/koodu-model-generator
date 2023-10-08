@@ -42,7 +42,7 @@ async def read_tables_by_project(project_id: int, db: Session = Depends(get_db))
     response_model=TableUpdateSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def get_Table(table_id: int, db: Session = Depends(get_db)):
+async def get_table(table_id: int, db: Session = Depends(get_db)):
     data = db.query(TableModel).get(table_id)
     return data
 

@@ -41,7 +41,7 @@ docker-run: docker-build
 lint: install-dev-deps venv
 	$(PYTHON) -m black modelgenerator
 	$(PYTHON) -m isort modelgenerator
-	$(PYTHON) -m flake8 modelgenerator --show-source --statistics --ignore=F821,E402
+	$(PYTHON) -m flake8 modelgenerator --show-source --statistics --ignore=F821,E501,E402
 
 ##clean: clean the virtualenv
 clean:
