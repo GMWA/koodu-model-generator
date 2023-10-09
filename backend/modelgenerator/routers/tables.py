@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from modelgenerator.dependencies import get_db
@@ -55,7 +55,9 @@ async def get_table(table_id: int, db: Session = Depends(get_db)):
 async def create_table(table: TableCreateSchema, db: Session = Depends(get_db)):
     db_project: ProjectModel = db.query(ProjectModel).get(table.project_id)
     if not db_project:
-        raise HTTPException(status_code=404, detail="Project Not found!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Project Not found!"
+        )
     db_table = TableModel()
     db_table.name = table.name
     db_table.project_id = table.project_id
@@ -66,7 +68,9 @@ async def create_table(table: TableCreateSchema, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(db_table)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return db_table
 
 
@@ -79,14 +83,18 @@ async def update_table(
 ):
     db_table: TableModel = db.query(TableModel).get(table_id)
     if not db_table:
-        raise HTTPException(status_code=400, detail="Bad project's id!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Bad project's id!"
+        )
     try:
         db_table.name = table.name
         if table.description:
             db_table.description = table.description
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return db_table
 
 
@@ -98,10 +106,14 @@ async def update_table(
 async def delete_Table(table_id: int, db: Session = Depends(get_db)):
     table = db.query(TableModel).get(table_id)
     if not table:
-        raise HTTPException(status_code=400, detail="Bad table's id!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Bad table's id!"
+        )
     try:
         db.delete(table)
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return table
