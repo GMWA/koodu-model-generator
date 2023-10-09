@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from modelgenerator.dependencies import get_db
@@ -54,7 +54,7 @@ async def create_project(project: ProjectCreateSchema, db: Session = Depends(get
         db.refresh(db_project)
         return db_project
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
 @router.put(
@@ -69,14 +69,14 @@ async def update_project(
         db.query(ProjectModel).filter_by(user_id=project.user_id).first()
     )
     if not db_project:
-        raise HTTPException(status_code=400, detail="Bad project's id!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bad project's id!")
     try:
         db_project.name = project.name
         if project.description:
             db_project.description = project.description
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     return db_project
 
 
@@ -88,10 +88,10 @@ async def update_project(
 async def delete_project(project_id: int, db: Session = Depends(get_db)):
     project = db.query(ProjectModel).get(project_id)
     if not project:
-        raise HTTPException(status_code=400, detail="Bad project's id!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bad project's id!")
     try:
         db.delete(project)
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     return project
