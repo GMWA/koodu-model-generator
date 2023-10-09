@@ -71,7 +71,9 @@ async def create_attribut(
         db.commit()
         db.refresh(db_attribut)
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return db_attribut
 
 
@@ -96,7 +98,9 @@ async def update_attribut(
             db_attrib.description = attribut.description
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return db_attrib
 
 
@@ -108,10 +112,14 @@ async def update_attribut(
 async def delete_attribut(attribut_id: int, db: Session = Depends(get_db)):
     attrib = db.query(AttributModel).get(attribut_id)
     if not attrib:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bad attribut's id!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Bad attribut's id!"
+        )
     try:
         db.delete(attrib)
         db.commit()
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return attrib

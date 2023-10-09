@@ -24,7 +24,9 @@ router = APIRouter(
 async def get_project_as_json(project_id: int, db: Session = Depends(get_db)):
     data: ProjectModel = db.query(ProjectModel).filter_by(id=project_id).first()
     if not data:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bad project's id!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Bad project's id!"
+        )
     project = data.to_json()
     tables = []
     db_tables: List[TableModel] = (

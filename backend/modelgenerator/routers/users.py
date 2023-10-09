@@ -38,7 +38,9 @@ async def read_users(db: Session = Depends(get_db)):
 async def get_user(user_id: str, db: Session = Depends(get_db)):
     user = db.query(UserModel).filter_by(id=user_id).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+        )
     return user
 
 
@@ -53,7 +55,9 @@ async def create_user(
     user_id = session.get_user_id()
     s_user = await get_user_by_id(user_id)
     if not s_user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not logged user!")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not logged user!"
+        )
     db_user = UserModel()
     db_user.id = s_user.user_id
     db_user.email = s_user.email
@@ -65,7 +69,9 @@ async def create_user(
         db.commit()
         db.refresh(db_user)
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     return db_user
 
 

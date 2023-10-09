@@ -1,5 +1,7 @@
-from modelgenerator.database import SessionLocal
 from fastapi import HTTPException, status
+
+from modelgenerator.database import SessionLocal
+
 
 def get_db():
     db = SessionLocal()
