@@ -4,6 +4,7 @@ CONFIG_FILE=./.env
 VENVPATH=venv
 PYTHON=$(VENVPATH)/bin/python3
 UVICORN=$(VENVPATH)/bin/uvicorn
+ALEMBIC=$(VENVPATH)/bin/alembic
 
 ##venv: setUp the virtualenv (this step is integrated with the instal-xxx target
 venv: $(VENVPATH)/bin/activate
@@ -17,6 +18,10 @@ $(VENVPATH)/bin/activate: requirements.txt
 $(CONFIG_FILE):
 	echo "> Adding config file..."
 	cp .env.example $(CONFIG_FILE)
+
+##migrate: run database last migration
+migrate: install-deps
+	$(ALEMBIC) upgrade head
 
 ##install-deps: setup your prod environment
 install-deps: venv $(CONFIG_FILE)
