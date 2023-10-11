@@ -1,37 +1,31 @@
 from logging.config import fileConfig
 from pathlib import Path
-from sqlalchemy import engine_from_config
+import os
+from sqlalchemy import engine_from_config, create_engine
 from sqlalchemy import pool
 
 from alembic import context
-
-import os, sys
 from dotenv import load_dotenv
 
-BASE_DIR = Path().resolve().parent.parent
-load_dotenv()
-sys.path.append(BASE_DIR)
+ENV_FILE_PATH = Path(__file__).parent.parent / Path(".env")
+load_dotenv(ENV_FILE_PATH)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-# this will overwrite the ini-file sqlalchemy.url path
-# with the path given in the config of the main code
-config.set_main_option("sqlalchemy.url", os.environ["SQLALCHEMY_DATABASE_URL"])
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-#if config.config_file_name is not None:
-fileConfig(config.config_file_name)
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from modelgenerator.database import Base
-from modelgenerator.models import Attribut, Project, Table, User
+from modelgenerator.models import Base
 target_metadata = Base.metadata
-#print(f"\n\n{target_metadata}\n\n{os.environ['SQLALCHEMY_DATABASE_URL']}\n\n")
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
@@ -50,8 +44,9 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    config.set_main_option("sqlalchemy.url", os.environ.get("SQLALCHEMY_DATABASE_URL"))
-    url = config.get_main_option("sqlalchemy.url")
+    #config.set_main_option("sqlalchemy.url", os.environ.get("SQLALCHEMY_DATABASE_URL"))
+    #url = config.get_main_option("sqlalchemy.url")
+    url = os.environ.get("SQLALCHEMY_DATABASE_URL")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -70,14 +65,15 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
+    #connectable = engine_from_config(
+    #    config.get_section(config.config_ini_section, {}),
+    #    prefix="sqlalchemy.",
+    #    poolclass=pool.NullPool,
+    #)
+    connectable = create_engine(
+        os.environ.get("SQLALCHEMY_DATABASE_URL")
     )
-    from modelgenerator.database import engine
 
-    connectable = engine
     with connectable.connect() as connection:
         context.configure(
             connection=connection, target_metadata=target_metadata
