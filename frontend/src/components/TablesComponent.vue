@@ -108,7 +108,7 @@ onMounted(async () => {
     </div>
     <div class="flex w-3/4">
       <TableDetails
-        v-if="selectedTable"
+        v-if="selectedTable.id > 0"
         :table="selectedTable"
         :tables="tableStore.items"
       />
