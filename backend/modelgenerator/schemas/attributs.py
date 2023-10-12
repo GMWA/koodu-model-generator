@@ -10,7 +10,7 @@ class AttributBase(BaseModel):
     primary_key: bool
     index_key: bool
     unique_key: bool
-    is_required: Union[bool, None] = False
+    is_required: bool
     type: choice(["int", "str"])
     size: Union[int, None]
     table_id: int
