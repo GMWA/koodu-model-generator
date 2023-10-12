@@ -21,6 +21,7 @@ const DEFAULT_ATTRIBUT: IAttribut = {
   index_key: false,
   primary_key: false,
   unique_key: false,
+  is_required: false,
   type: "str",
   size: 0,
 };
@@ -36,6 +37,10 @@ watch(
   async (first, second) => {
     table = { ...first };
     await attributsStore.getItemsByProject(first.id);
+    if (items.value.length > 0){
+      selectedAttribut.value = { ...items.value[0] };
+      toCreateAttribut.value.table_id = props.table.id;
+    }
   }
 );
 
@@ -62,19 +67,18 @@ const closeDeleteModal = () => {
 const addAttribut = async () => {
   toCreateAttribut.value.table_id = table.id;
   await attributsStore.addItem(toCreateAttribut.value);
-  toCreateAttribut.value = { ...DEFAULT_ATTRIBUT };
   if (items.value.length > 0) {
     selectedAttribut.value = { ...items.value[items.value.length - 1] };
     toCreateAttribut.value.table_id = props.table.id;
   }
+  toCreateAttribut.value = DEFAULT_ATTRIBUT;
   closeAddModal();
 };
 
 const editAttribut = async () => {
-  toEditAttribut.value.table_id = table.id;
-  await attributsStore.updateItem(toEditAttribut.value);
-  toEditAttribut.value = { ...DEFAULT_ATTRIBUT };
-  console.log(selectedAttribut);
+  selectedAttribut.value.table_id = table.id;
+  await attributsStore.updateItem(selectedAttribut.value);
+  console.log(selectedAttribut.value);
 };
 
 const deleteAttribut = async () => {
@@ -243,6 +247,15 @@ onMounted(async () => {
                       class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                     </div>
                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Index</span>
+                  </label>
+                </div>
+                <div class="flex flex-1">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" v-model="toCreateAttribut.is_required"  class="sr-only peer" checked>
+                    <div
+                      class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                    </div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Is Required</span>
                   </label>
                 </div>
               </div>

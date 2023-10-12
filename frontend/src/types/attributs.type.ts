@@ -4,6 +4,7 @@ export interface IAttribut  {
   primary_key: boolean;
   index_key: boolean;
   unique_key: boolean;
+  is_required: boolean;
   type: string;
   size?: number;
   description?: string;

@@ -88,6 +88,7 @@ class Attribut(Base):
     primary_key = Column(Boolean, default=False)
     index_key = Column(Boolean, default=False)
     unique_key = Column(Boolean, default=False)
+    is_required = Column(Boolean, default=False)
     type = Column(String(50), nullable=False)
     size = Column(Integer)
     description = Column(Text)
@@ -102,6 +103,7 @@ class Attribut(Base):
             "primary_key": self.primary_key,
             "index_key": self.index_key,
             "unique_key": self.unique_key,
+            "is_required": self.is_required,
             "type": self.type,
             "size": self.size,
             "description": self.description,

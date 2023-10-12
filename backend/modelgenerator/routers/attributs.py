@@ -62,6 +62,7 @@ async def create_attribut(
     db_attribut.primary_key = attribut.primary_key
     db_attribut.index_key = attribut.index_key
     db_attribut.unique_key = attribut.unique_key
+    db_attribut.is_required = attribut.is_required
     db_attribut.type = attribut.type
     db_attribut.size = attribut.size
     if attribut.description:
@@ -92,6 +93,7 @@ async def update_attribut(
         db_attrib.primary_key = attribut.primary_key
         db_attrib.index_key = attribut.index_key
         db_attrib.unique_key = attribut.unique_key
+        db_attrib.is_required = attribut.is_required
         db_attrib.type = attribut.type
         db_attrib.size = attribut.size
         if attribut.description:
