@@ -11,7 +11,10 @@ class AttributBase(BaseModel):
     index_key: bool
     unique_key: bool
     is_required: bool
-    type: choice(["int", "str"])
+    type: choice([
+        "int", "str", "float", "bool",
+        "datetime", "time", "date", "ref"
+    ])
     size: Union[int, None]
     table_id: int
 

@@ -14,7 +14,11 @@ class CommonAttribut(CommonBase):
     primary_key: bool
     index_key: bool
     unique_key: bool
-    type: choice(["int", "str"])
+    is_required: bool
+    type: choice([
+        "int", "str", "float", "bool",
+        "datetime", "time", "date", "ref"
+    ])
     size: Union[int, None]
     description: Union[str, None]
     created_at: Union[datetime, None] = None
