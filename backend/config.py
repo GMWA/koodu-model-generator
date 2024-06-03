@@ -7,6 +7,9 @@ class BaseConfig(object):
     API_VERSION = os.environ.get("API_VERSION")
     API_TITLE = os.environ.get("API_TITLE")
     API_DESCRIPTION = os.environ.get("API_DESCRIPTION")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    ALGORITHM = os.environ.get("ALGORITHM")
+    ACCESS_TOKEN_EXPIRE_MINUTES = os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES")
 
 
 class DevConfig(BaseConfig):
