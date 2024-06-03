@@ -1,6 +1,6 @@
-# Koodu Model Generator (webapp)
+# Model generator Webapp (webapp)
 
-A Web App to generate model in json or yaml form for koodu
+The Web app tha allow users to quickly create model(in json and yaml) format for Koodu generator
 
 ## Install the dependencies
 ```bash

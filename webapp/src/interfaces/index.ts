@@ -1,4 +1,4 @@
-export { IUser }  from "./users.type";
-export { IProject }  from "./projects.type";
-export { ITable } from "./tables.type";
-export { IAttribut } from "./attributs.type";
+export { type IUser }  from './users.type';
+export { type IProject }  from './projects.type';
+export { type ITable } from './tables.type';
+export { type IAttribut } from './attributs.type';
