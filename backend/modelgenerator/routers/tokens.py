@@ -54,7 +54,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 async def get_current_active_user(
     current_user: Annotated[UserSchema, Depends(get_current_user)],
 ):
-    if current_user.disabled:
+    if current_user.activated_at is None:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 

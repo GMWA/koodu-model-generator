@@ -39,6 +39,6 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     except InvalidTokenError:
         raise credentials_exception
     user = UserModel.query.filter_by(email=token_data.username).first()
-    if user is None or not user.is_active:
+    if user is None or not user.activated_at:
         raise credentials_exception
     return user

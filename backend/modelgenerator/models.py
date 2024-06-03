@@ -6,6 +6,10 @@ from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
 from modelgenerator.database import Base
 
 
+def utcnow():
+    return datetime.now(datetime.timezone.utc)
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -14,11 +18,13 @@ class User(Base):
     username = Column(String(255), unique=True)
     lastname = Column(String(255))
     firstname = Column(String(255))
+    hashed_password = Column(String(255), nullable=True)
     phone = Column(String(20), unique=True)
     thirdparty = Column(String(50), default="")
     is_admin = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    activated_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, default=utcnow)
 
     def generate_auth_token(self, expiration=600):
         pass
