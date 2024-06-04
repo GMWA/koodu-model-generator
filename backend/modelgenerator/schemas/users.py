@@ -30,6 +30,7 @@ class User(UserBase):
     phone: Union[str, None]
     created_at: datetime
     updated_at: datetime
+    activated_at: Union[datetime, None]
 
     class Config:
         orm_mode = True
