@@ -1,9 +1,9 @@
+from enum import Enum
 from datetime import datetime
 from typing import Union
 
 from pydantic import BaseModel
-from pydantic_choices import choice
-
+from modelgenerator.enums.types import TypeEnum
 
 class AttributBase(BaseModel):
     name: str
@@ -11,10 +11,7 @@ class AttributBase(BaseModel):
     index_key: bool
     unique_key: bool
     is_required: bool
-    type: choice([
-        "int", "str", "float", "bool",
-        "datetime", "time", "date", "ref"
-    ])
+    type: TypeEnum
     size: Union[int, None]
     table_id: int
 

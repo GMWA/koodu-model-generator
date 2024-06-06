@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union
-
-from pydantic import BaseModel
+from modelgenerator.utils import check_password_policy
+from pydantic import BaseModel, ValidationError, model_validator
 
 
 class UserBase(BaseModel):
@@ -34,3 +34,33 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class UserRegister(User):
+    password: str
+    password_confirmation: str
+
+    def validate(self):
+        if not check_password_policy(self.password):
+            raise ValidationError(
+                [
+                    {
+                        "loc": ["password"],
+                        "msg": "Password does not meet the policy",
+                        "type": "value_error",
+                    }
+                ],
+                self,
+            )
+        if not self.password == self.password_confirmation:
+            raise ValidationError(
+                [
+                    {
+                        "loc": ["password_confirmation"],
+                        "msg": "Passwords do not match",
+                        "type": "value_error",
+                    }
+                ],
+                self,
+            )
+        return self
