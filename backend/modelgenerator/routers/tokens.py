@@ -2,13 +2,16 @@ import os
 import re
 import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
+from modelgenerator.dependencies import get_db
 from modelgenerator.dependencies import get_current_user
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 from modelgenerator.schemas.tokens import Token, TokenData
-from modelgenerator.schemas.users import User as UserSchema
+from modelgenerator.schemas.users import User as UserSchema, UserRegister
 from modelgenerator.models import User as UserModel
 
 
@@ -76,6 +79,20 @@ async def login_for_access_token(
     )
     return Token(access_token=access_token, token_type="bearer")
 
+
+@router.post("/register", response_model=UserSchema)
+async def register_user(user: UserRegister, db: Session = Depends(get_db)):
+    user: UserModel = UserModel(**user.dict())
+    user.hashed_password = get_password_hash(user.hashed_password)
+    try:
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
 
 @router.get("/users/me/", response_model=UserSchema)
 async def read_users_me(
