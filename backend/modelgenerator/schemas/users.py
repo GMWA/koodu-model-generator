@@ -32,8 +32,8 @@ class User(UserBase):
     updated_at: datetime
     activated_at: Union[datetime, None]
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     from_attributes = True
 
 
 class UserRegister(User):

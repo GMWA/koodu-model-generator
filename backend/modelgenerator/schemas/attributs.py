@@ -33,4 +33,4 @@ class Attribut(AttributBase):
     table_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
