@@ -1,1 +1,28 @@
 // app global css in SCSS form
+
+
+.pcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 3rem 6rem;
+  /*background-color: #336d5e; */
+}
+
+.bcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 5px 20px rgba(0, 0, 0, 0.048);
+}
+
+.colum {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
