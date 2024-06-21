@@ -1,24 +1,31 @@
 <template>
   <div class="pcontainer">
     <div class="row bcontainer">
-      <div class="col colum dcontainer">
-        <h1 class="text-primary">Koodu</h1>
-        <p>Login hier to quickly to manage your projects</p>
-      </div>
       <div class="col colum q-gutter-md" style="min-width: 400px;">
-        <h3>Login</h3>
-        <q-form @submit="register" @reset="reset" class="q-gutter-md w-full">
-          <q-input v-model="user.email" label="Email" type="email" class="w-full" />
-          <q-input v-model="user.username" label="Username" type="text" class="w-full" />
-          <q-input v-model="user.password" label="Password" type="password" class="w-full" />
-          <q-input v-model="user.password_confirmation" label="Confirm Password" type="password" class="w-full" />
-          <q-input v-model="user.firstname" label="Firstname" type="text" class="w-full" />
-          <q-input v-model="user.lastname" label="Lastname" type="text" class="w-full" />
-          <q-input v-model="user.phone" label="Phone" type="text" class="w-full" />
-          <q-btn class="w-full" label="Register" type="submit" color="primary" :disabled="loading"/>
+      </div>
+      <div class="col colum dcontainer" style="min-width: 400px;">
+        <h3>Registration</h3>
+        <q-form @submit="register" @reset="reset" class="w-full">
+          <div class="row w-full q-pb-md">
+            <q-input outlined v-model="user.firstname" label="Firstname" type="text" class="col w-full q-ma-md" />
+            <q-input outlined v-model="user.lastname" label="Lastname" type="text" class="col w-full q-ma-md" />
+          </div>
+          <div class="row w-full q-pb-md">
+            <q-input outlined v-model="user.email" label="Email" type="email" class="col w-full q-ma-md" />
+            <q-input outlined v-model="user.username" label="Username" type="text" class="col w-full q-ma-md" />
+          </div>
+          <div class="row w-full q-pb-md">
+            <q-input outlined v-model="user.password" label="Password" type="password" class="col w-full q-ma-md" />
+            <q-input outlined v-model="user.password_confirmation" label="Confirm Password" type="password" class="col w-full q-ma-md" />
+          </div>
+          <div class="row w-full q-pb-md">
+            <q-input outlined v-model="user.phone" label="Phone" type="text" class="col w-full q-ma-md" />
+            <div class="col w-full q-ma-md"></div>
+          </div>
+          <q-btn class="w-full q-pa-md q-ma-md" label="Register" type="submit" color="primary" :disabled="loading"/>
           <p v-if="error">{{ error }}</p>
         </q-form>
-        <p>Already have an account? <router-link to="/login">Register</router-link></p>
+        <p>Already have an account? <router-link to="/login">login</router-link></p>
       </div>
     </div>
   </div>
@@ -78,6 +85,25 @@ const reset = () => {
 
 <style scoped lang="scss">
 .dcontainer {
-  background-color: beige;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.login-card {
+  min-width: 600px;
+  padding: 20px;
+
+}
+
+.w-full {
+  width: 100%;
+}
+
+.item {
+  border: 2px solid red;
 }
 </style>
