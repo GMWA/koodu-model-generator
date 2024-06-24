@@ -2,7 +2,7 @@
   <div class="pcontainer">
     <div class="row bcontainer">
       <div class="col colum dcontainer">
-        <h5>Login hier to quickly to manage your projects</h5>
+        <h3>Login</h3>
         <div class="login-card">
           <q-form @submit="login" @reset="reset" class="w-full">
             <q-input outlined v-model="email" label="Email" type="email" class="w-full q-ma-md" />
@@ -22,7 +22,7 @@
         </div>
         <p>Already have an account? <router-link to="/registration">Register</router-link></p>
       </div>
-      <div class="col colum q-gutter-md" style="min-width: 400px;">
+      <div class="col colum bg-primary" style="min-width: 400px;">
       </div>
     </div>
   </div>
@@ -83,7 +83,6 @@ const validatePassword = (val: string) => {
 .login-card {
   min-width: 600px;
   padding: 20px;
-
 }
 
 .w-full {
