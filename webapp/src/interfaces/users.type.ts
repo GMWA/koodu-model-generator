@@ -1,3 +1,15 @@
+export interface ICreateUser {
+  email: string;
+  username: string;
+  password: string;
+  password_confirmation: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  is_admin: boolean;
+  thirdparty: string;
+}
+
 export interface IUser  {
   id: number;
   email: string;
