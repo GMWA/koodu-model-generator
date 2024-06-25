@@ -1,13 +1,12 @@
 export interface ICreateUser {
-  email: string;
   username: string;
+  lastname: string;
+  firstname: string;
+  phone: string;
+  email: string;
   password: string;
   password_confirmation: string;
-  firstname: string;
-  lastname: string;
-  phone: string;
   is_admin: boolean;
-  thirdparty: string;
 }
 
 export interface IUser  {
@@ -18,7 +17,6 @@ export interface IUser  {
   lastname: string;
   phone: string;
   is_admin: boolean;
-  thirdparty: string;
   created_at: string;
   updated_at: string;
 }

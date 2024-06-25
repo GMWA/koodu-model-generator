@@ -20,7 +20,9 @@ export const useUserStore = defineStore('user', {
       return token;
     },
     async register(newUser: ICreateUser): Promise<IUser> {
+      console.log('newUser', newUser);
       const response = await api.post<IUser>(AuthEndpoint.REGISTER, newUser);
+      console.log('response', response);
       const user = response.data;
       console.log('User registered', user);
       return user;

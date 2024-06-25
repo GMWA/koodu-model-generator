@@ -35,15 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { ICreateUser } from '../../interfaces';
 import { useUserStore } from '../../stores/userStore';
-import { useRouter } from 'vue-router';
+//import { useRouter } from 'vue-router';
 
-const store = useUserStore();
-const router = useRouter();
+const userStore = useUserStore();
+//const router = useRouter();
 
-const user = ref<ICreateUser>({
+const user: Ref<ICreateUser> = ref({
   email: '',
   username: '',
   password: '',
@@ -51,8 +51,7 @@ const user = ref<ICreateUser>({
   firstname: '',
   lastname: '',
   phone: '',
-  is_admin: false,
-  thirdparty: ''
+  is_admin: false
 });
 const error = ref('')
 
@@ -61,8 +60,8 @@ const loading = ref(false)
 const register = async () => {
   loading.value = true
   try {
-    await store.register(user.value)
-    router.push('/login')
+    const resp = await userStore.register(user.value)
+    console.log(resp)
   } catch (e) {
     // error.value = e.message
   } finally {
@@ -79,8 +78,7 @@ const reset = () => {
     firstname: '',
     lastname: '',
     phone: '',
-    is_admin: false,
-    thirdparty: ''
+    is_admin: false
   }
   error.value = ''
 }
