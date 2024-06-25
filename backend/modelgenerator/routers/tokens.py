@@ -80,16 +80,27 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@router.post("/register", response_model=UserSchema)
+@router.post(
+    "/register",
+    response_model=UserSchema,
+    responses={403: {"description": "Operation forbidden"}}
+)
 async def register_user(user: UserRegister, db: Session = Depends(get_db)):
-    user: UserModel = UserModel(**user.dict())
-    user.hashed_password = get_password_hash(user.hashed_password)
+    db_user: UserModel = UserModel()
+    db_user.email = user.email
+    db_user.username = user.username
+    db_user.lastname = user.lastname
+    db_user.firstname = user.firstname
+    db_user.phone = user.phone
+    db_user.hashed_password = get_password_hash(user.password)
     try:
-        db.add(user)
+        db.add(db_user)
         db.commit()
-        db.refresh(user)
-        return user
+        db.refresh(db_user)
+        resp = UserSchema.model_validate(db_user)
+        return resp
     except Exception as e:
+        db.rollback()  # Rollback in case of error
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )

@@ -6,7 +6,6 @@ from pydantic import BaseModel, ValidationError, model_validator
 
 class UserBase(BaseModel):
     email: str
-    thirdparty: str
     is_admin: bool
 
 
@@ -15,7 +14,7 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(UserBase):
-    id: str
+    id: int
     username: Union[str, None] = None
     lastname: Union[str, None]
     firstname: Union[str, None]
@@ -23,25 +22,34 @@ class UserUpdate(UserBase):
 
 
 class User(UserBase):
-    id: str
+    id: int
+    username: Union[str, None] = None
+    lastname: Union[str, None] = None
+    firstname: Union[str, None] = None
+    phone: Union[str, None] = None
+    created_at: datetime
+    updated_at: datetime
+    activated_at: Union[datetime, None] = None
+
+    class Config:
+        from_attributes = True
+
+
+class UserRegister(UserBase):
     username: Union[str, None] = None
     lastname: Union[str, None]
     firstname: Union[str, None]
     phone: Union[str, None]
-    created_at: datetime
-    updated_at: datetime
-    activated_at: Union[datetime, None]
-
-    # class Config:
-    #     from_attributes = True
-
-
-class UserRegister(User):
     password: str
     password_confirmation: str
+    created_at: Union[datetime, None] = None
+    updated_at: Union[datetime, None] = None
+    activated_at: Union[datetime, None] = None
 
+    @model_validator(mode='after')
     def validate(self):
         if not check_password_policy(self.password):
+            print("Password does not meet the policy")
             raise ValidationError(
                 [
                     {
@@ -53,6 +61,7 @@ class UserRegister(User):
                 self,
             )
         if not self.password == self.password_confirmation:
+            print("Passwords do not match")
             raise ValidationError(
                 [
                     {
