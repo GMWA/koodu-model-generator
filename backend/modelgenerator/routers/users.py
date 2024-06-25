@@ -3,10 +3,6 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from supertokens_python.recipe.session import SessionContainer
-from supertokens_python.recipe.session.framework.fastapi import verify_session
-from supertokens_python.recipe.thirdpartyemailpassword.asyncio import \
-    get_user_by_id
 
 from modelgenerator.dependencies import get_db
 from modelgenerator.models import User as UserModel
@@ -42,37 +38,6 @@ async def get_user(user_id: str, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
         )
     return user
-
-
-@router.post(
-    "",
-    response_model=UserSchema,
-    responses={403: {"description": "Operation forbidden"}},
-)
-async def create_user(
-    session: SessionContainer = Depends(verify_session()), db: Session = Depends(get_db)
-):
-    user_id = session.get_user_id()
-    s_user = await get_user_by_id(user_id)
-    if not s_user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not logged user!"
-        )
-    db_user = UserModel()
-    db_user.id = s_user.user_id
-    db_user.email = s_user.email
-    db_user.thirdparty = s_user.third_party_info.id
-    db_user.created_at = datetime.fromtimestamp(s_user.time_joined / 1e3)
-    db_user.updated_at = datetime.fromtimestamp(s_user.time_joined / 1e3)
-    try:
-        db.add(db_user)
-        db.commit()
-        db.refresh(db_user)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
-    return db_user
 
 
 @router.put(
