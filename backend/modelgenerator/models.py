@@ -37,6 +37,7 @@ class User(Base):
             "firstname": self.firstname,
             "phone": self.phone,
             "is_admin": self.is_admin,
+            "activated_at": self.activated_at,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
