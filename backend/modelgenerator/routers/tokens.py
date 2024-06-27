@@ -105,7 +105,7 @@ async def register_user(user: UserRegister, db: Session = Depends(get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
 
-@router.get("/users/me/", response_model=UserSchema)
+@router.get("/users/me", response_model=UserSchema)
 async def read_users_me(
     current_user: Annotated[UserSchema, Depends(get_current_active_user)],
 ):

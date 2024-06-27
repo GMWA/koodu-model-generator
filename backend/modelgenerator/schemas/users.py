@@ -31,7 +31,7 @@ class User(UserBase):
     updated_at: datetime
     activated_at: Union[datetime, None] = None
 
-    class Config:
+    class config:
         from_attributes = True
 
 
