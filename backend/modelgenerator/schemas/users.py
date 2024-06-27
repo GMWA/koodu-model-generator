@@ -1,11 +1,11 @@
 from datetime import datetime
 from typing import Union
 from modelgenerator.utils import check_password_policy
-from pydantic import BaseModel, ValidationError, model_validator
+from pydantic import BaseModel, EmailStr, ValidationError, model_validator
 
 
 class UserBase(BaseModel):
-    email: str
+    email: EmailStr
     is_admin: bool
 
 
@@ -27,11 +27,11 @@ class User(UserBase):
     lastname: Union[str, None] = None
     firstname: Union[str, None] = None
     phone: Union[str, None] = None
-    created_at: datetime
-    updated_at: datetime
-    activated_at: Union[datetime, None] = None
+    created_at: Union[str, None] = None
+    updated_at: Union[str, None] = None
+    activated_at: Union[str, None] = None
 
-    class config:
+    class Config:
         from_attributes = True
 
 
