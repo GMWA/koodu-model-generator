@@ -28,6 +28,9 @@ class User(Base):
     def generate_auth_token(self, expiration=600):
         pass
 
+    def __dict__(self):
+        return self.to_json()
+
     def to_json(self):
         return {
             "id": self.id,
@@ -37,9 +40,9 @@ class User(Base):
             "firstname": self.firstname,
             "phone": self.phone,
             "is_admin": self.is_admin,
-            "activated_at": self.activated_at,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "activated_at": self.activated_at.strftime("%m.%d.%Y, %H:%M:%S") if self.activated_at else "",
+            "created_at": self.created_at.strftime("%m.%d.%Y, %H:%M:%S") if self.created_at else "",
+            "updated_at": self.updated_at.strftime("%m.%d.%Y, %H:%M:%S") if self.updated_at else "",
         }
 
 
