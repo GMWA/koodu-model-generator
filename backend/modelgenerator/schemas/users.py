@@ -4,6 +4,15 @@ from modelgenerator.utils import check_password_policy
 from pydantic import BaseModel, EmailStr, ValidationError, model_validator
 
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
+
+
 class UserBase(BaseModel):
     email: EmailStr
     is_admin: bool
@@ -27,9 +36,9 @@ class User(UserBase):
     lastname: Union[str, None] = None
     firstname: Union[str, None] = None
     phone: Union[str, None] = None
-    created_at: Union[str, None] = None
-    updated_at: Union[str, None] = None
-    activated_at: Union[str, None] = None
+    created_at: Union[datetime, None] = None
+    updated_at: Union[datetime, None] = None
+    activated_at: Union[datetime, None] = None
 
     class Config:
         from_attributes = True
