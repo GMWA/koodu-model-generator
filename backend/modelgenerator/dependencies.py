@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from modelgenerator.models import User as UserModel
-from modelgenerator.schemas.tokens import TokenData
+from modelgenerator.schemas.users import TokenData
 from modelgenerator.schemas.users import User
 
 
@@ -18,6 +18,10 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
+    except Exception as e:
+        db.rollback()
+        print(e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     finally:
         db.close()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
