@@ -17,7 +17,7 @@ from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALGORITHM = os.environ.get("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES")
+ACCESS_TOKEN_EXPIRE_MINUTES = float(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 15))
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -37,8 +37,8 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def authenticate_user(username: str, password: str) -> UserSchema | None:
-    db_user: UserSchema = UserModel.query.filter_by(email=username).first()
+def authenticate_user(username: str, password: str, db: Session) -> UserSchema | None:
+    db_user: UserModel = db.query(UserModel).filter_by(email=username).first()
     if not db_user or not verify_password(password, db_user.hashed_password):
         return None
     return db_user
@@ -73,11 +73,15 @@ async def read_users(db: Session = Depends(get_db)):
     return data
 
 
-@router.post("/token")
+@router.post(
+    "/login",
+    response_model=Token,
+    responses={403: {"description": "Operation forbidden"}}
+)
 async def login_for_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
 ) -> Token:
-    user: UserSchema = authenticate_user(form_data.username, form_data.password)
+    user: UserSchema = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
