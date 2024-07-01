@@ -12,27 +12,33 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async login(username: string, password: string): Promise<IAccessToken> {
-      const response = await api.post<IAccessToken>(AuthEndpoint.LOGIN, { username, password });
+      // Perform login logic here with form data
+      const data = new FormData();
+      data.append('username', username);
+      data.append('password', password);
+      const response = await api.post<IAccessToken>(AuthEndpoint.LOGIN, data);
       const token = response.data;
+      if (!token) {
+        throw new Error('Invalid token');
+      }
+      api.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
       this.isLoggedIn = true;
       this.token = token;
-      console.log('User logged in', token);
       return token;
     },
     async register(newUser: ICreateUser): Promise<IUser> {
-      console.log('newUser', newUser);
       const response = await api.post<IUser>(AuthEndpoint.REGISTER, newUser);
-      console.log('response', response);
       const user = response.data;
-      console.log('User registered', user);
       return user;
     },
-    async fetchUser() {
+    async fetchUser(): Promise<IUser> {
       const response = await api.get<IUser>(AuthEndpoint.ME);
       const user = response.data;
       this.isLoggedIn = true;
+      if (!user) {
+        throw new Error('Invalid user');
+      }
       this.user = user;
-      console.log('User fetched', user);
       return user;
     },
     logout() {

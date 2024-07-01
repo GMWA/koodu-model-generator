@@ -5,6 +5,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
+import { useUserStore } from '../stores/userStore';
 
 /*
  * If not building with SSR mode, you can
@@ -24,6 +25,17 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createWebHistory('/'),
+  });
+
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      if (!useUserStore().isLoggedIn){
+        next({path: '/login'});
+      }
+    }
+    next();
   });
 
   return Router;

@@ -1,5 +1,5 @@
 export const AuthEndpoint = {
-  LOGIN: '/users/token',
+  LOGIN: '/users/login',
   REGISTER: '/users/register',
   ME: '/users/me',
   REFRESH: '/users/refresh',

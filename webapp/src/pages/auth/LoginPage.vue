@@ -21,7 +21,11 @@
                 <router-link class="text-primary" to="/forgot-password">Forgot password?</router-link>
               </div>
             </div>
-            <q-btn class="w-full q-pa-md q-ma-md" label="Login" type="submit" color="primary" :disabled="loading" />
+            <q-btn class="w-full q-pa-md q-ma-md" label="Login" type="submit" color="primary" :disabled="loading">
+              <template v-slot:loading>
+                <q-spinner-bars color="white" />
+              </template>
+            </q-btn>
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
@@ -36,15 +40,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 import { useUserStore } from '../../stores/userStore'
 
-const authStore = useUserStore()
-const email = ref('')
-const password = ref('')
-const error = ref('')
-const isPwd = ref(true)
+const authStore = useUserStore();
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+const error = ref('');
+const isPwd = ref(true);
 const loading = ref(false);
-const remember = ref(false)
+const remember = ref(false);
 
 /*const links = [
   { title: 'About Us', url: '/about' },
@@ -57,10 +64,17 @@ const login = async () => {
   loading.value = true
   try {
     const tokenInfos = await authStore.login(email.value, password.value);
-    if (tokenInfos) {
-      // router.push('/')
-      console.log('Login successful')
+    if (!tokenInfos) {
+      console.log('error')
+      throw new Error('Invalid credentials')
     }
+    // fetch user data
+    const user = await authStore.fetchUser();
+    if (!user) {
+      throw new Error('User not found')
+    }
+    // redirect to home page
+    router.push('/projects')
   } catch (e) {
     // error.value = e.message
   } finally {
