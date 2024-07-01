@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from modelgenerator.dependencies import get_db
-from modelgenerator.dependencies import get_current_user
+from modelgenerator.dependencies import get_current_user, get_user_by_token
 from modelgenerator.models import User as UserModel
 from modelgenerator.schemas.users import Token, TokenData
 from modelgenerator.schemas.users import User as UserSchema, UserRegister
@@ -138,6 +138,54 @@ async def read_users_me(
     current_user: Annotated[UserSchema, Depends(get_current_user)],
 ):
     return current_user
+
+
+@router.post(
+    "activate/{user_id}",
+    response_model=UserSchema,
+    responses={403: {"description": "Operation forbidden"}},
+)
+async def activate_user(user_id: int, current_user: Annotated[UserSchema, Depends(get_current_user)], db: Session = Depends(get_db)):
+    user: UserModel = db.query(UserModel).filter_by(id=user_id).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+        )
+    if current_user.id != user.id and not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Operation forbidden"
+        )
+    try:
+        user.activated_at = datetime.now()
+        db.commit()
+        db.refresh(user)
+        return user
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@router.get(
+    "activate-link/{token}",
+    response_model=UserSchema,
+    responses={403: {"description": "Operation forbidden"}},
+)
+async def activate_user_by_token(token: str, db: Session = Depends(get_db)):
+    current_user = get_user_by_token(token, db)
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+        )
+    try:
+        current_user.activated_at = datetime.now()
+        db.commit()
+        db.refresh(current_user)
+        return current_user
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
 
 
 @router.get(

@@ -47,3 +47,16 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
     if user is None: # or not user.activated_at:
         raise credentials_exception
     return user
+
+
+def get_user_by_token(token: str, db: Session = Depends(get_db)) -> User | None:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            return None
+        token_data = TokenData(username=username)
+    except InvalidTokenError:
+        return None
+    user = db.query(UserModel).filter_by(email=token_data.username).first()
+    return user
