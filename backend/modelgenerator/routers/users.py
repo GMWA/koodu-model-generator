@@ -108,20 +108,11 @@ async def register_user(user: UserRegister, db: Session = Depends(get_db)):
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
-        return db_user.to_json()
+        return db_user
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
-
-
-@router.get("/gettest", response_model=UserSchema)
-async def gettest_read_users_me(
-    db: Session = Depends(get_db),
-):
-    data = db.query(UserModel).order_by(UserModel.created_at.desc()).first()
-    print(data)
-    return data
 
 
 @router.get("/me", response_model=UserSchema)
