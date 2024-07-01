@@ -134,7 +134,8 @@ async def register_user(user: UserRegister, db: Session = Depends(get_db)):
 
 @router.get("/me", response_model=UserSchema)
 async def read_users_me(
-    current_user: Annotated[UserSchema, Depends(get_current_active_user)],
+    # current_user: Annotated[UserSchema, Depends(get_current_active_user)],
+    current_user: Annotated[UserSchema, Depends(get_current_user)],
 ):
     return current_user
 
