@@ -27,42 +27,10 @@ class UserBase(BaseModel):
     is_admin: bool
 
 
-class UserCreate(UserBase):
-    pass
-
-
-class UserUpdate(UserBase):
-    id: int
-    username: Union[str, None] = None
-    lastname: Union[str, None]
-    firstname: Union[str, None]
-    phone: Union[str, None]
-
-
-class User(UserBase):
-    id: int
-    username: Union[str, None] = None
-    lastname: Union[str, None] = None
-    firstname: Union[str, None] = None
-    phone: Union[str, None] = None
-    created_at: Union[datetime, None] = None
-    updated_at: Union[datetime, None] = None
-    activated_at: Union[datetime, None] = None
-
-    class Config:
-        from_attributes = True
-
-
-class UserRegister(UserBase):
-    username: Union[str, None] = None
-    lastname: Union[str, None]
-    firstname: Union[str, None]
-    phone: Union[str, None]
+class PasswordBase(BaseModel):
     password: str
     password_confirmation: str
-    created_at: Union[datetime, None] = None
-    updated_at: Union[datetime, None] = None
-    activated_at: Union[datetime, None] = None
+
 
     @model_validator(mode='after')
     def validate(self):
@@ -91,3 +59,44 @@ class UserRegister(UserBase):
                 self,
             )
         return self
+
+
+class UserCreate(UserBase):
+    pass
+
+
+class UserUpdate(UserBase):
+    id: int
+    username: Union[str, None] = None
+    lastname: Union[str, None]
+    firstname: Union[str, None]
+    phone: Union[str, None]
+
+
+class User(UserBase):
+    id: int
+    username: Union[str, None] = None
+    lastname: Union[str, None] = None
+    firstname: Union[str, None] = None
+    phone: Union[str, None] = None
+    created_at: Union[datetime, None] = None
+    updated_at: Union[datetime, None] = None
+    activated_at: Union[datetime, None] = None
+
+    class Config:
+        from_attributes = True
+
+
+class UserRegister(PasswordBase):
+    username: Union[str, None] = None
+    lastname: Union[str, None]
+    firstname: Union[str, None]
+    phone: Union[str, None]
+    created_at: Union[datetime, None] = None
+    updated_at: Union[datetime, None] = None
+    activated_at: Union[datetime, None] = None
+
+
+class ResetPassword(PasswordBase):
+    token: str
+    alt_password: str
