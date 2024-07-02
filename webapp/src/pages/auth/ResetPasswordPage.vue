@@ -21,7 +21,7 @@
                   @click="isPwdConfirmation = !isPwdConfirmation" />
               </template>
             </q-input>
-            <q-btn class="w-full q-pa-md q-ma-md" label="Login" type="submit" color="primary" :disabled="loading">
+            <q-btn class="w-full q-pa-md q-ma-md" label="Reset Password" type="submit" color="primary" :disabled="loading">
               <template v-slot:loading>
                 <q-spinner-bars color="white" />
               </template>
@@ -29,7 +29,6 @@
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
-        <p>Already have an account? <router-link to="/login">login</router-link></p>
       </div>
     </div>
   </div>
@@ -60,7 +59,7 @@ const resetPassword = async () => {
     await userStore.resetPassword(data.value)
     router.push('/login')
   } catch (e) {
-    error.value = e.message
+    error.value = 'Invalid token or password mismatch'
   } finally {
     loading.value = false
   }
@@ -87,7 +86,7 @@ const reset = () => {
 }
 
 .register-card {
-  min-width: 800px;
+  min-width: 600px;
   padding: 20px;
 }
 
