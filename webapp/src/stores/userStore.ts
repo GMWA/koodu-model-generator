@@ -52,6 +52,11 @@ export const useUserStore = defineStore('user', {
       this.token = token;
       return token;
     },
+    async forgotPassword(email: string): Promise<void> {
+      const data = new FormData();
+      data.append('email', email);
+      await api.post(AuthEndpoint.FORGOT_PASSWORD, data);
+    },
     async resetPassword(data: IResetPassword): Promise<IUser> {
       const response = await api.post<IUser>(AuthEndpoint.RESET_PASSWORD, data);
       const user = response.data;
