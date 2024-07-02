@@ -1,6 +1,6 @@
 import { api } from '../boot/axios';
 import { defineStore } from 'pinia';
-import { ICreateUser, IUser, IAccessToken } from 'src/interfaces';
+import { ICreateUser, IUser, IAccessToken, IResetPassword } from 'src/interfaces';
 import { AuthEndpoint } from 'src/constants/endpoints';
 
 
@@ -39,6 +39,22 @@ export const useUserStore = defineStore('user', {
         throw new Error('Invalid user');
       }
       this.user = user;
+      return user;
+    },
+    async refresh(): Promise<IAccessToken> {
+      const response = await api.post<IAccessToken>(AuthEndpoint.REFRESH);
+      const token = response.data;
+      if (!token) {
+        throw new Error('Invalid token');
+      }
+      api.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
+      this.isLoggedIn = true;
+      this.token = token;
+      return token;
+    },
+    async resetPassword(data: IResetPassword): Promise<IUser> {
+      const response = await api.post<IUser>(AuthEndpoint.RESET_PASSWORD, data);
+      const user = response.data;
       return user;
     },
     logout() {

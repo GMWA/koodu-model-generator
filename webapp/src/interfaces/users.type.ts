@@ -26,3 +26,15 @@ export interface IRootTableState {
   loading: boolean;
   error: null | string;
 };
+
+export interface IAccessToken {
+  access_token: string;
+  token_type: string;
+}
+
+
+export interface IResetPassword {
+  token: string;
+  password: string;
+  password_confirmation: string;
+}

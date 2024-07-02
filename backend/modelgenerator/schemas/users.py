@@ -99,4 +99,3 @@ class UserRegister(PasswordBase):
 
 class ResetPassword(PasswordBase):
     token: str
-    alt_password: str
