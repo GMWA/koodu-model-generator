@@ -10,7 +10,7 @@ from passlib.context import CryptContext
 from modelgenerator.dependencies import get_db
 from modelgenerator.dependencies import get_current_user, get_user_by_token
 from modelgenerator.models import User as UserModel
-from modelgenerator.schemas.users import Token, TokenData, ForgetPasswordResponse
+from modelgenerator.schemas.users import Token, ResetPassword, ForgetPasswordResponse
 from modelgenerator.schemas.users import User as UserSchema, UserRegister, ForgetPassword
 from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
 
@@ -208,6 +208,28 @@ async def reset_password(data: ForgetPassword, db: Session = Depends(get_db)):
         message=f"Reset password link sent to {user.email}",
         url=url
     )
+
+
+@router.post(
+    "/reset-password",
+    response_model=UserSchema,
+    responses={403: {"description": "Operation forbidden"}},
+)
+async def reset_password(data: ResetPassword, db: Session = Depends(get_db)):
+    user: UserModel = get_user_by_token(data.token, db)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+        )
+    try:
+        user.hashed_password = get_password_hash(data.password)
+        db.commit()
+        db.refresh(user)
+        return user
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
 
 
 @router.get(
