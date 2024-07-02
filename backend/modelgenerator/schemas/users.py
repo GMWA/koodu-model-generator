@@ -13,6 +13,15 @@ class TokenData(BaseModel):
     username: str | None = None
 
 
+class ForgetPassword(BaseModel):
+    email: EmailStr
+
+
+class ForgetPasswordResponse(BaseModel):
+    message: str
+    url: str
+
+
 class UserBase(BaseModel):
     email: EmailStr
     is_admin: bool

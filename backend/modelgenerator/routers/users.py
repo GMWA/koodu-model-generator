@@ -10,8 +10,8 @@ from passlib.context import CryptContext
 from modelgenerator.dependencies import get_db
 from modelgenerator.dependencies import get_current_user, get_user_by_token
 from modelgenerator.models import User as UserModel
-from modelgenerator.schemas.users import Token, TokenData
-from modelgenerator.schemas.users import User as UserSchema, UserRegister
+from modelgenerator.schemas.users import Token, TokenData, ForgetPasswordResponse
+from modelgenerator.schemas.users import User as UserSchema, UserRegister, ForgetPassword
 from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
 
 
@@ -186,6 +186,28 @@ async def activate_user_by_token(token: str, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
+
+
+@router.post(
+    "/forgot-password",
+    response_model=ForgetPasswordResponse,
+    responses={403: {"description": "Operation forbidden"}},
+)
+async def reset_password(data: ForgetPassword, db: Session = Depends(get_db)):
+    user: UserModel = db.query(UserModel).filter_by(email=data.email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+        )
+    # generate token
+    token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
+    APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
+    url = f"{APP_URL}/reset-password/{token}"
+    # send email
+    return ForgetPasswordResponse(
+        message=f"Reset password link sent to {user.email}",
+        url=url
+    )
 
 
 @router.get(
