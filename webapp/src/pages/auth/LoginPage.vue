@@ -2,7 +2,7 @@
   <div class="pcontainer">
     <div class="row bcontainer">
       <div class="col colum dcontainer">
-        <h1 class="text-primary">Login</h1>
+        <h3 class="text-primary">Login</h3>
         <div class="login-card">
           <q-form @submit="login" @reset="reset" class="w-full">
             <q-input outlined v-model="email" label="Email" type="email" class="w-full q-ma-md" />

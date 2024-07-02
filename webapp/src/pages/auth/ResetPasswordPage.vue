@@ -8,14 +8,14 @@
         <div class="register-card">
           <q-form @submit="resetPassword" @reset="reset" class="w-full">
             <q-input outlined v-model="data.password" :rules="[val => val.length > 0 || 'Please enter your password']"
-              :type="isPwd ? 'password' : 'text'" label="Password" class="w-full q-ma-md">
+              :type="isPwd ? 'password' : 'text'" label="New Password" class="w-full q-ma-md">
               <template v-slot:append>
                 <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                   @click="isPwd = !isPwd" />
               </template>
             </q-input>
             <q-input outlined v-model="data.password_confirmation" :rules="[val => val.length > 0 || 'Please enter your password']"
-              :type="isPwdConfirmation ? 'password' : 'text'" label="Password" class="w-full q-ma-md">
+              :type="isPwdConfirmation ? 'password' : 'text'" label="New Password Confirmation" class="w-full q-ma-md">
               <template v-slot:append>
                 <q-icon :name="isPwdConfirmation ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                   @click="isPwdConfirmation = !isPwdConfirmation" />

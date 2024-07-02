@@ -17,7 +17,7 @@
             </div>
             <div class="row w-full q-pb-md">
               <q-input outlined v-model="user.password" label="Password" type="password" class="col w-full q-ma-md" />
-              <q-input outlined v-model="user.password_confirmation" label="Confirm Password" type="password"
+              <q-input outlined v-model="user.password_confirmation" label="Password Confirmation" type="password"
                 class="col w-full q-ma-md" />
             </div>
             <div class="row w-full q-pb-md">
@@ -38,10 +38,10 @@
 import { ref, Ref } from 'vue';
 import { ICreateUser } from '../../interfaces';
 import { useUserStore } from '../../stores/userStore';
-//import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
-//const router = useRouter();
+const router = useRouter();
 
 const user: Ref<ICreateUser> = ref({
   email: '',
@@ -61,7 +61,9 @@ const register = async () => {
   loading.value = true
   try {
     const resp = await userStore.register(user.value)
-    console.log(resp)
+    if (resp) {
+      router.push('/login')
+    }
   } catch (e) {
     // error.value = e.message
   } finally {
