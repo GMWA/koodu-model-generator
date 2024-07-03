@@ -40,9 +40,9 @@ class User(Base):
             "firstname": self.firstname,
             "phone": self.phone,
             "is_admin": self.is_admin,
-            "activated_at": self.activated_at.strftime("%m.%d.%Y, %H:%M:%S") if self.activated_at else "",
-            "created_at": self.created_at.strftime("%m.%d.%Y, %H:%M:%S") if self.created_at else "",
-            "updated_at": self.updated_at.strftime("%m.%d.%Y, %H:%M:%S") if self.updated_at else "",
+            "activated_at": self.activated_at.strftime("%d.%m.%Y %H:%M:%S") if self.activated_at else None,
+            "created_at": self.created_at.strftime("%d.%m.%Y %H:%M:%S") if self.created_at else None,
+            "updated_at": self.updated_at.strftime("%d.%m.%Y %H:%M:%S") if self.updated_at else None,
         }
 
 
