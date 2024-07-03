@@ -15,6 +15,38 @@ from modelgenerator.routers.tables import router as tables_router
 from modelgenerator.routers.users import router as users_router
 
 
+# List of required environment variables
+REQUIRED_ENV_VARS = [
+    "SQLALCHEMY_DATABASE_URL",
+    "WEBSITE_DOMAIN",
+    "SECRET_KEY",
+    "ALGORITHM",
+    "ACCESS_TOKEN_EXPIRE_MINUTES"
+]
+
+def check_env_vars():
+    for var in REQUIRED_ENV_VARS:
+        if not os.environ.get(var, None):
+            raise EnvironmentError(f"Required environment variable '{var}' is not set.")
+        DB_URL = os.environ.get("SQLALCHEMY_DATABASE_URL")
+        # Check if the database URL is sqlite and the database file exists
+        if "sqlite" in DB_URL:
+            db_file = DB_URL.replace("sqlite:///", "")
+            if not os.path.isfile(db_file):
+                raise EnvironmentError(f"SQLite database file '{db_file}' does not exist.")
+        # make sure the ACCESS_TOKEN_EXPIRE_MINUTES can be converted to a float
+        try:
+            float(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES"))
+        except ValueError:
+            raise EnvironmentError("ACCESS_TOKEN_EXPIRE_MINUTES must be a number.")
+        # make sure the WEBSITE_DOMAIN is a valid domain
+        if not os.environ.get("WEBSITE_DOMAIN").startswith("http"):
+            raise EnvironmentError("WEBSITE_DOMAIN must start with 'http' or 'https'.")
+
+# Perform the environment variable check before initializing the FastAPI app
+check_env_vars()
+
+
 Base.metadata.create_all(bind=engine)
 app = FastAPI(docs_url="/api/docs")
 
