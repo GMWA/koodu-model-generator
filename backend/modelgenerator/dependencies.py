@@ -20,9 +20,7 @@ def get_db():
     try:
         yield db
     except Exception as e:
-        db.rollback()
-        print(e)
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     finally:
         if db:
             db.close()
