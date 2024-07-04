@@ -24,7 +24,7 @@ class ForgetPasswordResponse(BaseModel):
 
 class UserBase(BaseModel):
     email: EmailStr
-    is_admin: bool
+    is_admin: bool = False
 
 
 class PasswordBase(BaseModel):
@@ -87,7 +87,7 @@ class User(UserBase):
         from_attributes = True
 
 
-class UserRegister(PasswordBase):
+class UserRegister(UserBase, PasswordBase):
     username: Union[str, None] = None
     lastname: Union[str, None]
     firstname: Union[str, None]
