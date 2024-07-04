@@ -5,16 +5,6 @@ from fastapi import FastAPI
 
 load_dotenv()
 
-from starlette.middleware.cors import CORSMiddleware
-from modelgenerator.database import engine
-from modelgenerator.models import Base
-from modelgenerator.routers.attributs import router as attributs_router
-from modelgenerator.routers.commons import router as commons_router
-from modelgenerator.routers.projects import router as projects_router
-from modelgenerator.routers.tables import router as tables_router
-from modelgenerator.routers.users import router as users_router
-
-
 # List of required environment variables
 REQUIRED_ENV_VARS = [
     "SQLALCHEMY_DATABASE_URL",
@@ -46,12 +36,21 @@ def check_env_vars():
 # Perform the environment variable check before initializing the FastAPI app
 check_env_vars()
 
+from starlette.middleware.cors import CORSMiddleware
+from modelgenerator.database import engine
+from modelgenerator.models import Base
+from modelgenerator.routers.attributs import router as attributs_router
+from modelgenerator.routers.commons import router as commons_router
+from modelgenerator.routers.projects import router as projects_router
+from modelgenerator.routers.tables import router as tables_router
+from modelgenerator.routers.users import router as users_router
+
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(docs_url="/api/docs")
 
 origins = [
-    "http://localhost:9000",
+    os.environ.get("WEBSITE_DOMAIN"),
 ]
 
 

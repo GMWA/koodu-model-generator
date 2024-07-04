@@ -193,21 +193,27 @@ async def activate_user_by_token(token: str, db: Session = Depends(get_db)):
     response_model=ForgetPasswordResponse,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def reset_password(data: ForgetPassword, db: Session = Depends(get_db)):
-    user: UserModel = db.query(UserModel).filter_by(email=data.email).first()
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+async def forgot_password(data: ForgetPassword, db: Session = Depends(get_db)):
+    print(db, data)
+    try:
+        user: UserModel = db.query(UserModel).filter_by(email=data.email).first()
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+            )
+        # generate token
+        token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
+        APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
+        url = f"{APP_URL}/reset-password/{token}"
+        # send email
+        return ForgetPasswordResponse(
+            message=f"Reset password link sent to {user.email}",
+            url=url
         )
-    # generate token
-    token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
-    APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
-    url = f"{APP_URL}/reset-password/{token}"
-    # send email
-    return ForgetPasswordResponse(
-        message=f"Reset password link sent to {user.email}",
-        url=url
-    )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
 
 
 @router.post(
