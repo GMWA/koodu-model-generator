@@ -57,10 +57,20 @@ export const useUserStore = defineStore('user', {
       data.append('email', email);
       await api.post(AuthEndpoint.FORGOT_PASSWORD, data);
     },
-    async resetPassword(data: IResetPassword): Promise<IUser> {
+    async resetPassword(data: IResetPassword): Promise<IUser | null> {
       const response = await api.post<IUser>(AuthEndpoint.RESET_PASSWORD, data);
       const user = response.data;
       return user;
+    },
+    async activateAccount(token: string): Promise<IUser | null> {
+      try {
+        const response = await api.get<IUser>(`${AuthEndpoint.ACTIVATE}/${token}`);
+        const user = response.data;
+        return user;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
     },
     logout() {
       // Perform logout logic here

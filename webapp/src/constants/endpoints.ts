@@ -8,4 +8,6 @@ export const AuthEndpoint = {
   ACTIVATE_LINK: '/users/activate-link',
   FORGOT_PASSWORD: '/users/forgot-password',
   RESET_PASSWORD: '/users/reset-password',
+  ACTIVATE_ACCOUNT: '/users/activate',
+  ACTIVATE_ACCOUNT_LINK: '/users/activate-link',
 }
