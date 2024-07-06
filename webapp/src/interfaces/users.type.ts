@@ -38,3 +38,8 @@ export interface IResetPassword {
   password: string;
   password_confirmation: string;
 }
+
+export interface IVerifyToken {
+  valid: boolean;
+  message: string;
+}

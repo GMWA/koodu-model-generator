@@ -5,3 +5,4 @@ export { type ITable } from './tables.type';
 export { type IAttribut } from './attributs.type';
 export { type IAccessToken } from './users.type';
 export { type IResetPassword } from './users.type';
+export { type IVerifyToken } from './users.type';

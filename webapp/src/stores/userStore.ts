@@ -1,6 +1,9 @@
 import { api } from '../boot/axios';
 import { defineStore } from 'pinia';
-import { ICreateUser, IUser, IAccessToken, IResetPassword } from 'src/interfaces';
+import {
+  ICreateUser, IUser, IAccessToken,
+  IResetPassword, IVerifyToken
+} from 'src/interfaces';
 import { AuthEndpoint } from 'src/constants/endpoints';
 
 
@@ -70,6 +73,16 @@ export const useUserStore = defineStore('user', {
       } catch (error) {
         console.error(error);
         return null;
+      }
+    },
+    async verifyToken(token: string): Promise<IVerifyToken> {
+      try {
+        const response = await api.post<IVerifyToken>(`${AuthEndpoint.VERIFY_TOKEN}`, { token });
+        const data = response.data;
+        return data;
+      } catch (error) {
+        console.error(error);
+        return { valid: false, message: 'SERVER_ERROR' };
       }
     },
     logout() {

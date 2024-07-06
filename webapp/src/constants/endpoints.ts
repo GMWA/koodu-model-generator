@@ -10,4 +10,5 @@ export const AuthEndpoint = {
   RESET_PASSWORD: '/users/reset-password',
   ACTIVATE_ACCOUNT: '/users/activate',
   ACTIVATE_ACCOUNT_LINK: '/users/activate-link',
+  VERIFY_TOKEN: '/users/verify-token',
 }
