@@ -224,7 +224,7 @@ async def forgot_password(data: ForgetPassword, db: Session = Depends(get_db)):
 
 @router.post(
     "/verify-token",
-    response_model=VerifyToken,
+    response_model=VerifyTokenResponse,
     responses={403: {"description": "Operation forbidden"}},
 )
 async def verify_token(data: VerifyToken):
@@ -245,20 +245,21 @@ async def verify_token(data: VerifyToken):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def reset_password(data: ResetPassword, db: Session = Depends(get_db)):
-    user: UserModel = get_user_by_token(data.token, db)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
-        )
-    try:
-        user.hashed_password = get_password_hash(data.password)
-        db.commit()
-        db.refresh(user)
-        return user
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
+	decoded_token = base64.b64decode(data.token).decode()
+	user: UserModel = get_user_by_token(decoded_token, db)
+	if not user:
+		raise HTTPException(
+			status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+		)
+	try:
+		user.hashed_password = get_password_hash(data.password)
+		db.commit()
+		db.refresh(user)
+		return user
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+		)
 
 
 @router.get(
