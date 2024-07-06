@@ -229,7 +229,8 @@ async def forgot_password(data: ForgetPassword, db: Session = Depends(get_db)):
 )
 async def verify_token(data: VerifyToken):
 	try:
-		payload = jwt.decode(data.token, SECRET_KEY, algorithms=[ALGORITHM])
+		decoded_token = base64.b64decode(data.token).decode()
+		payload = jwt.decode(decoded_token, SECRET_KEY, algorithms=[ALGORITHM])
 		username: str = payload.get("sub")
 		if username is None:
 			return VerifyTokenResponse(valid=False, message="INVALID_TOKEN")
