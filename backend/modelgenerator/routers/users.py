@@ -69,8 +69,14 @@ def get_current_active_user(
     responses={403: {"description": "Operation forbidden"}},
 )
 async def read_users(db: Session = Depends(get_db)):
-    data = db.query(UserModel).all()
-    return data
+	try:
+		data = db.query(UserModel).all()
+		return data
+	except Exception as e:
+		print("Error: ", str(e))
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+		)
 
 
 @router.post(
@@ -134,7 +140,6 @@ async def register_user(user: UserRegister, db: Session = Depends(get_db)):
 
 @router.get("/me", response_model=UserSchema)
 async def read_users_me(
-    # current_user: Annotated[UserSchema, Depends(get_current_active_user)],
     current_user: Annotated[UserSchema, Depends(get_current_user)],
 ):
     return current_user

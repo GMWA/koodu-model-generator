@@ -28,9 +28,6 @@ class User(Base):
     def generate_auth_token(self, expiration=600):
         pass
 
-    def __dict__(self):
-        return self.to_json()
-
     def to_json(self):
         return {
             "id": self.id,
