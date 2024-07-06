@@ -18,7 +18,7 @@
                 <q-checkbox class="text-primary" v-model="remember" label="Remember me" />
               </div>
               <div class="flex flex-col-reverse justify-end">
-                <router-link class="text-primary" to="/forgot-password">Forgot password?</router-link>
+                <router-link class="text-primary" to="/auth/forgot-password">Forgot password?</router-link>
               </div>
             </div>
             <q-btn class="w-full q-pa-md q-ma-md" label="Login" type="submit" color="primary" :disabled="loading">

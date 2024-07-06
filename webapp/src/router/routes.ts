@@ -22,12 +22,12 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/projects/ProjectListPage.vue') }],
   },
   {
-    path: '/forgot-password',
+    path: '/auth/forgot-password',
     component: () => import('layouts/AuthLayout.vue'),
     children: [{ path: '', component: () => import('pages/auth/ForgotPasswordPage.vue') }],
   },
   {
-    path: '/reset-password',
+    path: '/auth/reset-password/:token',
     component: () => import('layouts/AuthLayout.vue'),
     children: [{ path: '', component: () => import('pages/auth/ResetPasswordPage.vue') }],
   },

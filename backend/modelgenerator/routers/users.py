@@ -209,7 +209,7 @@ async def forgot_password(data: ForgetPassword, db: Session = Depends(get_db)):
         # generate token
         token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
         APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
-        url = f"{APP_URL}/reset-password/{token}"
+        url = f"{APP_URL}/auth/reset-password/{token}"
         # send email
         return ForgetPasswordResponse(
             message=f"Reset password link sent to {user.email}",
