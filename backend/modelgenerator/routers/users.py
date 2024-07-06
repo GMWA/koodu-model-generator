@@ -1,4 +1,5 @@
 import os
+import base64
 import jwt
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, List
@@ -13,6 +14,7 @@ from modelgenerator.models import User as UserModel
 from modelgenerator.schemas.users import Token, ResetPassword, ForgetPasswordResponse
 from modelgenerator.schemas.users import User as UserSchema, UserRegister, ForgetPassword
 from modelgenerator.schemas.users import UserUpdate as UserUpdateSchema
+from modelgenerator.schemas.users import VerifyToken, VerifyTokenResponse
 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -199,26 +201,41 @@ async def activate_user_by_token(token: str, db: Session = Depends(get_db)):
     responses={403: {"description": "Operation forbidden"}},
 )
 async def forgot_password(data: ForgetPassword, db: Session = Depends(get_db)):
-    print(db, data)
-    try:
-        user: UserModel = db.query(UserModel).filter_by(email=data.email).first()
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
-            )
-        # generate token
-        token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
-        APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
-        url = f"{APP_URL}/auth/reset-password/{token}"
-        # send email
-        return ForgetPasswordResponse(
-            message=f"Reset password link sent to {user.email}",
-            url=url
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
+	print(db, data)
+	try:
+		user: UserModel = db.query(UserModel).filter_by(email=data.email).first()
+		if not user:
+			raise HTTPException(
+				status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+			)
+		# generate token
+		token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(days=1))
+		encode_token = base64.b64encode(token.encode()).decode()
+		APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:5173")
+		return ForgetPasswordResponse(
+			message=f"Reset password link sent to {user.email}",
+			url=f"{APP_URL}/auth/reset-password/{encode_token}"
+		)
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+		)
+
+
+@router.post(
+    "/verify-token",
+    response_model=VerifyToken,
+    responses={403: {"description": "Operation forbidden"}},
+)
+async def verify_token(data: VerifyToken):
+	try:
+		payload = jwt.decode(data.token, SECRET_KEY, algorithms=[ALGORITHM])
+		username: str = payload.get("sub")
+		if username is None:
+			return VerifyTokenResponse(valid=False, message="INVALID_TOKEN")
+		return VerifyTokenResponse(valid=True, message="VALID_TOKEN")
+	except Exception as e:
+		return VerifyTokenResponse(valid=False, message=str(e))
 
 
 @router.post(

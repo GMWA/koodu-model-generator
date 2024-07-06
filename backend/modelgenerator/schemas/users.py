@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union
+from typing import Union, Optional
 from modelgenerator.utils import check_password_policy
 from pydantic import BaseModel, EmailStr, ValidationError, model_validator
 
@@ -11,6 +11,15 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+
+
+class VerifyToken(BaseModel):
+    token: str
+
+
+class VerifyTokenResponse(BaseModel):
+    valid: bool
+    message: Optional[str]
 
 
 class ForgetPassword(BaseModel):
