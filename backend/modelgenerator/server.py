@@ -5,14 +5,38 @@ from fastapi import FastAPI
 
 load_dotenv()
 
-from starlette.middleware.cors import CORSMiddleware
-from supertokens_python import (InputAppInfo, SupertokensConfig,
-                                get_all_cors_headers, init)
-from supertokens_python.framework.fastapi import get_middleware
-from supertokens_python.recipe import session, thirdpartyemailpassword
-from supertokens_python.recipe.thirdpartyemailpassword import (Facebook,
-                                                               Github, Google)
+# List of required environment variables
+REQUIRED_ENV_VARS = [
+    "SQLALCHEMY_DATABASE_URL",
+    "WEBSITE_DOMAIN",
+    "SECRET_KEY",
+    "ALGORITHM",
+    "ACCESS_TOKEN_EXPIRE_MINUTES"
+]
 
+def check_env_vars():
+    for var in REQUIRED_ENV_VARS:
+        if not os.environ.get(var, None):
+            raise EnvironmentError(f"Required environment variable '{var}' is not set.")
+        DB_URL = os.environ.get("SQLALCHEMY_DATABASE_URL")
+        # Check if the database URL is sqlite and the database file exists
+        if "sqlite" in DB_URL:
+            db_file = DB_URL.replace("sqlite:///", "")
+            if not os.path.isfile(db_file):
+                raise EnvironmentError(f"SQLite database file '{db_file}' does not exist.")
+        # make sure the ACCESS_TOKEN_EXPIRE_MINUTES can be converted to a float
+        try:
+            float(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES"))
+        except ValueError:
+            raise EnvironmentError("ACCESS_TOKEN_EXPIRE_MINUTES must be a number.")
+        # make sure the WEBSITE_DOMAIN is a valid domain
+        if not os.environ.get("WEBSITE_DOMAIN").startswith("http"):
+            raise EnvironmentError("WEBSITE_DOMAIN must start with 'http' or 'https'.")
+
+# Perform the environment variable check before initializing the FastAPI app
+check_env_vars()
+
+from starlette.middleware.cors import CORSMiddleware
 from modelgenerator.database import engine
 from modelgenerator.models import Base
 from modelgenerator.routers.attributs import router as attributs_router
@@ -21,53 +45,22 @@ from modelgenerator.routers.projects import router as projects_router
 from modelgenerator.routers.tables import router as tables_router
 from modelgenerator.routers.users import router as users_router
 
+
 Base.metadata.create_all(bind=engine)
 app = FastAPI(docs_url="/api/docs")
 
-
-init(
-    app_info=InputAppInfo(
-        app_name=os.environ.get("APP_NAME"),
-        api_domain=os.environ.get("API_DOMAIN"),
-        website_domain=os.environ.get("WEBSITE_DOMAIN"),
-        api_base_path=os.environ.get("API_BASE_PATH"),
-        website_base_path=os.environ.get("WEBSITE_BASE_PATH"),
-    ),
-    supertokens_config=SupertokensConfig(
-        connection_uri=os.environ.get("CONNECTION_URI"),
-        api_key=os.environ.get("API_KEY"),
-    ),
-    framework="fastapi",
-    recipe_list=[
-        session.init(),
-        thirdpartyemailpassword.init(
-            providers=[
-                Google(
-                    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
-                    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
-                ),
-                Facebook(
-                    client_id=os.environ.get("FACEBOOK_CLIENT_ID"),
-                    client_secret=os.environ.get("FACEBOOK_CLIENT_SECRET"),
-                ),
-                Github(
-                    client_id=os.environ.get("GITHUB_CLIENT_ID"),
-                    client_secret=os.environ.get("GITHUB_CLIENT_SECRET"),
-                ),
-            ]
-        ),
-    ],
-    mode="asgi",  # use wsgi if you are running using gunicorn
-)
+origins = [
+    os.environ.get("WEBSITE_DOMAIN"),
+]
 
 
-app.add_middleware(get_middleware())
+# app.add_middleware(get_middleware())
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.environ.get("WEBSITE_DOMAIN")],
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["Content-Type"] + get_all_cors_headers(),
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Add the app Endpoints

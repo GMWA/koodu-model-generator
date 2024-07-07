@@ -25,4 +25,4 @@ class Project(ProjectBase):
     updated_at: Union[datetime, None] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

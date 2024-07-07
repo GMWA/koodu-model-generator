@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Union
 
 from pydantic import BaseModel
-from pydantic_choices import choice
+from modelgenerator.enums.types import TypeEnum
 
 
 class CommonBase(BaseModel):
@@ -15,10 +15,7 @@ class CommonAttribut(CommonBase):
     index_key: bool
     unique_key: bool
     is_required: bool
-    type: choice([
-        "int", "str", "float", "bool",
-        "datetime", "time", "date", "ref"
-    ])
+    type: TypeEnum
     size: Union[int, None]
     description: Union[str, None]
     created_at: Union[datetime, None] = None

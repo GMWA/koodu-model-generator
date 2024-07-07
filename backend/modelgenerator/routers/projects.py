@@ -68,7 +68,7 @@ async def update_project(
     project_id: int, project: ProjectUpdateSchema, db: Session = Depends(get_db)
 ):
     db_project: ProjectModel = (
-        db.query(ProjectModel).filter_by(user_id=project.user_id).first()
+        db.query(ProjectModel).filter_by(id=project_id).first()
     )
     if not db_project:
         raise HTTPException(

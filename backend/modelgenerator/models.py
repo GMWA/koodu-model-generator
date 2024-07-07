@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
                         Text)
@@ -6,19 +6,24 @@ from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
 from modelgenerator.database import Base
 
 
+def utcnow():
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(String(255), primary_key=True, index=True)
+    id = Column(Integer(), primary_key=True, index=True, autoincrement=True)
     email = Column(String(120), unique=True, nullable=False)
     username = Column(String(255), unique=True)
     lastname = Column(String(255))
     firstname = Column(String(255))
-    phone = Column(String(20), unique=True)
-    thirdparty = Column(String(50), default="")
+    hashed_password = Column(String(255), nullable=True)
+    phone = Column(String(20))
     is_admin = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    activated_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, default=utcnow)
 
     def generate_auth_token(self, expiration=600):
         pass
@@ -31,10 +36,10 @@ class User(Base):
             "lastname": self.lastname,
             "firstname": self.firstname,
             "phone": self.phone,
-            "thirdparty": self.thirdparty,
             "is_admin": self.is_admin,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "activated_at": self.activated_at.strftime("%d.%m.%Y %H:%M:%S") if self.activated_at else None,
+            "created_at": self.created_at.strftime("%d.%m.%Y %H:%M:%S") if self.created_at else None,
+            "updated_at": self.updated_at.strftime("%d.%m.%Y %H:%M:%S") if self.updated_at else None,
         }
 
 
@@ -44,8 +49,8 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False)
     description = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    updated_at = Column(DateTime, default=utcnow)
     user_id = Column(String(255), ForeignKey("users.id"))
 
     def to_json(self):
@@ -65,8 +70,8 @@ class Table(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False)
     description = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    updated_at = Column(DateTime, default=utcnow)
     project_id = Column(Integer, ForeignKey("projects.id"))
 
     def to_json(self):
@@ -92,8 +97,8 @@ class Attribut(Base):
     type = Column(String(50), nullable=False)
     size = Column(Integer)
     description = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    updated_at = Column(DateTime, default=utcnow)
     table_id = Column(Integer, ForeignKey("tables.id"))
 
     def to_json(self):

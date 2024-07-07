@@ -19,6 +19,10 @@ $(CONFIG_FILE):
 	echo "> Adding config file..."
 	cp .env.example $(CONFIG_FILE)
 
+## makemigrations: Create migrations
+makemigrations: install-deps
+	$(ALEMBIC) revision --autogenerate
+
 ##migrate: run database last migration
 migrate: install-deps
 	$(ALEMBIC) upgrade head
