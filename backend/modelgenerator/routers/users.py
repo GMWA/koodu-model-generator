@@ -133,6 +133,11 @@ async def register_user(user: UserRegister, db: Session = Depends(get_db)):
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
+        # generate token to activate user
+        token = create_access_token(data={"sub": db_user.email}, expires_delta=timedelta(days=1))
+        encode_token = base64.b64encode(token.encode()).decode()
+        APP_URL = os.environ.get("WEBSITE_DOMAIN", "http://localhost:9000")
+        print(f"{APP_URL}/auth/activate-link/{encode_token}")
         return db_user
     except Exception as e:
         raise HTTPException(
@@ -173,26 +178,27 @@ async def activate_user(user_id: int, current_user: Annotated[UserSchema, Depend
         )
 
 
-@router.get(
-    "activate-link/{token}",
+@router.post(
+    "/activate-link",
     response_model=UserSchema,
     responses={403: {"description": "Operation forbidden"}},
 )
-async def activate_user_by_token(token: str, db: Session = Depends(get_db)):
-    current_user = get_user_by_token(token, db)
-    if not current_user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
-        )
-    try:
-        current_user.activated_at = datetime.now()
-        db.commit()
-        db.refresh(current_user)
-        return current_user
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
+async def activate_user_by_token(data: VerifyToken, db: Session = Depends(get_db)):
+	decoded_token = base64.b64decode(data.token).decode()
+	current_user = get_user_by_token(decoded_token, db)
+	if not current_user:
+		raise HTTPException(
+			status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+		)
+	try:
+		current_user.activated_at = datetime.now()
+		db.commit()
+		db.refresh(current_user)
+		return current_user
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+		)
 
 
 @router.post(
