@@ -29,7 +29,7 @@
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
-        <p>Already have an account? <router-link class="text-primary" to="/registration">Register</router-link></p>
+        <p>Already have an account? <router-link class="text-primary" to="/auth/registration">Register</router-link></p>
       </div>
       <div class="col colum bg-primary" style="min-width: 400px;">
       </div>

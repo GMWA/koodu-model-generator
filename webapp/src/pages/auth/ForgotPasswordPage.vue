@@ -11,7 +11,7 @@
 
               </div>
               <div class="flex flex-col-reverse justify-end">
-                <router-link class="text-primary" to="/login">Or login hier</router-link>
+                <router-link class="text-primary" to="/auth/login">Or login hier</router-link>
               </div>
             </div>
             <q-btn class="w-full q-pa-md q-ma-md" label="Reset Password" type="submit" color="primary" :disabled="loading">
@@ -22,7 +22,7 @@
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
-        <p>Already have an account? <router-link class="text-primary" to="/registration">Register</router-link></p>
+        <p>Already have an account? <router-link class="text-primary" to="/auth/registration">Register</router-link></p>
       </div>
       <div class="col colum bg-primary" style="min-width: 400px;">
       </div>
