@@ -85,6 +85,16 @@ export const useUserStore = defineStore('user', {
         return { valid: false, message: 'SERVER_ERROR' };
       }
     },
+    async activationLink(token: string): Promise<IUser | null> {
+      try {
+        const response = await api.post<IUser>(`${AuthEndpoint.ACTIVATE_LINK}`, { token });
+        const user = response.data;
+        return user;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
     logout() {
       // Perform logout logic here
       // Example: clear user session, reset state
