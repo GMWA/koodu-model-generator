@@ -7,14 +7,11 @@ This app will allow you to genere models in both json or yaml format. As we are 
 Here the the list of some important points.
 
 ## Todos
-<input type="checkbox" disabled /> Design the Projects page
 
-<input type="checkbox" disabled /> Design the Project page
-
-<input type="checkbox" disabled /> Create Modal for project
-
-<input type="checkbox" disabled /> Create Modal for Table
-
-<input type="checkbox" disabled /> Create Modal for Attribut
-
-<input type="checkbox" disabled /> Create Modal for delete
+* [x] Authentication and Authorization Flow
+* [ ] Design the Projects page
+* [ ] Design the Project page
+* [ ] Create Modal for project
+* [ ] Create Modal for Table
+* [ ] Create Modal for Attribut
+* [ ] Create Modal for delete
