@@ -52,7 +52,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat to="/login" label="OK" v-close-popup />
+          <q-btn flat to="/auth/login" label="OK" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
