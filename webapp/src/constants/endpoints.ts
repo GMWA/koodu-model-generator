@@ -12,3 +12,11 @@ export const AuthEndpoint = {
   ACTIVATE_ACCOUNT_LINK: '/users/activate-link',
   VERIFY_TOKEN: '/users/verify-token',
 }
+
+export const ProjectEndpoint = {
+  CREATE: '/projects',
+  GET_ALL: '/projects',
+  GET_ONE: '/projects/',
+  UPDATE: '/projects/',
+  DELETE: '/projects/',
+}
