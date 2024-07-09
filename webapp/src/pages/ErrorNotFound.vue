@@ -6,13 +6,13 @@
       </div>
 
       <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+        The page you are looking for was not found or does not exist.
       </div>
 
       <q-btn
         class="q-mt-xl"
         color="white"
-        text-color="secondary"
+        text-color="primary"
         unelevated
         to="/"
         label="Go Home"
