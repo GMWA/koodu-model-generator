@@ -12,13 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
+import { ref, Ref, computed, onMounted } from 'vue'
 import { IProject } from '../../interfaces'
-// import { useProjectStore } from '../../stores/projectStore'
+import { useProjectStore } from '../../stores/projectStore'
+
+const projectStore = useProjectStore()
 
 const name = ref('');
 const loading = ref(false);
-const projects: Ref<IProject[]> = ref([]);
+const projects: Ref<IProject[]> = computed(() => projectStore.projects)
 
 const createProject = async () => {
   loading.value = true;
@@ -30,4 +32,8 @@ const createProject = async () => {
     loading.value = false;
   }
 }
+
+onMounted(async () => {
+  await projectStore.getIndexProjects();
+})
 </script>
