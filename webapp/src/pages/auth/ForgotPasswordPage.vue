@@ -11,7 +11,7 @@
 
               </div>
               <div class="flex flex-col-reverse justify-end">
-                <router-link class="text-primary" to="/auth/login">Or login hier</router-link>
+                <router-link class="text-primary" to="/auth/login">Login</router-link>
               </div>
             </div>
             <q-btn class="w-full q-pa-md q-ma-md" label="Reset Password" type="submit" color="primary" :disabled="loading">

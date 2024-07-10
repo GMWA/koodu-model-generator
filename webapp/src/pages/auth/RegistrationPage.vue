@@ -28,7 +28,7 @@
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
-        <p>Already have an account? <router-link to="/auth/login">login</router-link></p>
+        <p>Already have an account? <router-link to="/auth/login">Login</router-link></p>
       </div>
     </div>
   </div>
