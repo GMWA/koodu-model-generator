@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class ProjectBase(BaseModel):
     name: str
-    user_id: str
+    user_id: int
 
 
 class ProjectCreate(ProjectBase):
