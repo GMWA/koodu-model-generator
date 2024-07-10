@@ -81,12 +81,4 @@ const reset = () => {
   min-width: 600px;
   padding: 20px;
 }
-
-.w-full {
-  width: 100%;
-}
-
-.item {
-  border: 2px solid red;
-}
 </style>
