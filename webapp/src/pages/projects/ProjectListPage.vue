@@ -26,18 +26,76 @@
         />
       </div>
     </div>
+    <q-dialog
+      persistent
+      v-model="showAddProject"
+      backdrop-filter="backdrop-filter"
+      transition-show="flip-down"
+      transition-hide="flip-up"
+    >
+      <q-card style="min-width: 600px; padding: 20px;">
+        <q-card-section class="row items-center q-p-none">
+          <div class="text-h6">Create Project</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section class="w-full q-pa-none">
+          <q-form @submit="addProject" class="w-full q-pa-none q-ma-none">
+            <q-input
+              class="w-full q-pa-md"
+              v-model="project.name"
+              label="Project Name"
+              outlined
+              clearable
+              required
+            />
+            <q-input
+              class="w-full q-pa-md"
+              type="textarea"
+              v-model="project.description"
+              label="Project Description"
+              outlined
+              clearable
+              required
+            />
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Add Project"
+              class="w-full q-pa-md q-mt-md"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, computed, onMounted } from 'vue'
-import { IProject } from '../../interfaces'
-import { useProjectStore } from '../../stores/projectStore'
+import { ref, Ref, computed, onMounted } from 'vue';
+import { IProject } from '../../interfaces';
+import { useProjectStore } from '../../stores/projectStore';
+import { useUserStore } from '../../stores/userStore';
 
+const userStore = useUserStore();
 const projectStore = useProjectStore()
 
 const showAddProject: Ref<boolean> = ref(false);
-const projects: Ref<IProject[]> = computed(() => projectStore.projects)
+const project: Ref<IProject> = ref({
+  id: 0,
+  name: '',
+  description: '',
+  user_id: userStore.user ? userStore.user.id : 0
+})
+const projects: Ref<IProject[]> = computed(() => projectStore.projects);
+
+
+const addProject = async () => {
+  await projectStore.createProject(project.value);
+  showAddProject.value = false;
+}
 
 onMounted(async () => {
   await projectStore.getIndexProjects();
