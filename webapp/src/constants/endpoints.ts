@@ -16,7 +16,7 @@ export const AuthEndpoint = {
 export const ProjectEndpoint = {
   CREATE: '/projects',
   GET_ALL: '/projects',
-  GET_ONE: '/projects/',
-  UPDATE: '/projects/',
-  DELETE: '/projects/',
+  GET_ONE: '/projects',
+  UPDATE: '/projects',
+  DELETE: '/projects',
 }

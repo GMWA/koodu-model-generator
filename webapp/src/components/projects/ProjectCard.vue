@@ -18,8 +18,8 @@
       <q-card-actions>
         <div class="w-full row justify-end items-end">
           <!--<q-btn flat>View</q-btn>
-          <q-btn flat>Update</q-btn>
           <q-btn flat>Delete</q-btn> -->
+          <q-btn flat>Open</q-btn>
           <div class="col-auto">
             <q-btn color="grey-7" round flat icon="more_vert">
               <q-menu cover auto-close>
@@ -27,11 +27,14 @@
                   <q-item clickable>
                     <q-item-section>View</q-item-section>
                   </q-item>
-                  <q-item clickable>
+                  <q-item clickable @click="updateProject">
                     <q-item-section>Update</q-item-section>
                   </q-item>
-                  <q-item clickable>
+                  <q-item clickable @click="deleteProject">
                     <q-item-section>Delete</q-item-section>
+                  </q-item>
+                  <q-item clickable>
+                    <q-item-section>Export as JSON</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -52,6 +55,15 @@ const props = defineProps({
     required: true
   }
 })
+const emit = defineEmits(['deleteProject', 'updateProject']);
+
+const deleteProject = () => {
+  emit('deleteProject');
+}
+
+const updateProject = () => {
+  emit('updateProject');
+}
 </script>
 
 <style scoped lang="scss">
