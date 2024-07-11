@@ -12,9 +12,9 @@
         </div>
         <q-separator style="width: 100%; margin: 0px;" size=".15rem" color="primary" />
       </div>
-      <div v-if="projects.length > 0" class="project-list">
-        <div v-for="project in projects" :key="project.id">
-          <p>{{ project.name }}</p>
+      <div v-if="projects.length > 0" class="row project-list">
+        <div v-for="project in projects" :key="project.id" class="col-3 project-item w-full">
+          <ProjectCard :project="project" />
         </div>
       </div>
       <div v-else class="no-project">
@@ -76,6 +76,7 @@
 <script setup lang="ts">
 import { ref, Ref, computed, onMounted } from 'vue';
 import { IProject } from '../../interfaces';
+import ProjectCard from '../../components/projects/ProjectCard.vue';
 import { useProjectStore } from '../../stores/projectStore';
 import { useUserStore } from '../../stores/userStore';
 
@@ -94,6 +95,12 @@ const projects: Ref<IProject[]> = computed(() => projectStore.projects);
 
 const addProject = async () => {
   await projectStore.createProject(project.value);
+  project.value = {
+    id: 0,
+    name: '',
+    description: '',
+    user_id: userStore.user ? userStore.user.id : 0
+  }
   showAddProject.value = false;
 }
 
@@ -126,19 +133,26 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0.5rem ;
+  padding: 0.5rem;
 }
 
 .project-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  /*display: grid;
+  grid-template-columns: auto auto auto auto;*/
   width: 100%;
 }
 
-.no-project {
+.project-item {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.no-project {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   justify-content: center;
   align-items: center;
   height: 100%;
