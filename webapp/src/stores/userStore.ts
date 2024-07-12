@@ -9,9 +9,9 @@ import { AuthEndpoint } from 'src/constants/endpoints';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: false,
-    user: null as IUser | null,
-    token: null as IAccessToken | null,
+    isLoggedIn: localStorage.getItem('isLoggedIn') ? localStorage.getItem('isLoggedIn') === 'true': false,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as IUser : null,
+    token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') as string) as IAccessToken : null,
   }),
   actions: {
     async login(username: string, password: string): Promise<IAccessToken> {
@@ -24,15 +24,31 @@ export const useUserStore = defineStore('user', {
       if (!token) {
         throw new Error('Invalid token');
       }
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('token', JSON.stringify(token));
       api.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
       this.isLoggedIn = true;
       this.token = token;
       return token;
     },
     async register(newUser: ICreateUser): Promise<IUser> {
-      const response = await api.post<IUser>(AuthEndpoint.REGISTER, newUser);
-      const user = response.data;
-      return user;
+      try {
+        const response = await api.post<IUser>(AuthEndpoint.REGISTER, newUser);
+        const user = response.data;
+        return user;
+      } catch (error) {
+        console.error(error);
+        if (localStorage.getItem('isLoggedIn')) {
+          localStorage.removeItem('isLoggedIn');
+        }
+        if (localStorage.getItem('token')) {
+          localStorage.removeItem('token');
+        }
+        if (localStorage.getItem('user')) {
+          localStorage.removeItem('user');
+        }
+        throw new Error('Invalid user');
+      }
     },
     async fetchUser(): Promise<IUser> {
       const response = await api.get<IUser>(AuthEndpoint.ME);
@@ -42,6 +58,7 @@ export const useUserStore = defineStore('user', {
         throw new Error('Invalid user');
       }
       this.user = user;
+      localStorage.setItem('user', JSON.stringify(user));
       return user;
     },
     async refresh(): Promise<IAccessToken> {
@@ -96,8 +113,9 @@ export const useUserStore = defineStore('user', {
       }
     },
     logout() {
-      // Perform logout logic here
-      // Example: clear user session, reset state
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       this.isLoggedIn = false;
       this.user = null;
     },
