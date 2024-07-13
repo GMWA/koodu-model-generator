@@ -19,12 +19,12 @@
         <div class="w-full row justify-end items-end">
           <!--<q-btn flat>View</q-btn>
           <q-btn flat>Delete</q-btn> -->
-          <q-btn flat>Open</q-btn>
+          <q-btn flat :to="`/project-view/${props.project.id}`">Open</q-btn>
           <div class="col-auto">
             <q-btn color="grey-7" round flat icon="more_vert">
               <q-menu cover auto-close>
                 <q-list>
-                  <q-item clickable>
+                  <q-item clickable :to="`/project-view/${props.project.id}`">
                     <q-item-section>View</q-item-section>
                   </q-item>
                   <q-item clickable @click="updateProject">
