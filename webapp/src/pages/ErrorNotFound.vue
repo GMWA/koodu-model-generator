@@ -14,8 +14,8 @@
         color="white"
         text-color="primary"
         unelevated
-        to="/"
-        label="Go Home"
+        to="/projects"
+        label="Go back to Projects"
         no-caps
       />
     </div>

@@ -21,6 +21,20 @@ export const useProjectStore = defineStore('project', {
 				this.isLoading = false;
 			}
 		},
+    async getProjectById(projectId: number): Promise<IProject | null> {
+      try {
+        this.isLoading = true;
+        const response = await api.get<IProject>(`${ProjectEndpoint.GET_ONE}/${projectId}`);
+        return response.data;
+      }
+      catch (error) {
+        console.error(error);
+        return null;
+      }
+      finally {
+        this.isLoading = false;
+      }
+    },
 		async createProject(project: IProject) {
 			try {
 				this.isLoading = true;
