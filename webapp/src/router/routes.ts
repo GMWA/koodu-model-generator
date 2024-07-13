@@ -2,12 +2,6 @@ import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/projects/ProjectListPage.vue') }],
-    meta: { requiresAuth: true },
-  },
-  {
     path: '/auth/login',
     component: () => import('layouts/AuthLayout.vue'),
     children: [{ path: '', name: 'LoginPage', component: () => import('pages/auth/LoginPage.vue') }],
@@ -36,6 +30,12 @@ const routes: RouteRecordRaw[] = [
     path: '/projects',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/projects/ProjectListPage.vue') }],
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/project-view/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/projects/ProjectViewPage.vue') }],
     meta: { requiresAuth: true },
   },
 
