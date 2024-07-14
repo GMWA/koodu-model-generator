@@ -1,10 +1,22 @@
 <template>
   <div class="pcontainer">
-    <div>
-      <div>
+    <div class="bcontainer">
+      <div class="header">
         <ProjectHeader :project="project" />
       </div>
-      <div class="row">
+      <div class="content">
+      <q-tabs
+        v-model="tab"
+        dense
+        align="justify"
+        class="bg-primary text-white shadow-2 w-full"
+        :breakpoint="0"
+      >
+        <q-tab name="Models" icon="network_node" />
+        <q-tab name="Settings" icon="settings" />
+        <q-tab name="Code" icon="code" />
+      </q-tabs>
+      <div v-if="tab==='Models'" class="row">
         <div class="col-3">
 
         </div>
@@ -12,6 +24,7 @@
 
         </div>
       </div>
+    </div>
     </div>
     <q-dialog v-model="isError" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-red text-white" style="width: 600px;">
@@ -39,12 +52,11 @@ import { ref, Ref, onMounted } from 'vue';
 import { IProject } from '../../interfaces';
 import { useProjectStore } from '../../stores/projectStore';
 import ProjectHeader from '../../components/projects/ProjectHeader.vue';
-// import { useUserStore } from '../../stores/userStore';
 
 
 const route = useRoute();
 const projectStore = useProjectStore();
-// const userStore = useUserStore();
+const tab: Ref<string> = ref('Models');
 const project: Ref<IProject> = ref({
   id: 0,
   name: '',
@@ -73,11 +85,30 @@ onMounted(async () => {
     name: data.name,
     description: data.description,
     user_id: data.user_id
-
   }
   console.log(project.value)
 })
 </script>
 
 <style scoped lang="scss">
+.bcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.header {
+  width: 100%;
+  background-color: #1976D2;
+  color: white;
+  padding: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: start;
+  width: 100%;
+}
 </style>
