@@ -20,3 +20,19 @@ export const ProjectEndpoint = {
   UPDATE: '/projects',
   DELETE: '/projects',
 }
+
+export const TableEndpoint = {
+  CREATE: '/tables',
+  GET_ALL: '/tables',
+  GET_ONE: '/tables',
+  UPDATE: '/tables',
+  DELETE: '/tables',
+}
+
+export const AttributEndpoint = {
+  CREATE: '/attributs',
+  GET_ALL: '/attributs',
+  GET_ONE: '/attributs',
+  UPDATE: '/attributs',
+  DELETE: '/attributs',
+}
