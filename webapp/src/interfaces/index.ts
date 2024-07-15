@@ -6,3 +6,4 @@ export { type IAttribut } from './attributs.type';
 export { type IAccessToken } from './users.type';
 export { type IResetPassword } from './users.type';
 export { type IVerifyToken } from './users.type';
+export { type IAttributType } from './attributs.type';
