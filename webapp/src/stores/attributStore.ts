@@ -23,35 +23,38 @@ export const useAttributStore = defineStore('attribut', {
     async getAttributByTableId(tableId: number): Promise<IAttribut | null> {
       try {
         this.isLoading = true;
-        const response = await api.get<IAttribut>(`${AttributEndpoint.GET_ONE}/table/${tableId}`);
+        const response = await api.get<IAttribut>(
+          `${AttributEndpoint.GET_ONE}/table/${tableId}`
+        );
         return response.data;
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
         return null;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
       }
     },
     async getAttributById(attributId: number): Promise<IAttribut | null> {
       try {
         this.isLoading = true;
-        const response = await api.get<IAttribut>(`${AttributEndpoint.GET_ONE}/${attributId}`);
+        const response = await api.get<IAttribut>(
+          `${AttributEndpoint.GET_ONE}/${attributId}`
+        );
         return response.data;
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
         return null;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
       }
     },
     async createAttribut(attribut: IAttribut) {
       try {
         this.isLoading = true;
-        const response = await api.post<IAttribut>(AttributEndpoint.CREATE, attribut);
+        const response = await api.post<IAttribut>(
+          AttributEndpoint.CREATE,
+          attribut
+        );
         this.attributs.push(response.data);
       } catch (error) {
         console.error(error);
@@ -62,7 +65,10 @@ export const useAttributStore = defineStore('attribut', {
     async updateAttribut(attribut: IAttribut) {
       try {
         this.isLoading = true;
-        const response = await api.put<IAttribut>(`${AttributEndpoint.UPDATE}/${attribut.id}`, attribut);
+        const response = await api.put<IAttribut>(
+          `${AttributEndpoint.UPDATE}/${attribut.id}`,
+          attribut
+        );
         const index = this.attributs.findIndex((p) => p.id === attribut.id);
         this.attributs[index] = response.data;
       } catch (error) {

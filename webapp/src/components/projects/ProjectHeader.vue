@@ -7,15 +7,12 @@
 <script setup lang="ts">
 import { IProject } from '../../interfaces';
 
-
 const props = defineProps({
   project: {
     type: Object as () => IProject,
     required: true,
-  }
-})
-
+  },
+});
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

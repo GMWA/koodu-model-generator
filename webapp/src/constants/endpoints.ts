@@ -11,7 +11,7 @@ export const AuthEndpoint = {
   ACTIVATE_ACCOUNT: '/users/activate',
   ACTIVATE_ACCOUNT_LINK: '/users/activate-link',
   VERIFY_TOKEN: '/users/verify-token',
-}
+};
 
 export const ProjectEndpoint = {
   CREATE: '/projects',
@@ -19,7 +19,7 @@ export const ProjectEndpoint = {
   GET_ONE: '/projects',
   UPDATE: '/projects',
   DELETE: '/projects',
-}
+};
 
 export const TableEndpoint = {
   CREATE: '/tables',
@@ -27,7 +27,7 @@ export const TableEndpoint = {
   GET_ONE: '/tables',
   UPDATE: '/tables',
   DELETE: '/tables',
-}
+};
 
 export const AttributEndpoint = {
   CREATE: '/attributs',
@@ -35,4 +35,4 @@ export const AttributEndpoint = {
   GET_ONE: '/attributs',
   UPDATE: '/attributs',
   DELETE: '/attributs',
-}
+};

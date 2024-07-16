@@ -23,14 +23,14 @@ export const useTableStore = defineStore('table', {
     async getTableById(tableId: number): Promise<ITable | null> {
       try {
         this.isLoading = true;
-        const response = await api.get<ITable>(`${TableEndpoint.GET_ONE}/${tableId}`);
+        const response = await api.get<ITable>(
+          `${TableEndpoint.GET_ONE}/${tableId}`
+        );
         return response.data;
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
         return null;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
       }
     },
@@ -48,7 +48,10 @@ export const useTableStore = defineStore('table', {
     async updateTable(table: ITable) {
       try {
         this.isLoading = true;
-        const response = await api.put<ITable>(`${TableEndpoint.UPDATE}/${table.id}`, table);
+        const response = await api.put<ITable>(
+          `${TableEndpoint.UPDATE}/${table.id}`,
+          table
+        );
         const index = this.tables.findIndex((p) => p.id === table.id);
         this.tables[index] = response.data;
       } catch (error) {

@@ -1,96 +1,115 @@
 <template>
-  <div class=''>
-    <div class=''>
-      <div class=''>
-        <div class=''>Attributs for {{ table.name }}</div>
-        <div class='grow'></div>
-        <div class=''>
-          <button @click='openAddModal' class=''>
-            <span class='material-icons'>add</span>
+  <div class="">
+    <div class="">
+      <div class="">
+        <div class="">Attributs for {{ table.name }}</div>
+        <div class="grow"></div>
+        <div class="">
+          <button @click="openAddModal" class="">
+            <span class="material-icons">add</span>
           </button>
         </div>
       </div>
     </div>
     <hr />
-    <div v-if='items.length > 0'>
-      <div class=''>
-        <select
-          class=''
-          v-model='selectedAttribut'>
-          <option v-for='(attrib, index) in items' :key='index' :value='attrib'
-            :selected='attrib.id === selectedAttribut.id'>
+    <div v-if="items.length > 0">
+      <div class="">
+        <select class="" v-model="selectedAttribut">
+          <option
+            v-for="(attrib, index) in items"
+            :key="index"
+            :value="attrib"
+            :selected="attrib.id === selectedAttribut.id"
+          >
             {{ attrib.name }}
           </option>
         </select>
       </div>
       <hr />
-      <div class=''>
-        <div class=''>
-          <div class=''>
+      <div class="">
+        <div class="">
+          <div class="">
             <div>
-              <label for='name' class=''>Name</label>
-              <input type='text'
-                class=''
-                placeholder='Name' v-model='selectedAttribut.name' required />
+              <label for="name" class="">Name</label>
+              <input
+                type="text"
+                class=""
+                placeholder="Name"
+                v-model="selectedAttribut.name"
+                required
+              />
             </div>
             <div>
-              <label for='type' class=''>Type</label>
-              <select
-                class=''
-                v-model='selectedAttribut.type'>
-                <option v-for='(elem, idx) in attributTypes' :key='idx' :value='elem.value'> {{ elem.name }} </option>
+              <label for="type" class="">Type</label>
+              <select class="" v-model="selectedAttribut.type">
+                <option
+                  v-for="(elem, idx) in attributTypes"
+                  :key="idx"
+                  :value="elem.value"
+                >
+                  {{ elem.name }}
+                </option>
               </select>
             </div>
             <div>
-              <label for='table' class=''>Table</label>
-              <select
-                class=''>
+              <label for="table" class="">Table</label>
+              <select class="">
                 <option v-for="(tab, idx) in tables" :value="tab.id" :key="idx">
                   {{ tab.name }}
                 </option>
               </select>
             </div>
             <div>
-              <label for='phone' class=''>Is Index</label>
-              <input v-model='selectedAttribut.index_key' type='checkbox' value=''
-                class='' />
+              <label for="phone" class="">Is Index</label>
+              <input
+                v-model="selectedAttribut.index_key"
+                type="checkbox"
+                value=""
+                class=""
+              />
             </div>
             <div>
-              <label for='website' class=''>Size</label>
-              <input type='number'
-                class=''
-                placeholder='Size' v-model='selectedAttribut.size' required />
+              <label for="website" class="">Size</label>
+              <input
+                type="number"
+                class=""
+                placeholder="Size"
+                v-model="selectedAttribut.size"
+                required
+              />
             </div>
             <div>
-              <label for='primary_key' class=''>Is Primary
-                key</label>
-              <input v-model='selectedAttribut.primary_key' type='checkbox' value=''
-                class='' />
+              <label for="primary_key" class="">Is Primary key</label>
+              <input
+                v-model="selectedAttribut.primary_key"
+                type="checkbox"
+                value=""
+                class=""
+              />
             </div>
             <div>
-              <label for='visitors'
-                class=''>Description</label>
+              <label for="visitors" class="">Description</label>
               <textarea
-                class=''
-                placeholder='Description' v-model='selectedAttribut.description'>
+                class=""
+                placeholder="Description"
+                v-model="selectedAttribut.description"
+              >
               </textarea>
             </div>
             <div>
-              <label for='visitors' class=''>Is Unique</label>
-              <input v-model='selectedAttribut.unique_key' id='red-checkbox' type='checkbox' value=''
-                class='' />
+              <label for="visitors" class="">Is Unique</label>
+              <input
+                v-model="selectedAttribut.unique_key"
+                id="red-checkbox"
+                type="checkbox"
+                value=""
+                class=""
+              />
             </div>
           </div>
 
-          <button
-            class=''
-            @click='openDeleteModal'>
-            Delete
-          </button>
-          <button type='submit' @click='editAttribut'
-            class=''>
-            Save
-          </button>
+          <button class="" @click="openDeleteModal">Delete</button>
+          <button type="submit" @click="editAttribut" class="">Save</button>
         </div>
       </div>
     </div>
@@ -101,7 +120,7 @@
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { ITable } from '../../interfaces';
 import { IAttribut } from '../../interfaces';
 import { useAttributStore } from '../../stores/attributStore';
@@ -137,10 +156,10 @@ const toDeleteAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
 
 watch(
   () => props.table,
-  async (first, ) => {
+  async (first) => {
     table = { ...first };
     await attributsStore.getAttributByTableId(first.id);
-    if (items.value.length > 0){
+    if (items.value.length > 0) {
       selectedAttribut.value = { ...items.value[0] };
       toCreateAttribut.value.table_id = props.table.id;
     }
@@ -196,8 +215,7 @@ onMounted(async () => {
     selectedAttribut.value = { ...items.value[0] };
     toCreateAttribut.value.table_id = props.table.id;
   }
-})
+});
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

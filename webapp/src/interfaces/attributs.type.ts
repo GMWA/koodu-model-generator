@@ -1,4 +1,4 @@
-export interface IAttribut  {
+export interface IAttribut {
   id: number;
   name: string;
   primary_key: boolean;
@@ -11,19 +11,19 @@ export interface IAttribut  {
   created_at?: string;
   updated_at?: string;
   table_id: number;
-};
+}
 
 export interface IGetAttributResponse {
   data: IAttribut[];
-};
+}
 
 export interface IRootAttributState {
   attributs: IAttribut[];
-  loading: boolean,
-  error: null | string
-};
+  loading: boolean;
+  error: null | string;
+}
 
-export interface IAttributType{
+export interface IAttributType {
   name: string;
-  value: string
+  value: string;
 }

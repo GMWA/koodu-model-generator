@@ -1,17 +1,25 @@
 import { api } from '../boot/axios';
 import { defineStore } from 'pinia';
 import {
-  ICreateUser, IUser, IAccessToken,
-  IResetPassword, IVerifyToken
+  ICreateUser,
+  IUser,
+  IAccessToken,
+  IResetPassword,
+  IVerifyToken,
 } from 'src/interfaces';
 import { AuthEndpoint } from 'src/constants/endpoints';
 
-
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: localStorage.getItem('isLoggedIn') ? localStorage.getItem('isLoggedIn') === 'true': false,
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as IUser : null,
-    token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') as string) as IAccessToken : null,
+    isLoggedIn: localStorage.getItem('isLoggedIn')
+      ? localStorage.getItem('isLoggedIn') === 'true'
+      : false,
+    user: localStorage.getItem('user')
+      ? (JSON.parse(localStorage.getItem('user') as string) as IUser)
+      : null,
+    token: localStorage.getItem('token')
+      ? (JSON.parse(localStorage.getItem('token') as string) as IAccessToken)
+      : null,
   }),
   actions: {
     async login(username: string, password: string): Promise<IAccessToken> {
@@ -84,7 +92,9 @@ export const useUserStore = defineStore('user', {
     },
     async activateAccount(token: string): Promise<IUser | null> {
       try {
-        const response = await api.get<IUser>(`${AuthEndpoint.ACTIVATE}/${token}`);
+        const response = await api.get<IUser>(
+          `${AuthEndpoint.ACTIVATE}/${token}`
+        );
         const user = response.data;
         return user;
       } catch (error) {
@@ -94,7 +104,10 @@ export const useUserStore = defineStore('user', {
     },
     async verifyToken(token: string): Promise<IVerifyToken> {
       try {
-        const response = await api.post<IVerifyToken>(`${AuthEndpoint.VERIFY_TOKEN}`, { token });
+        const response = await api.post<IVerifyToken>(
+          `${AuthEndpoint.VERIFY_TOKEN}`,
+          { token }
+        );
         const data = response.data;
         return data;
       } catch (error) {
@@ -104,7 +117,10 @@ export const useUserStore = defineStore('user', {
     },
     async activationLink(token: string): Promise<IUser | null> {
       try {
-        const response = await api.post<IUser>(`${AuthEndpoint.ACTIVATE_LINK}`, { token });
+        const response = await api.post<IUser>(
+          `${AuthEndpoint.ACTIVATE_LINK}`,
+          { token }
+        );
         const user = response.data;
         return user;
       } catch (error) {

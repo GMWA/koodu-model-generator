@@ -1,4 +1,4 @@
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { ITable } from '../../interfaces';
 import { ref, watch } from 'vue';
 
@@ -13,7 +13,7 @@ const emit = defineEmits(['delete', 'edit', 'select']);
 
 watch(
   () => props.active,
-  (first, ) => {
+  (first) => {
     isActive.value = first;
   }
 );
@@ -33,30 +33,19 @@ const handleChoose = () => {
 
 <template>
   <div
-    class='flex flex-row w-full h-14 align-middle pr-2 hover:cursor-pointer hover:bg-gray-200'
-    :class="{'bg-green-200': isActive}"
+    class="flex flex-row w-full h-14 align-middle pr-2 hover:cursor-pointer hover:bg-gray-200"
+    :class="{ 'bg-green-200': isActive }"
   >
-    <div class='pl-4 text-xl' @click='handleChoose'>{{ table.name }}</div>
-    <div class='grow'></div>
-    <div class='mr-2'>
-      <q-btn
-        flat
-        color='green'
-        icon='edit'
-        @click='handleEdit'
-      />
+    <div class="pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
+    <div class="grow"></div>
+    <div class="mr-2">
+      <q-btn flat color="green" icon="edit" @click="handleEdit" />
     </div>
-    <div class=''>
-      <q-btn
-        flat
-        color='red'
-        icon='delete'
-        @click='handleDelete'
-      />
+    <div class="">
+      <q-btn flat color="red" icon="delete" @click="handleDelete" />
     </div>
   </div>
   <hr />
 </template>
 
-<style scoped lang='scss'>
-</style>
+<style scoped lang="scss"></style>

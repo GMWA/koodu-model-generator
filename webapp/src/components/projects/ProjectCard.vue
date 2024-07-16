@@ -1,6 +1,11 @@
 <template>
   <div class="w-full item">
-    <q-card flat bordered class="my-card" :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
+    <q-card
+      flat
+      bordered
+      class="my-card"
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+    >
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
@@ -52,20 +57,18 @@ import { IProject } from '../../interfaces';
 const props = defineProps({
   project: {
     type: Object as () => IProject,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 const emit = defineEmits(['deleteProject', 'updateProject']);
 
 const deleteProject = () => {
   emit('deleteProject');
-}
+};
 
 const updateProject = () => {
   emit('updateProject');
-}
+};
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
