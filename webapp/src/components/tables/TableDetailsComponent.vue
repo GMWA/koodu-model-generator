@@ -5,9 +5,12 @@
         <div class="">Attributs for {{ table.name }}</div>
         <div class="grow"></div>
         <div class="">
-          <button @click="openAddModal" class="">
-            <span class="material-icons">add</span>
-          </button>
+          <q-btn
+            color="primary"
+            label="Add Attribut"
+            @click="openAddModal"
+            round
+          />
         </div>
       </div>
     </div>
@@ -115,8 +118,133 @@
     </div>
 
     <!--Add Modal-->
+    <q-dialog
+      persistent
+      v-model="isAddModalOpen"
+      backdrop-filter="backdrop-filter"
+      transition-show="flip-down"
+      transition-hide="flip-up"
+    >
+      <q-card style="min-width: 600px; padding: 20px">
+        <q-card-section class="row items-center q-p-none">
+          <div class="text-h6">Add Table to Project</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section class="w-full q-pa-none">
+          <q-form @submit="addAttribut" class="w-full q-pa-none q-am-none">
+            <q-input
+              class="w-full q-pa-md"
+              v-model="toCreateAttribut.name"
+              label="Name"
+              outlined
+              clearable
+              required
+            />
+            <q-input
+              class="w-full q-pa-md"
+              type="textarea"
+              v-model="toCreateAttribut.description"
+              label="Description"
+              outlined
+              clearable
+              required
+            />
+            <q-input
+              class="w-full q-pa-md"
+              type="number"
+              v-model="toCreateAttribut.size"
+              label="Size"
+              outlined
+              clearable
+              required
+            />
+            <q-checkbox
+              class="w-full q-pa-md"
+              type="checkbox"
+              v-model="toCreateAttribut.index_key"
+              label="Is Index"
+              outlined
+              clearable
+              required
+            />
+            <q-checkbox
+              class="w-full q-pa-md"
+              v-model="toCreateAttribut.primary_key"
+              label="Is Primary key"
+              outlined
+              clearable
+              required
+            />
+            <q-checkbox
+              class="w-full q-pa-md"
+              type="checkbox"
+              v-model="toCreateAttribut.unique_key"
+              label="Is Unique"
+              outlined
+              clearable
+              required
+            />
+            <q-checkbox
+              class="w-full q-pa-md"
+              type="checkbox"
+              v-model="toCreateAttribut.is_required"
+              label="Is Required"
+              outlined
+              clearable
+              required
+            />
+            <q-input
+              class="w-full q-pa-md"
+              type="text"
+              v-model="toCreateAttribut.type"
+              label="Type"
+              outlined
+              clearable
+              required
+            />
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Add Table"
+              class="w-full q-pa-md q-mt-md"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
     <!--Delete Modal-->
+    <q-dialog
+      persistent
+      v-model="isDeleteModalOpen"
+      backdrop-filter="backdrop-filter"
+      transition-show="flip-down"
+      transition-hide="flip-up"
+    >
+      <q-card style="min-width: 600px; padding: 20px">
+        <q-card-section class="row items-center q-p-none">
+          <div class="text-h6">Delete project</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section class="w-full q-pa-none">
+          <p>Are you sure you want to delete {{ toDeleteAttribut?.name }}?</p>
+        </q-card-section>
+
+        <q-card-actions>
+          <q-btn
+            color="primary"
+            label="Cancel"
+            class="q-mr-md"
+            @click="isDeleteModalOpen = false"
+          />
+          <q-btn color="negative" label="Delete" @click="deleteAttribut" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -135,7 +263,7 @@ const attributsStore = useAttributStore();
 const props = withDefaults(defineProps<TableProps>(), {});
 let table: ITable = props.table;
 let tables: ITable[] = props.tables;
-const emit = defineEmits(['delete', 'edit', 'select']);
+// const emit = defineEmits(['delete', 'edit', 'select']);
 const DEFAULT_ATTRIBUT: IAttribut = {
   id: 0,
   name: '',
@@ -148,10 +276,10 @@ const DEFAULT_ATTRIBUT: IAttribut = {
   size: 0,
 };
 const selectedAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
-const is_add_modal_open: Ref = ref(false);
-const is_delete_modal_open: Ref = ref(false);
+const isAddModalOpen: Ref = ref(false);
+const isDeleteModalOpen: Ref = ref(false);
 const toCreateAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
-const toEditAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
+// const toEditAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
 const toDeleteAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
 
 watch(
@@ -167,23 +295,24 @@ watch(
 );
 
 const items = computed(() => attributsStore.attributs);
-const setSelectedAttribut = (attrib: IAttribut) => {
-  selectedAttribut.value = { ...attrib };
-};
+
+// const setSelectedAttribut = (attrib: IAttribut) => {
+//   selectedAttribut.value = { ...attrib };
+// };
 
 const openAddModal = () => {
-  is_add_modal_open.value = true;
+  isAddModalOpen.value = true;
 };
 const closeAddModal = () => {
-  is_add_modal_open.value = false;
+  isAddModalOpen.value = false;
 };
 
 const openDeleteModal = () => {
   toDeleteAttribut.value = { ...selectedAttribut.value };
-  is_delete_modal_open.value = true;
+  isDeleteModalOpen.value = true;
 };
 const closeDeleteModal = () => {
-  is_delete_modal_open.value = false;
+  isDeleteModalOpen.value = false;
 };
 
 const addAttribut = async () => {
