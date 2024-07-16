@@ -20,6 +20,19 @@ export const useTableStore = defineStore('table', {
         this.isLoading = false;
       }
     },
+    async getTablesbyProjectId(projectId: number) {
+      try {
+        this.isLoading = true;
+        const response = await api.get<ITable[]>(
+          `${TableEndpoint.GET_ALL}/project/${projectId}`
+        );
+        this.tables = response.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     async getTableById(tableId: number): Promise<ITable | null> {
       try {
         this.isLoading = true;

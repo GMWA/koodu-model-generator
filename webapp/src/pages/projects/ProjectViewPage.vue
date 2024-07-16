@@ -17,8 +17,25 @@
           <q-tab name="Code" icon="code" />
         </q-tabs>
         <div v-if="tab === 'Models'" class="row">
-          <div class="col-3"></div>
-          <div class="col-9"></div>
+          <div class="col-3">
+            <div>
+              <TableSelectionComponent
+                v-for="table in projectTables"
+                :key="table.id"
+                :table="table"
+                :active="!!selectedTable && selectedTable.id === table.id"
+              />
+            </div>
+          </div>
+          <div class="col-9">
+            <div>
+              <TableDetailsComponent
+                v-if="selectedTable"
+                :table="selectedTable"
+                :tables="projectTables"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -54,13 +71,17 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { ref, Ref, onMounted } from 'vue';
-import { IProject } from '../../interfaces';
+import { ref, Ref, onMounted, computed } from 'vue';
+import { IProject, ITable } from '../../interfaces';
 import { useProjectStore } from '../../stores/projectStore';
+import { useTableStore } from 'src/stores/tableStore';
 import ProjectHeader from '../../components/projects/ProjectHeader.vue';
+import TableDetailsComponent from 'src/components/tables/TableDetailsComponent.vue';
+import TableSelectionComponent from 'src/components/tables/TableSelectionComponent.vue';
 
 const route = useRoute();
 const projectStore = useProjectStore();
+const tableStore = useTableStore();
 const tab: Ref<string> = ref('Models');
 const project: Ref<IProject> = ref({
   id: 0,
@@ -70,6 +91,8 @@ const project: Ref<IProject> = ref({
 });
 const isError: Ref<boolean> = ref(false);
 const errorMsg: Ref<string> = ref('');
+const projectTables = computed(() => tableStore.tables);
+const selectedTable: Ref<ITable | null> = ref(null);
 
 onMounted(async () => {
   const projectId = route.params.id ? parseInt(route.params.id as string) : 0;
@@ -91,6 +114,10 @@ onMounted(async () => {
     description: data.description,
     user_id: data.user_id,
   };
+  await tableStore.getTableById(projectId);
+  if (projectTables.value.length > 0) {
+    selectedTable.value = projectTables.value[0];
+  }
   console.log(project.value);
 });
 </script>
