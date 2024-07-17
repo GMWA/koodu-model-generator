@@ -24,7 +24,7 @@ export const useAttributStore = defineStore('attribut', {
       try {
         this.isLoading = true;
         const response = await api.get<IAttribut>(
-          `${AttributEndpoint.GET_ONE}/table/${tableId}`
+          `${AttributEndpoint.GET_ALL_BY_TABLE}/${tableId}`
         );
         return response.data;
       } catch (error) {

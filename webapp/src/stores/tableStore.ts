@@ -24,7 +24,7 @@ export const useTableStore = defineStore('table', {
       try {
         this.isLoading = true;
         const response = await api.get<ITable[]>(
-          `${TableEndpoint.GET_ALL}/project/${projectId}`
+          `${TableEndpoint.GET_ALL_BY_PROJECT}/${projectId}`
         );
         this.tables = response.data;
       } catch (error) {

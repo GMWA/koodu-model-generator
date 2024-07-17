@@ -24,6 +24,7 @@ export const ProjectEndpoint = {
 export const TableEndpoint = {
   CREATE: '/tables',
   GET_ALL: '/tables',
+  GET_ALL_BY_PROJECT: '/tables/project',
   GET_ONE: '/tables',
   UPDATE: '/tables',
   DELETE: '/tables',
@@ -32,6 +33,7 @@ export const TableEndpoint = {
 export const AttributEndpoint = {
   CREATE: '/attributs',
   GET_ALL: '/attributs',
+  GET_ALL_BY_TABLE: '/attributs/table',
   GET_ONE: '/attributs',
   UPDATE: '/attributs',
   DELETE: '/attributs',
