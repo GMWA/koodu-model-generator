@@ -1,15 +1,11 @@
 <template>
-  <div
-    class="flex flex-row w-full h-14 align-middle pr-2 hover:cursor-pointer hover:bg-gray-200"
-    :class="{ 'bg-green-200': isActive }"
-  >
-    <div class="pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
-    <div class="grow"></div>
-    <div class="mr-2">
-      <q-btn flat color="green" icon="edit" @click="handleEdit" />
+  <div class="row w-full items-center q-pa-md" :class="{ 'bg-green-200': isActive }">
+    <div class=" col-8 pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
+    <div class="col-2">
+      <q-btn round color="green" icon="edit" @click="handleEdit" />
     </div>
-    <div class="">
-      <q-btn flat color="red" icon="delete" @click="handleDelete" />
+    <div class="col-2">
+      <q-btn round color="red" icon="delete" @click="handleDelete" />
     </div>
   </div>
   <hr />

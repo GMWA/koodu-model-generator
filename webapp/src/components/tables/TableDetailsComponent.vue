@@ -1,16 +1,11 @@
 <template>
-  <div class="">
+  <div class="w-full h-full">
     <div class="">
       <div class="">
         <div class="">Attributs for {{ table.name }}</div>
         <div class="grow"></div>
         <div class="">
-          <q-btn
-            color="primary"
-            label="Add Attribut"
-            @click="openAddModal"
-            round
-          />
+          <q-btn color="primary" label="Add Attribut" @click="openAddModal" round />
         </div>
       </div>
     </div>
@@ -18,12 +13,8 @@
     <div v-if="items.length > 0">
       <div class="">
         <select class="" v-model="selectedAttribut">
-          <option
-            v-for="(attrib, index) in items"
-            :key="index"
-            :value="attrib"
-            :selected="attrib.id === selectedAttribut.id"
-          >
+          <option v-for="(attrib, index) in items" :key="index" :value="attrib"
+            :selected="attrib.id === selectedAttribut.id">
             {{ attrib.name }}
           </option>
         </select>
@@ -34,22 +25,12 @@
           <div class="">
             <div>
               <label for="name" class="">Name</label>
-              <input
-                type="text"
-                class=""
-                placeholder="Name"
-                v-model="selectedAttribut.name"
-                required
-              />
+              <input type="text" class="" placeholder="Name" v-model="selectedAttribut.name" required />
             </div>
             <div>
               <label for="type" class="">Type</label>
               <select class="" v-model="selectedAttribut.type">
-                <option
-                  v-for="(elem, idx) in attributTypes"
-                  :key="idx"
-                  :value="elem.value"
-                >
+                <option v-for="(elem, idx) in attributTypes" :key="idx" :value="elem.value">
                   {{ elem.name }}
                 </option>
               </select>
@@ -64,50 +45,24 @@
             </div>
             <div>
               <label for="phone" class="">Is Index</label>
-              <input
-                v-model="selectedAttribut.index_key"
-                type="checkbox"
-                value=""
-                class=""
-              />
+              <input v-model="selectedAttribut.index_key" type="checkbox" value="" class="" />
             </div>
             <div>
               <label for="website" class="">Size</label>
-              <input
-                type="number"
-                class=""
-                placeholder="Size"
-                v-model="selectedAttribut.size"
-                required
-              />
+              <input type="number" class="" placeholder="Size" v-model="selectedAttribut.size" required />
             </div>
             <div>
               <label for="primary_key" class="">Is Primary key</label>
-              <input
-                v-model="selectedAttribut.primary_key"
-                type="checkbox"
-                value=""
-                class=""
-              />
+              <input v-model="selectedAttribut.primary_key" type="checkbox" value="" class="" />
             </div>
             <div>
               <label for="visitors" class="">Description</label>
-              <textarea
-                class=""
-                placeholder="Description"
-                v-model="selectedAttribut.description"
-              >
+              <textarea class="" placeholder="Description" v-model="selectedAttribut.description">
               </textarea>
             </div>
             <div>
               <label for="visitors" class="">Is Unique</label>
-              <input
-                v-model="selectedAttribut.unique_key"
-                id="red-checkbox"
-                type="checkbox"
-                value=""
-                class=""
-              />
+              <input v-model="selectedAttribut.unique_key" id="red-checkbox" type="checkbox" value="" class="" />
             </div>
           </div>
 
@@ -118,13 +73,8 @@
     </div>
 
     <!--Add Modal-->
-    <q-dialog
-      persistent
-      v-model="isAddModalOpen"
-      backdrop-filter="backdrop-filter"
-      transition-show="flip-down"
-      transition-hide="flip-up"
-    >
+    <q-dialog persistent v-model="isAddModalOpen" backdrop-filter="backdrop-filter" transition-show="flip-down"
+      transition-hide="flip-up">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
           <div class="text-h6">Add Table to Project</div>
@@ -134,95 +84,30 @@
 
         <q-card-section class="w-full q-pa-none">
           <q-form @submit="addAttribut" class="w-full q-pa-none q-am-none">
-            <q-input
-              class="w-full q-pa-md"
-              v-model="toCreateAttribut.name"
-              label="Name"
-              outlined
-              clearable
-              required
-            />
-            <q-input
-              class="w-full q-pa-md"
-              type="textarea"
-              v-model="toCreateAttribut.description"
-              label="Description"
-              outlined
-              clearable
-              required
-            />
-            <q-input
-              class="w-full q-pa-md"
-              type="number"
-              v-model="toCreateAttribut.size"
-              label="Size"
-              outlined
-              clearable
-              required
-            />
-            <q-checkbox
-              class="w-full q-pa-md"
-              type="checkbox"
-              v-model="toCreateAttribut.index_key"
-              label="Is Index"
-              outlined
-              clearable
-              required
-            />
-            <q-checkbox
-              class="w-full q-pa-md"
-              v-model="toCreateAttribut.primary_key"
-              label="Is Primary key"
-              outlined
-              clearable
-              required
-            />
-            <q-checkbox
-              class="w-full q-pa-md"
-              type="checkbox"
-              v-model="toCreateAttribut.unique_key"
-              label="Is Unique"
-              outlined
-              clearable
-              required
-            />
-            <q-checkbox
-              class="w-full q-pa-md"
-              type="checkbox"
-              v-model="toCreateAttribut.is_required"
-              label="Is Required"
-              outlined
-              clearable
-              required
-            />
-            <q-input
-              class="w-full q-pa-md"
-              type="text"
-              v-model="toCreateAttribut.type"
-              label="Type"
-              outlined
-              clearable
-              required
-            />
-            <q-btn
-              type="submit"
-              color="primary"
-              label="Add Table"
-              class="w-full q-pa-md q-mt-md"
-            />
+            <q-input class="w-full q-pa-md" v-model="toCreateAttribut.name" label="Name" outlined clearable required />
+            <q-input class="w-full q-pa-md" type="textarea" v-model="toCreateAttribut.description" label="Description"
+              outlined clearable required />
+            <q-input class="w-full q-pa-md" type="number" v-model="toCreateAttribut.size" label="Size" outlined
+              clearable required />
+            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.index_key" label="Is Index"
+              outlined clearable required />
+            <q-checkbox class="w-full q-pa-md" v-model="toCreateAttribut.primary_key" label="Is Primary key" outlined
+              clearable required />
+            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.unique_key" label="Is Unique"
+              outlined clearable required />
+            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.is_required"
+              label="Is Required" outlined clearable required />
+            <q-input class="w-full q-pa-md" type="text" v-model="toCreateAttribut.type" label="Type" outlined clearable
+              required />
+            <q-btn type="submit" color="primary" label="Add Table" class="w-full q-pa-md q-mt-md" />
           </q-form>
         </q-card-section>
       </q-card>
     </q-dialog>
 
     <!--Delete Modal-->
-    <q-dialog
-      persistent
-      v-model="isDeleteModalOpen"
-      backdrop-filter="backdrop-filter"
-      transition-show="flip-down"
-      transition-hide="flip-up"
-    >
+    <q-dialog persistent v-model="isDeleteModalOpen" backdrop-filter="backdrop-filter" transition-show="flip-down"
+      transition-hide="flip-up">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
           <div class="text-h6">Delete project</div>
@@ -235,12 +120,7 @@
         </q-card-section>
 
         <q-card-actions>
-          <q-btn
-            color="primary"
-            label="Cancel"
-            class="q-mr-md"
-            @click="isDeleteModalOpen = false"
-          />
+          <q-btn color="primary" label="Cancel" class="q-mr-md" @click="isDeleteModalOpen = false" />
           <q-btn color="negative" label="Delete" @click="deleteAttribut" />
         </q-card-actions>
       </q-card>
