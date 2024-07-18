@@ -1,15 +1,16 @@
 <template>
   <div class="w-full h-full">
-    <div class="">
-      <div class="">
-        <div class="">Attributs for {{ table.name }}</div>
-        <div class="grow"></div>
-        <div class="">
-          <q-btn color="primary" label="Add Attribut" @click="openAddModal" round />
+    <div class="w-full q-pa-sm items-end">
+      <div class="row items-center">
+        <div class="col-11">
+          <p class="text-h4">Attributs for {{ table.name }}</p>
+        </div>
+        <div class="col-1 justify-end">
+          <q-btn color="primary" icon="add" @click="openAddModal" round />
         </div>
       </div>
     </div>
-    <hr />
+    <q-separator />
     <div v-if="items.length > 0">
       <div class="">
         <select class="" v-model="selectedAttribut">

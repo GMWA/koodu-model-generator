@@ -1,14 +1,14 @@
 <template>
-  <div class="row w-full items-center q-pa-md" :class="{ 'bg-green-200': isActive }">
-    <div class=" col-8 pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
-    <div class="col-2">
+  <div class="row w-full items-center q-pa-sm" :class="{ 'bg-green-200': isActive }">
+    <div class=" col-10 pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
+    <div class="col-1">
       <q-btn round color="green" icon="edit" @click="handleEdit" />
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <q-btn round color="red" icon="delete" @click="handleDelete" />
     </div>
   </div>
-  <hr />
+  <q-separator />
 </template>
 
 <script lang="ts" setup>

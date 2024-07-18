@@ -13,21 +13,23 @@
         <div v-if="tab === 'Models'" class="row w-full h-full">
           <div class="col-3 h-full">
             <div>
-              <div class="row w-full q-pa-md">
-                <div class="col-8">
+              <div class="row w-full q-pa-sm q-ma-none">
+                <div class="col-11">
                   <p class="text-h4"> Tables </p>
                 </div>
-                <div class="col-4">
+                <div class="col-1">
                   <q-btn round color="primary" icon="add" @click="openAddModel" />
                 </div>
               </div>
+              <q-separator />
               <div>
                 <TableSelectionComponent v-for="table in projectTables" :key="table.id" :table="table"
                   :active="!!selectedTable && selectedTable.id === table.id" />
               </div>
             </div>
           </div>
-          <div class="col-9 h-full">
+          <q-separator vertical />
+          <div class="d-content">
             <TableDetailsComponent v-if="selectedTable" :table="selectedTable" :tables="projectTables" />
           </div>
         </div>
@@ -180,6 +182,19 @@ onMounted(async () => {
 .project-content {
   display: flex;
   flex-direction: row;
+  flex: 1;
+  align-items: start;
+  width: 100%;
+}
+
+.border-l {
+  border: 1px solid #000;
+  /* #000 */
+}
+
+.d-content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   align-items: start;
   width: 100%;
