@@ -1,12 +1,12 @@
-import { IAttributType } from '../interfaces';
+import { ISelectOption } from '../interfaces';
 
-export const attributTypes: IAttributType[] = [
-  { name: 'String', value: 'str' },
-  { name: 'Integer', value: 'int' },
-  { name: 'Decimal', value: 'float' },
-  { name: 'Boolean', value: 'bool' },
-  { name: 'DateTime', value: 'datetime' },
-  { name: 'Time', value: 'time' },
-  { name: 'Date', value: 'date' },
-  { name: 'Reference', value: 'ref' },
+export const attributTypes: ISelectOption[] = [
+  { label: 'String', value: 'str' },
+  { label: 'Integer', value: 'int' },
+  { label: 'Decimal', value: 'float' },
+  { label: 'Boolean', value: 'bool' },
+  { label: 'DateTime', value: 'datetime' },
+  { label: 'Time', value: 'time' },
+  { label: 'Date', value: 'date' },
+  { label: 'Reference', value: 'ref' },
 ];

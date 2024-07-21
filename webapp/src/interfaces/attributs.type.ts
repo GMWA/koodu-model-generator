@@ -22,8 +22,3 @@ export interface IRootAttributState {
   loading: boolean;
   error: null | string;
 }
-
-export interface IAttributType {
-  name: string;
-  value: string;
-}
