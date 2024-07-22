@@ -5,41 +5,16 @@
       <q-page-sticky position="bottom-right" :offset="[30, 80]">
         <q-menu v-model="menu" style="width: 200px">
           <q-list>
-            <q-item
-              class="menu-item"
-              clickable
-              v-close-popup
-              to="/users/profile"
-            >
-              <q-icon
-                class="menu-icon"
-                name="person"
-                size="2rem"
-                color="primary"
-              />
+            <q-item class="menu-item" clickable v-close-popup to="/users/profile">
+              <q-icon class="menu-icon" name="person" size="2rem" color="primary" />
               <q-item-section class="menu-label">Profile</q-item-section>
             </q-item>
-            <q-item
-              class="menu-item"
-              clickable
-              v-close-popup
-              to="/users/settings"
-            >
-              <q-icon
-                class="menu-icon"
-                name="settings"
-                size="2rem"
-                color="secondary"
-              />
+            <q-item class="menu-item" clickable v-close-popup to="/users/settings">
+              <q-icon class="menu-icon" name="settings" size="2rem" color="secondary" />
               <q-item-section class="menu-label">Settings</q-item-section>
             </q-item>
             <q-item class="menu-item" clickable v-close-popup @click="logout">
-              <q-icon
-                class="menu-icon"
-                name="exit_to_app"
-                size="2rem"
-                color="red"
-              />
+              <q-icon class="menu-icon" name="exit_to_app" size="2rem" color="red" />
               <q-item-section class="menu-label">Logout</q-item-section>
             </q-item>
           </q-list>
@@ -73,6 +48,7 @@ const logout = async () => {
   display: flex;
   align-items: center;
 }
+
 .menu-icon {
   margin-right: 10px;
 }

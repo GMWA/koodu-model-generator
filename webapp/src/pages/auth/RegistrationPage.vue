@@ -7,70 +7,23 @@
         <div class="register-card">
           <q-form @submit="register" @reset="reset" class="w-full">
             <div class="row w-full q-pb-md">
-              <q-input
-                outlined
-                v-model="user.firstname"
-                label="Firstname"
-                type="text"
-                class="col w-full q-ma-md"
-              />
-              <q-input
-                outlined
-                v-model="user.lastname"
-                label="Lastname"
-                type="text"
-                class="col w-full q-ma-md"
-              />
+              <q-input outlined v-model="user.firstname" label="Firstname" type="text" class="col w-full q-ma-md" />
+              <q-input outlined v-model="user.lastname" label="Lastname" type="text" class="col w-full q-ma-md" />
             </div>
             <div class="row w-full q-pb-md">
-              <q-input
-                outlined
-                v-model="user.email"
-                label="Email"
-                type="email"
-                class="col w-full q-ma-md"
-              />
-              <q-input
-                outlined
-                v-model="user.username"
-                label="Username"
-                type="text"
-                class="col w-full q-ma-md"
-              />
+              <q-input outlined v-model="user.email" label="Email" type="email" class="col w-full q-ma-md" />
+              <q-input outlined v-model="user.username" label="Username" type="text" class="col w-full q-ma-md" />
             </div>
             <div class="row w-full q-pb-md">
-              <q-input
-                outlined
-                v-model="user.password"
-                label="Password"
-                type="password"
-                class="col w-full q-ma-md"
-              />
-              <q-input
-                outlined
-                v-model="user.password_confirmation"
-                label="Password Confirmation"
-                type="password"
-                class="col w-full q-ma-md"
-              />
+              <q-input outlined v-model="user.password" label="Password" type="password" class="col w-full q-ma-md" />
+              <q-input outlined v-model="user.password_confirmation" label="Password Confirmation" type="password"
+                class="col w-full q-ma-md" />
             </div>
             <div class="row w-full q-pb-md">
-              <q-input
-                outlined
-                v-model="user.phone"
-                label="Phone"
-                type="text"
-                class="col w-full q-ma-md"
-              />
+              <q-input outlined v-model="user.phone" label="Phone" type="text" class="col w-full q-ma-md" />
               <div class="col w-full q-ma-md"></div>
             </div>
-            <q-btn
-              class="w-full q-pa-md q-ma-md"
-              label="Register"
-              type="submit"
-              color="primary"
-              :disabled="loading"
-            />
+            <q-btn class="w-full q-pa-md q-ma-md" label="Register" type="submit" color="primary" :disabled="loading" />
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>

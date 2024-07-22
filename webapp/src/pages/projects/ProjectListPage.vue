@@ -7,55 +7,29 @@
             <p class="text-h4" color="primary">List of projects</p>
           </div>
           <div class="col-2">
-            <q-btn
-              round
-              color="primary"
-              icon="add"
-              @click="showAddProject = !showAddProject"
-            />
+            <q-btn round color="primary" icon="add" @click="showAddProject = !showAddProject" />
           </div>
         </div>
-        <q-separator
-          style="width: 100%; margin: 0px"
-          size=".15rem"
-          color="primary"
-        />
+        <q-separator style="width: 100%; margin: 0px" size=".15rem" color="primary" />
       </div>
       <div v-if="projects.length > 0" class="row project-list">
-        <div
-          v-for="project in projects"
-          :key="project.id"
-          class="col-3 project-item w-full"
-        >
-          <ProjectCard
-            :project="project"
-            @deleteProject="
+        <div v-for="project in projects" :key="project.id" class="col-3 project-item w-full">
+          <ProjectCard :project="project" @deleteProject="
               setDeletedProject(project);
-              showDeleteProject = true;
-            "
-            @updateProject="
+            showDeleteProject = true;
+            " @updateProject="
               setUpdatedProject(project);
-              showUpdateProject = true;
-            "
-          />
+            showUpdateProject = true;
+            " />
         </div>
       </div>
       <div v-else class="no-project">
         <h5>No projects found</h5>
-        <q-btn
-          color="primary"
-          @click="showAddProject = !showAddProject"
-          label="Start a new project"
-        />
+        <q-btn color="primary" @click="showAddProject = !showAddProject" label="Start a new project" />
       </div>
     </div>
-    <q-dialog
-      persistent
-      v-model="showAddProject"
-      backdrop-filter="backdrop-filter"
-      transition-show="flip-down"
-      transition-hide="flip-up"
-    >
+    <q-dialog persistent v-model="showAddProject" backdrop-filter="backdrop-filter" transition-show="flip-down"
+      transition-hide="flip-up">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
           <div class="text-h6">Create Project</div>
@@ -65,40 +39,16 @@
 
         <q-card-section class="w-full q-pa-none">
           <q-form @submit="addProject" class="w-full q-pa-none q-ma-none">
-            <q-input
-              class="w-full q-pa-md"
-              v-model="project.name"
-              label="Project Name"
-              outlined
-              clearable
-              required
-            />
-            <q-input
-              class="w-full q-pa-md"
-              type="textarea"
-              v-model="project.description"
-              label="Project Description"
-              outlined
-              clearable
-              required
-            />
-            <q-btn
-              type="submit"
-              color="primary"
-              label="Add Project"
-              class="w-full q-pa-md q-mt-md"
-            />
+            <q-input class="w-full q-pa-md" v-model="project.name" label="Project Name" outlined clearable required />
+            <q-input class="w-full q-pa-md" type="textarea" v-model="project.description" label="Project Description"
+              outlined clearable required />
+            <q-btn type="submit" color="primary" label="Add Project" class="w-full q-pa-md q-mt-md" />
           </q-form>
         </q-card-section>
       </q-card>
     </q-dialog>
-    <q-dialog
-      persistent
-      v-model="showUpdateProject"
-      backdrop-filter="backdrop-filter"
-      transition-show="flip-down"
-      transition-hide="flip-up"
-    >
+    <q-dialog persistent v-model="showUpdateProject" backdrop-filter="backdrop-filter" transition-show="flip-down"
+      transition-hide="flip-up">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
           <div class="text-h6">Update project</div>
@@ -107,46 +57,19 @@
         </q-card-section>
 
         <q-card-section class="w-full q-pa-none">
-          <q-form
-            v-if="updatedProject"
-            @submit="updateProject"
-            class="w-full q-pa-none q-ma-none"
-          >
-            <q-input
-              class="w-full q-pa-md"
-              v-model="updatedProject.name"
-              label="Project Name"
-              outlined
-              clearable
-              required
-            />
-            <q-input
-              class="w-full q-pa-md"
-              type="textarea"
-              v-model="updatedProject.description"
-              label="Project Description"
-              outlined
-              clearable
-              required
-            />
-            <q-btn
-              type="submit"
-              color="primary"
-              :disable="!updatedProject.name"
-              label="Udate Project"
-              class="w-full q-pa-md q-mt-md"
-            />
+          <q-form v-if="updatedProject" @submit="updateProject" class="w-full q-pa-none q-ma-none">
+            <q-input class="w-full q-pa-md" v-model="updatedProject.name" label="Project Name" outlined clearable
+              required />
+            <q-input class="w-full q-pa-md" type="textarea" v-model="updatedProject.description"
+              label="Project Description" outlined clearable required />
+            <q-btn type="submit" color="primary" :disable="!updatedProject.name" label="Udate Project"
+              class="w-full q-pa-md q-mt-md" />
           </q-form>
         </q-card-section>
       </q-card>
     </q-dialog>
-    <q-dialog
-      persistent
-      v-model="showDeleteProject"
-      backdrop-filter="backdrop-filter"
-      transition-show="flip-down"
-      transition-hide="flip-up"
-    >
+    <q-dialog persistent v-model="showDeleteProject" backdrop-filter="backdrop-filter" transition-show="flip-down"
+      transition-hide="flip-up">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
           <div class="text-h6">Delete project</div>
@@ -159,12 +82,7 @@
         </q-card-section>
 
         <q-card-actions>
-          <q-btn
-            color="primary"
-            label="Cancel"
-            class="q-mr-md"
-            @click="showDeleteProject = false"
-          />
+          <q-btn color="primary" label="Cancel" class="q-mr-md" @click="showDeleteProject = false" />
           <q-btn color="negative" label="Delete" @click="deleteProject" />
         </q-card-actions>
       </q-card>

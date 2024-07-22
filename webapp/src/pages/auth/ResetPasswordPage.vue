@@ -6,45 +6,23 @@
         <h3>Reset Password</h3>
         <div class="register-card">
           <q-form @submit="resetPassword" @reset="reset" class="w-full">
-            <q-input
-              outlined
-              v-model="data.password"
-              :rules="[(val) => val.length > 0 || 'Please enter your password']"
-              :type="isPwd ? 'password' : 'text'"
-              label="New Password"
-              class="w-full q-ma-md"
-            >
+            <q-input outlined v-model="data.password" :rules="[(val) => val.length > 0 || 'Please enter your password']"
+              :type="isPwd ? 'password' : 'text'" label="New Password" class="w-full q-ma-md">
               <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
+                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                  @click="isPwd = !isPwd" />
               </template>
             </q-input>
-            <q-input
-              outlined
-              v-model="data.password_confirmation"
+            <q-input outlined v-model="data.password_confirmation"
               :rules="[(val) => val.length > 0 || 'Please enter your password']"
-              :type="isPwdConfirmation ? 'password' : 'text'"
-              label="New Password Confirmation"
-              class="w-full q-ma-md"
-            >
+              :type="isPwdConfirmation ? 'password' : 'text'" label="New Password Confirmation" class="w-full q-ma-md">
               <template v-slot:append>
-                <q-icon
-                  :name="isPwdConfirmation ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwdConfirmation = !isPwdConfirmation"
-                />
+                <q-icon :name="isPwdConfirmation ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                  @click="isPwdConfirmation = !isPwdConfirmation" />
               </template>
             </q-input>
-            <q-btn
-              class="w-full q-pa-md q-ma-md"
-              label="Reset Password"
-              type="submit"
-              color="primary"
-              :disabled="loading"
-            >
+            <q-btn class="w-full q-pa-md q-ma-md" label="Reset Password" type="submit" color="primary"
+              :disabled="loading">
               <template v-slot:loading>
                 <q-spinner-bars color="white" />
               </template>
@@ -58,22 +36,12 @@
           <h3>
             The Activation link is not valid or has expired create a new link
           </h3>
-          <q-btn
-            class="w-full q-pa-md q-ma-md"
-            to="/auth/forgot-password"
-            label="forgot Password"
-            type="submit"
-            color="primary"
-          />
+          <q-btn class="w-full q-pa-md q-ma-md" to="/auth/forgot-password" label="forgot Password" type="submit"
+            color="primary" />
         </div>
       </div>
     </div>
-    <q-dialog
-      v-model="alert"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-    >
+    <q-dialog v-model="alert" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-primary text-white" style="width: 300px">
         <q-card-section>
           <div class="text-h6">Success</div>

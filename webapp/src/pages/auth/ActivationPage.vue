@@ -1,11 +1,6 @@
 <template>
   <div class="pcontainer">
-    <q-dialog
-      v-model="showErrorDialog"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-    >
+    <q-dialog v-model="showErrorDialog" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-red text-white" style="width: 600px">
         <q-card-section>
           <div class="text-h6">Error</div>
@@ -22,12 +17,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog
-      v-model="showActivatedDialog"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-    >
+    <q-dialog v-model="showActivatedDialog" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-primary text-white" style="width: 600px">
         <q-card-section>
           <div class="text-h6">Success</div>

@@ -5,28 +5,15 @@
         <h3 class="text-primary">Forgot Password</h3>
         <div class="login-card">
           <q-form @submit="login" @reset="reset" class="w-full">
-            <q-input
-              outlined
-              v-model="email"
-              label="Email"
-              type="email"
-              class="w-full q-ma-md"
-            />
+            <q-input outlined v-model="email" label="Email" type="email" class="w-full q-ma-md" />
             <div class="w-full flex flex-row items-center q-pb-md q-ma-md">
               <div class="flex col justify-start"></div>
               <div class="flex flex-col-reverse justify-end">
-                <router-link class="text-primary" to="/auth/login"
-                  >Login</router-link
-                >
+                <router-link class="text-primary" to="/auth/login">Login</router-link>
               </div>
             </div>
-            <q-btn
-              class="w-full q-pa-md q-ma-md"
-              label="Reset Password"
-              type="submit"
-              color="primary"
-              :disabled="loading"
-            >
+            <q-btn class="w-full q-pa-md q-ma-md" label="Reset Password" type="submit" color="primary"
+              :disabled="loading">
               <template v-slot:loading>
                 <q-spinner-bars color="white" />
               </template>
@@ -36,9 +23,7 @@
         </div>
         <p>
           Already have an account?
-          <router-link class="text-primary" to="/auth/registration"
-            >Register</router-link
-          >
+          <router-link class="text-primary" to="/auth/registration">Register</router-link>
         </p>
       </div>
       <div class="col colum bg-primary" style="min-width: 400px"></div>
