@@ -20,98 +20,72 @@
           </option>
         </select>
       </div>
-      <hr />
-      <div class="">
-        <div class="">
-          <div class="">
-            <div>
-              <label for="name" class="">Name</label>
-              <input type="text" class="" placeholder="Name" v-model="selectedAttribut.name" required />
-            </div>
-            <div>
-              <label for="type" class="">Type</label>
-              <select class="" v-model="selectedAttribut.type">
-                <option v-for="(elem, idx) in attributTypes" :key="idx" :value="elem.value">
-                  {{ elem.name }}
-                </option>
-              </select>
-            </div>
-            <div>
-              <label for="table" class="">Table</label>
-              <select class="">
-                <option v-for="(tab, idx) in tables" :value="tab.id" :key="idx">
-                  {{ tab.name }}
-                </option>
-              </select>
-            </div>
-            <div>
-              <label for="phone" class="">Is Index</label>
-              <input v-model="selectedAttribut.index_key" type="checkbox" value="" class="" />
-            </div>
-            <div>
-              <label for="website" class="">Size</label>
-              <input type="number" class="" placeholder="Size" v-model="selectedAttribut.size" required />
-            </div>
-            <div>
-              <label for="primary_key" class="">Is Primary key</label>
-              <input v-model="selectedAttribut.primary_key" type="checkbox" value="" class="" />
-            </div>
-            <div>
-              <label for="visitors" class="">Description</label>
-              <textarea class="" placeholder="Description" v-model="selectedAttribut.description">
-              </textarea>
-            </div>
-            <div>
-              <label for="visitors" class="">Is Unique</label>
-              <input v-model="selectedAttribut.unique_key" id="red-checkbox" type="checkbox" value="" class="" />
-            </div>
-          </div>
-
-          <button class="" @click="openDeleteModal">Delete</button>
-          <button type="submit" @click="editAttribut" class="">Save</button>
+      <q-separator />
+      <div class="w-full">
+        <div class="w-full">
+          <q-form class="w-full">
+            <q-input v-model="selectedAttribut.name" type="text" label="Name" class="" required />
+            <q-select outlined v-model="selectedAttribut.type" :options="attributTypes" label="Type" />
+            <q-select outlined v-model="selectedAttribut.table_id" :options="buildTableOptions(tables)" label="Table" />
+            <q-checkbox v-model="selectedAttribut.index_key" label="Is Index" />
+            <q-checkbox v-model="selectedAttribut.primary_key" label="Is Primary key" />
+            <q-checkbox v-model="selectedAttribut.unique_key" label="Is Unique" />
+            <q-checkbox v-model="selectedAttribut.is_required" label="Is Required" />
+            <q-input v-model="selectedAttribut.size" type="number" label="Size" class="" required />
+            <q-btn type="submit" @click="editAttribut" class="">Save</q-btn>
+            <q-btn @click="openDeleteModal" class="">Delete</q-btn>
+          </q-form>
         </div>
       </div>
     </div>
+    <div v-else>
+      <p>No attributs found</p>
+    </div>
 
     <!--Add Modal-->
-    <q-dialog persistent v-model="isAddModalOpen" backdrop-filter="backdrop-filter" transition-show="flip-down"
-      transition-hide="flip-up">
+    <q-dialog persistent v-model="isAddModalOpen" backdrop-filter="backdrop-filter" transition-show="scale"
+      transition-hide="scale">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
-          <div class="text-h6">Add Table to Project</div>
+          <div class="text-h6">Add attribut to table</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
-
         <q-card-section class="w-full q-pa-none">
           <q-form @submit="addAttribut" class="w-full q-pa-none q-am-none">
             <q-input class="w-full q-pa-md" v-model="toCreateAttribut.name" label="Name" outlined clearable required />
             <q-input class="w-full q-pa-md" type="textarea" v-model="toCreateAttribut.description" label="Description"
               outlined clearable required />
-            <q-input class="w-full q-pa-md" type="number" v-model="toCreateAttribut.size" label="Size" outlined
-              clearable required />
-            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.index_key" label="Is Index"
-              outlined clearable required />
-            <q-checkbox class="w-full q-pa-md" v-model="toCreateAttribut.primary_key" label="Is Primary key" outlined
-              clearable required />
-            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.unique_key" label="Is Unique"
-              outlined clearable required />
-            <q-checkbox class="w-full q-pa-md" type="checkbox" v-model="toCreateAttribut.is_required"
-              label="Is Required" outlined clearable required />
-            <q-input class="w-full q-pa-md" type="text" v-model="toCreateAttribut.type" label="Type" outlined clearable
-              required />
-            <q-btn type="submit" color="primary" label="Add Table" class="w-full q-pa-md q-mt-md" />
+            <div class="row w-full q-pa-none q-ma-none">
+              <q-input class="col q-pa-md" type="number" v-model="toCreateAttribut.size" label="Size" outlined
+                required />
+              <q-select class="col q-pa-md" v-model="toCreateAttribut.type" :options="attributTypes" label="Type"
+                outlined required />
+            </div>
+            <div class="row w-full q-pa-none q-ma-none">
+              <q-checkbox class="col q-pa-md" type="checkbox" v-model="toCreateAttribut.index_key" label="Is Index"
+                outlined clearable required />
+              <q-checkbox class="col q-pa-md" v-model="toCreateAttribut.primary_key" label="Is Primary key" outlined
+                clearable required />
+            </div>
+            <div class="row w-full q-pa-none q-ma-none">
+              <q-checkbox class="col q-pa-md" type="checkbox" v-model="toCreateAttribut.unique_key" label="Is Unique"
+                outlined clearable required />
+              <q-checkbox class="col q-pa-md" type="checkbox" v-model="toCreateAttribut.is_required" label="Is Required"
+                outlined clearable required />
+            </div>
+            <q-btn type="submit" color="primary" label="Add Attribut to table" class="w-full q-pa-md q-mt-md" />
           </q-form>
         </q-card-section>
       </q-card>
     </q-dialog>
 
     <!--Delete Modal-->
-    <q-dialog persistent v-model="isDeleteModalOpen" backdrop-filter="backdrop-filter" transition-show="flip-down"
-      transition-hide="flip-up">
+    <q-dialog persistent v-model="isDeleteModalOpen" backdrop-filter="backdrop-filter" transition-show="scale"
+      transition-hide="scale">
       <q-card style="min-width: 600px; padding: 20px">
         <q-card-section class="row items-center q-p-none">
-          <div class="text-h6">Delete project</div>
+          <div class="text-h6">Delete attribute from table</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -134,6 +108,7 @@ import { ITable } from '../../interfaces';
 import { IAttribut } from '../../interfaces';
 import { useAttributStore } from '../../stores/attributStore';
 import { watch, Ref, ref, computed, onMounted } from 'vue';
+import { ISelectOption } from '../../interfaces';
 import { attributTypes } from '../../constants/attributs';
 
 interface TableProps {
@@ -184,6 +159,7 @@ const items = computed(() => attributsStore.attributs);
 const openAddModal = () => {
   isAddModalOpen.value = true;
 };
+
 const closeAddModal = () => {
   isAddModalOpen.value = false;
 };
@@ -192,6 +168,7 @@ const openDeleteModal = () => {
   toDeleteAttribut.value = { ...selectedAttribut.value };
   isDeleteModalOpen.value = true;
 };
+
 const closeDeleteModal = () => {
   isDeleteModalOpen.value = false;
 };
@@ -226,6 +203,15 @@ onMounted(async () => {
     toCreateAttribut.value.table_id = props.table.id;
   }
 });
+
+const buildTableOptions = (tables: ITable[]): ISelectOption[] => {
+  return tables.map((table) => {
+    return {
+      label: table.name,
+      value: `${table.id}`,
+    };
+  });
+};
 </script>
 
 <style scoped lang="scss"></style>
