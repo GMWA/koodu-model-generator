@@ -1,11 +1,18 @@
 <template>
-  <div class="row w-full items-center q-pa-sm" :class="{ 'bg-green-200': isActive }">
-    <div class=" col-10 pl-4 text-xl" @click="handleChoose">{{ table.name }}</div>
-    <div class="col-1">
-      <q-btn round color="green" icon="edit" @click="handleEdit" />
+  <div class="row w-full items-center q-pa-none q-ma-none">
+    <div class="col-10 row w-full q-pa-sm" :class="{ 'bg-primary': props.active }">
+      <div class="col-10 pl-4 text-h6 select-text "
+        :class="{ 'text-white': props.active, 'text-primary': !props.table }" @click="handleChoose">
+        {{
+      props.table.name }}</div>
     </div>
-    <div class="col-1">
-      <q-btn round color="red" icon="delete" @click="handleDelete" />
+    <div class="row col-2 w-full">
+      <div class="col-6">
+        <q-btn round color="primary" icon="edit" @click="handleEdit" />
+      </div>
+      <div class="col-6">
+        <q-btn round color="red" icon="delete" @click="handleDelete" />
+      </div>
     </div>
   </div>
   <q-separator />
@@ -13,35 +20,31 @@
 
 <script lang="ts" setup>
 import { ITable } from '../../interfaces';
-import { ref, watch } from 'vue';
 
-interface TableProps {
+interface ITableProps {
   table: ITable;
   active: boolean;
 }
-const props = withDefaults(defineProps<TableProps>(), {});
-const table = props.table;
-const isActive = ref(props.active);
+const props = defineProps<ITableProps>();
 const emit = defineEmits(['delete', 'edit', 'select']);
 
-watch(
-  () => props.active,
-  (first) => {
-    isActive.value = first;
-  }
-);
-
 const handleEdit = () => {
-  emit('edit', table);
+  emit('edit', props.table);
 };
 
 const handleDelete = () => {
-  emit('delete', table);
+  emit('delete', props.table);
 };
 
 const handleChoose = () => {
-  emit('select', table);
+  emit('select', props.table);
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.select-text {
+  &:hover {
+    cursor: pointer;
+  }
+}
+</style>
