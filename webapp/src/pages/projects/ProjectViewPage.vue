@@ -24,7 +24,8 @@
               <q-separator />
               <div>
                 <TableSelectionComponent v-for="table in projectTables" :key="table.id" :table="table"
-                  :active="!!selectedTable && selectedTable.id === table.id" />
+                  :active="!!selectedTable && selectedTable.id === table.id" @select="handleSelectTable(table)"
+                  @delete="handleSelectDelete(table)" @edit="handelSelectEdit(table)" />
               </div>
             </div>
           </div>
@@ -63,10 +64,46 @@
 
         <q-card-section>
           <q-form v-if="!!newTable" @submit="addTableToProject">
-            <q-input class="w-full q-pa-md" v-model="newTable.name" label="Table Name" outlined clearable required />
+            <q-input class="w-full q-pa-md" v-model="newTable.name" label="Table Name" outlined required />
             <q-input class="w-full q-pa-md" type="textarea" v-model="newTable.description" label="Table Description"
-              outlined clearable required />
+              outlined required />
             <q-btn type="submit" color="primary" label="Create Table" class="w-full q-pa-md q-mt-md" />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="isDeleteModalOpen" persistent transition-show="scale" transition-hide="scale">
+      <q-card class="bg-white" style="width: 600px">
+        <q-card-section class="row items-center q-p-none">
+          <div class="text-h6">Delete Table</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <q-form v-if="!!selectedTable" @submit="deleteTable">
+            <p class="text-h6">Are you sure you want to delete {{ tableForDeletion?.name }}?</p>
+            <q-btn type="submit" color="red" label="Delete Table" class="w-full q-pa-md q-mt-md" />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="isEditModalOpen" persistent transition-show="scale" transition-hide="scale">
+      <q-card class="bg-white" style="width: 600px">
+        <q-card-section class="row items-center q-p-none">
+          <div class="text-h6">Edit Table</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <q-form v-if="!!tableForEdition" @submit="editTable">
+            <q-input class="w-full q-pa-md" v-model="tableForEdition.name" label="Table Name" outlined required />
+            <q-input class="w-full q-pa-md" type="textarea" v-model="tableForEdition.description"
+              label="Table Description" outlined required />
+            <q-btn type="submit" color="primary" label="Edit Table" class="w-full q-pa-md q-mt-md" />
           </q-form>
         </q-card-section>
       </q-card>
@@ -99,7 +136,11 @@ const isError: Ref<boolean> = ref(false);
 const errorMsg: Ref<string> = ref('');
 const projectTables = computed(() => tableStore.tables);
 const selectedTable: Ref<ITable | null> = ref(null);
+const tableForDeletion: Ref<ITable | null> = ref(null);
+const tableForEdition: Ref<ITable | null> = ref(null);
 const isAddModalOpen: Ref<boolean> = ref(false);
+const isDeleteModalOpen: Ref<boolean> = ref(false);
+const isEditModalOpen: Ref<boolean> = ref(false);
 const newTable: Ref<ITable | null> = ref(null);
 
 
@@ -125,6 +166,48 @@ const addTableToProject = async () => {
   } finally {
     isAddModalOpen.value = false;
     newTable.value = null;
+  }
+};
+
+const handleSelectTable = (table: ITable) => {
+  selectedTable.value = { ...table };
+};
+
+const handleSelectDelete = (table: ITable) => {
+  tableForDeletion.value = { ...table };
+  isDeleteModalOpen.value = true;
+};
+
+const handelSelectEdit = (table: ITable) => {
+  tableForEdition.value = { ...table };
+  isEditModalOpen.value = true;
+};
+
+const deleteTable = async () => {
+  if (!tableForDeletion.value) {
+    return;
+  }
+  try {
+    await tableStore.deleteTable(tableForDeletion.value.id);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    isDeleteModalOpen.value = false;
+    tableForDeletion.value = null;
+  }
+};
+
+const editTable = async () => {
+  if (!tableForEdition.value) {
+    return;
+  }
+  try {
+    await tableStore.updateTable(tableForEdition.value);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    isEditModalOpen.value = false;
+    tableForEdition.value = null;
   }
 };
 
