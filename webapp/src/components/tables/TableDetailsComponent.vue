@@ -53,9 +53,9 @@
         </q-card-section>
         <q-card-section class="w-full q-pa-none">
           <q-form @submit="addAttribut" class="w-full q-pa-none q-am-none">
-            <q-input class="w-full q-pa-md" v-model="toCreateAttribut.name" label="Name" outlined clearable required />
+            <q-input class="w-full q-pa-md" v-model="toCreateAttribut.name" label="Name" outlined required />
             <q-input class="w-full q-pa-md" type="textarea" v-model="toCreateAttribut.description" label="Description"
-              outlined clearable required />
+              outlined />
             <div class="row w-full q-pa-none q-ma-none">
               <q-select class="col-6 q-pa-md" v-model="toCreateAttribut.type" :options="attributTypes" label="Type"
                 option-value="value" option-label="label" emit-value map-options outlined required />

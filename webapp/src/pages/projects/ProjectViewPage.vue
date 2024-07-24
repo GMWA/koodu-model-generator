@@ -31,7 +31,8 @@
           </div>
           <q-separator vertical />
           <div class="d-content">
-            <TableDetailsComponent v-if="selectedTable" :table="selectedTable" :tables="projectTables" />
+            <TableDetailsComponent :key="selectedTable.id" v-if="selectedTable" :table="selectedTable"
+              :tables="projectTables" />
           </div>
         </div>
       </div>
