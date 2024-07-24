@@ -57,10 +57,10 @@
             <q-input class="w-full q-pa-md" type="textarea" v-model="toCreateAttribut.description" label="Description"
               outlined clearable required />
             <div class="row w-full q-pa-none q-ma-none">
-              <q-input class="col q-pa-md" type="number" v-model="toCreateAttribut.size" label="Size" outlined
-                required />
-              <q-select class="col q-pa-md" v-model="toCreateAttribut.type" :options="attributTypes" label="Type"
-                outlined required />
+              <q-select class="col-6 q-pa-md" v-model="toCreateAttribut.type" :options="attributTypes" label="Type"
+                option-value="value" option-label="label" emit-value map-options outlined required />
+              <q-input v-if="doAddAttributNeedSize" class="col-6 q-pa-md" type="number" v-model="toCreateAttribut.size"
+                label="Size" option-value="value" option-label="label" emit-value map-options outlined required />
             </div>
             <div class="row w-full q-pa-none q-ma-none">
               <q-checkbox class="col q-pa-md" type="checkbox" v-model="toCreateAttribut.index_key" label="Is Index"
@@ -109,7 +109,7 @@ import { IAttribut } from '../../interfaces';
 import { useAttributStore } from '../../stores/attributStore';
 import { watch, Ref, ref, computed, onMounted } from 'vue';
 import { ISelectOption } from '../../interfaces';
-import { attributTypes } from '../../constants/attributs';
+import { attributTypes, attributWithoutSize } from '../../constants/attributs';
 
 interface TableProps {
   table: ITable;
@@ -151,6 +151,7 @@ watch(
 );
 
 const items = computed(() => attributsStore.attributs);
+const doAddAttributNeedSize = computed(() => !attributWithoutSize.includes(toCreateAttribut.value.type));
 
 // const setSelectedAttribut = (attrib: IAttribut) => {
 //   selectedAttribut.value = { ...attrib };
