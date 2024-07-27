@@ -66,7 +66,11 @@ export const useTableStore = defineStore('table', {
           table
         );
         const index = this.tables.findIndex((p) => p.id === table.id);
-        this.tables[index] = response.data;
+        console.log(response.data);
+        this.tables[index] = {
+          ...this.tables[index],
+          ...response.data,
+        };
       } catch (error) {
         console.error(error);
       } finally {

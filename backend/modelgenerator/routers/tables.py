@@ -91,11 +91,12 @@ async def update_table(
         if table.description:
             db_table.description = table.description
         db.commit()
+        db.refresh(db_table)
+        return db_table
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
-    return db_table
 
 
 @router.delete(
