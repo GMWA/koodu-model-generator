@@ -3,7 +3,7 @@
     <div class="w-full q-pa-sm items-end">
       <div class="row items-center">
         <div class="col-11">
-          <p class="text-h4">Attributs for {{ table.name }}</p>
+          <p class="text-h4" style="margin-bottom: 0px;">Attributs for {{ table.name }}</p>
         </div>
         <div class="col-1 justify-end">
           <q-btn color="primary" icon="add" @click="openAddModal" round />

@@ -1,17 +1,17 @@
 <template>
-  <div class="row w-full items-center q-pa-none q-ma-none">
-    <div class="col-10 row w-full q-pa-sm" :class="{ 'bg-primary': props.active }">
+  <div class="row w-full items-center q-pa-none q-ma-none" :class="{ 'bg-primary': props.active }">
+    <div class="col-10 row w-full q-pa-sm">
       <div class="col-10 pl-4 text-h6 select-text "
         :class="{ 'text-white': props.active, 'text-primary': !props.table }" @click="handleChoose">
         {{
-      props.table.name }}</div>
+    props.table.name }}</div>
     </div>
     <div class="row col-2 w-full">
       <div class="col-6">
-        <q-btn round color="primary" icon="edit" @click="handleEdit" />
+        <q-btn round color="white" text-color="primary" icon="edit" @click="handleEdit" />
       </div>
       <div class="col-6">
-        <q-btn round color="red" icon="delete" @click="handleDelete" />
+        <q-btn round color="white" text-color="red" icon="delete" @click="handleDelete" />
       </div>
     </div>
   </div>

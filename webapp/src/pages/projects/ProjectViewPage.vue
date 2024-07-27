@@ -15,7 +15,7 @@
             <div>
               <div class="row w-full q-pa-sm q-ma-none">
                 <div class="col-11">
-                  <p class="text-h4"> Tables </p>
+                  <p class="text-h4" style="margin-bottom: 0px;"> Tables </p>
                 </div>
                 <div class="col-1">
                   <q-btn round color="primary" icon="add" @click="openAddModel" />
