@@ -1,6 +1,8 @@
 <template>
   <div class="q-pa-md">
-    {{ props.project.name }}
+    <p class="text-h6" style="margin-bottom: 0px;">
+      {{ props.project.name }}
+    </p>
   </div>
 </template>
 

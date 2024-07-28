@@ -6,9 +6,9 @@
       </div>
       <div class="content">
         <q-tabs v-model="tab" dense align="justify" class="bg-primary text-white shadow-2 w-full" :breakpoint="0">
-          <q-tab name="Models" icon="network_node" />
-          <q-tab name="Settings" icon="settings" />
-          <q-tab name="Code" icon="code" />
+          <q-tab class="q-pa-md" name="Models" icon="network_node" />
+          <q-tab class="q-pa-md" name="Settings" icon="settings" />
+          <q-tab class="q-pa-md" name="Code" icon="code" />
         </q-tabs>
         <div v-if="tab === 'Models'" class="row w-full h-full">
           <div class="col-3 h-full">

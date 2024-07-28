@@ -52,8 +52,9 @@
         </div>
       </div>
     </div>
-    <div v-else class="q-pa-md">
-      <p>No attributs found</p>
+    <div v-else class="no-attrib q-pa-md">
+      <p class="text-h6">There is not any attribut in this table</p>
+      <q-btn color="primary" @click="openAddModal" label="Add one attribut" />
     </div>
 
     <!--Add Modal-->
@@ -145,7 +146,7 @@ const DEFAULT_ATTRIBUT: IAttribut = {
   unique_key: false,
   is_required: false,
   type: 'str',
-  size: 0,
+  size: 255,
 };
 const selectedAttribut: Ref<IAttribut> = ref(DEFAULT_ATTRIBUT);
 const isAddModalOpen: Ref = ref(false);
@@ -233,4 +234,13 @@ const buildTableOptions = (tables: ITable[]): ISelectOption[] => {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.no-attrib {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+</style>
