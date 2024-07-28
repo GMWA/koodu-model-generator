@@ -11,4 +11,4 @@ export const attributTypes: ISelectOption[] = [
   { label: 'Reference', value: 'ref' },
 ];
 
-export const attributWithoutSize: string[] = ['bool', 'datetime', 'time', 'date', 'ref'];
+export const attributWithoutSize: string[] = ['bool', 'datetime', 'time', 'date', 'ref', 'float'];

@@ -33,10 +33,10 @@ export const useTableStore = defineStore('table', {
         this.isLoading = false;
       }
     },
-    async getTableById(tableId: number): Promise<ITable | null> {
+    async getTableById(tableId: number): Promise<ITable[] | null> {
       try {
         this.isLoading = true;
-        const response = await api.get<ITable>(
+        const response = await api.get<ITable[]>(
           `${TableEndpoint.GET_ONE}/${tableId}`
         );
         return response.data;

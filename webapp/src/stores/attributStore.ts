@@ -20,12 +20,13 @@ export const useAttributStore = defineStore('attribut', {
         this.isLoading = false;
       }
     },
-    async getAttributByTableId(tableId: number): Promise<IAttribut | null> {
+    async getAttributByTableId(tableId: number): Promise<IAttribut[] | null> {
       try {
         this.isLoading = true;
-        const response = await api.get<IAttribut>(
+        const response = await api.get<IAttribut[]>(
           `${AttributEndpoint.GET_ALL_BY_TABLE}/${tableId}`
         );
+        this.attributs = response.data;
         return response.data;
       } catch (error) {
         console.error(error);

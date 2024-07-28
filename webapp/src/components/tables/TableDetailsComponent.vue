@@ -11,34 +11,48 @@
       </div>
     </div>
     <q-separator />
-    <div v-if="items.length > 0">
-      <div class="">
-        <select class="" v-model="selectedAttribut">
-          <option v-for="(attrib, index) in items" :key="index" :value="attrib"
-            :selected="attrib.id === selectedAttribut.id">
-            {{ attrib.name }}
-          </option>
-        </select>
+    <div v-if="items.length > 0" class="q-pa-md">
+      <div class="w-full row q-mb-md">
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+          <q-select class="w-full" v-model="selectedAttribut" :options="items" label="Select attribut" outlined
+            option-label="name" />
+        </div>
       </div>
-      <q-separator />
       <div class="w-full">
         <div class="w-full">
-          <q-form class="w-full">
-            <q-input v-model="selectedAttribut.name" type="text" label="Name" class="" required />
-            <q-select outlined v-model="selectedAttribut.type" :options="attributTypes" label="Type" />
-            <q-select outlined v-model="selectedAttribut.table_id" :options="buildTableOptions(tables)" label="Table" />
-            <q-checkbox v-model="selectedAttribut.index_key" label="Is Index" />
-            <q-checkbox v-model="selectedAttribut.primary_key" label="Is Primary key" />
-            <q-checkbox v-model="selectedAttribut.unique_key" label="Is Unique" />
-            <q-checkbox v-model="selectedAttribut.is_required" label="Is Required" />
-            <q-input v-model="selectedAttribut.size" type="number" label="Size" class="" required />
-            <q-btn type="submit" @click="editAttribut" class="">Save</q-btn>
-            <q-btn @click="openDeleteModal" class="">Delete</q-btn>
+          <q-form class="row w-full">
+            <q-input class="col-12 q-mb-md" outlined v-model="selectedAttribut.name" type="text" label="Name"
+              required />
+            <div class="row col-12 q-mb-sm">
+              <q-select class="col-6" outlined v-model="selectedAttribut.type" :options="attributTypes"
+                option-value="value" option-label="label" emit-value map-options />
+              <q-select v-if="showAttributTable" class="col-6" outlined v-model="selectedAttribut.table_id"
+                :options="buildTableOptions(tables)" label="Table" emit-value map-options />
+              <q-input v-if="showAttributSize" class="col-6" outlined v-model="selectedAttribut.size" type="number"
+                label="Size" />
+            </div>
+            <div class="row w-full col-12 q-mb-md">
+              <q-checkbox class="col-6" v-model="selectedAttribut.index_key" label="Is Index" />
+              <q-checkbox class="col-6" v-model="selectedAttribut.primary_key" label="Is Primary key" />
+            </div>
+            <div class="row w-full col-12 q-mb-md">
+              <q-checkbox class="col-6" v-model="selectedAttribut.unique_key" label="Is Unique" />
+              <q-checkbox class="col-6" v-model="selectedAttribut.is_required" label="Is Required" />
+            </div>
+            <q-input class="col-12 q-mb-md" outlined v-model="selectedAttribut.description" type="textarea"
+              label="Description" />
+            <div class="row col-12 w-full justify-end items-end">
+              <q-btn color="red" icon-right="delete" @click="openDeleteModal" class="q-ma-sm q-pa-sm">Delete</q-btn>
+              <q-btn color="primary" icon-right="save" type="submit" @click="editAttribut"
+                class="q-ma-sm q-pa-sm">Save</q-btn>
+            </div>
           </q-form>
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="q-pa-md">
       <p>No attributs found</p>
     </div>
 
@@ -61,6 +75,8 @@
                 option-value="value" option-label="label" emit-value map-options outlined required />
               <q-input v-if="doAddAttributNeedSize" class="col-6 q-pa-md" type="number" v-model="toCreateAttribut.size"
                 label="Size" option-value="value" option-label="label" emit-value map-options outlined required />
+              <q-select v-if="toCreateAttribut.type === 'ref'" class="col-6 q-pa-md" v-model="toCreateAttribut.table_id"
+                :options="buildTableOptions(tables)" label="Table" emit-value map-options />
             </div>
             <div class="row w-full q-pa-none q-ma-none">
               <q-checkbox class="col q-pa-md" type="checkbox" v-model="toCreateAttribut.index_key" label="Is Index"
@@ -152,10 +168,12 @@ watch(
 
 const items = computed(() => attributsStore.attributs);
 const doAddAttributNeedSize = computed(() => !attributWithoutSize.includes(toCreateAttribut.value.type));
-
-// const setSelectedAttribut = (attrib: IAttribut) => {
-//   selectedAttribut.value = { ...attrib };
-// };
+const showAttributSize = computed(() => !attributWithoutSize.includes(selectedAttribut.value.type));
+const showAttributTable = computed(() => {
+  console.log(selectedAttribut.value);
+  return selectedAttribut.value.type === 'ref'
+}
+);
 
 const openAddModal = () => {
   isAddModalOpen.value = true;
@@ -209,7 +227,7 @@ const buildTableOptions = (tables: ITable[]): ISelectOption[] => {
   return tables.map((table) => {
     return {
       label: table.name,
-      value: `${table.id}`,
+      value: table.id,
     };
   });
 };
