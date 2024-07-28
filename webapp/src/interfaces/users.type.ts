@@ -9,7 +9,7 @@ export interface ICreateUser {
   is_admin: boolean;
 }
 
-export interface IUser  {
+export interface IUser {
   id: number;
   email: string;
   username: string;
@@ -25,13 +25,12 @@ export interface IRootTableState {
   logged_user: IUser | null;
   loading: boolean;
   error: null | string;
-};
+}
 
 export interface IAccessToken {
   access_token: string;
   token_type: string;
 }
-
 
 export interface IResetPassword {
   token: string;

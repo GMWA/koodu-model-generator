@@ -1,4 +1,4 @@
-<script lang="ts" , setup>
+<script lang="ts" setup>
 import { ITable } from "../types/tables.type";
 import { ref, watch } from "vue";
 

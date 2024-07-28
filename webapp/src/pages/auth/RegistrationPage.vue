@@ -1,8 +1,7 @@
 <template>
   <div class="pcontainer">
     <div class="row bcontainer">
-      <div class="col colum bg-primary" style="min-width: 400px;">
-      </div>
+      <div class="col colum bg-primary" style="min-width: 400px"></div>
       <div class="col colum dcontainer">
         <h3>Registration</h3>
         <div class="register-card">
@@ -28,7 +27,10 @@
             <p v-if="error">{{ error }}</p>
           </q-form>
         </div>
-        <p>Already have an account? <router-link to="/auth/login">login</router-link></p>
+        <p>
+          Already have an account?
+          <router-link to="/auth/login">Login</router-link>
+        </p>
       </div>
     </div>
   </div>
@@ -51,25 +53,25 @@ const user: Ref<ICreateUser> = ref({
   firstname: '',
   lastname: '',
   phone: '',
-  is_admin: false
+  is_admin: false,
 });
-const error = ref('')
+const error = ref('');
 
-const loading = ref(false)
+const loading = ref(false);
 
 const register = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const resp = await userStore.register(user.value)
+    const resp = await userStore.register(user.value);
     if (resp) {
-      router.push('/auth/login')
+      router.push('/auth/login');
     }
   } catch (e) {
     // error.value = e.message
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const reset = () => {
   user.value = {
@@ -80,10 +82,10 @@ const reset = () => {
     firstname: '',
     lastname: '',
     phone: '',
-    is_admin: false
-  }
-  error.value = ''
-}
+    is_admin: false,
+  };
+  error.value = '';
+};
 </script>
 
 <style scoped lang="scss">
@@ -99,13 +101,5 @@ const reset = () => {
 .register-card {
   min-width: 800px;
   padding: 20px;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.item {
-  border: 2px solid red;
 }
 </style>

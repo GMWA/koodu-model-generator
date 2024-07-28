@@ -1,6 +1,5 @@
 // app global css in SCSS form
 
-
 .pcontainer {
   display: flex;
   justify-content: center;
@@ -23,5 +22,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
   height: 100%;
 }

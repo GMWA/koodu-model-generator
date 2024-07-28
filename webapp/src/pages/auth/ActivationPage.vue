@@ -1,14 +1,14 @@
 <template>
   <div class="pcontainer">
     <q-dialog v-model="showErrorDialog" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="bg-red text-white" style="width: 600px;">
+      <q-card class="bg-red text-white" style="width: 600px">
         <q-card-section>
           <div class="text-h6">Error</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          An error occurred while activating your account.
-          Either the link is invalid or expired.
+          An error occurred while activating your account. Either the link is
+          invalid or expired.
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -18,14 +18,14 @@
     </q-dialog>
 
     <q-dialog v-model="showActivatedDialog" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="bg-primary text-white" style="width: 600px;">
+      <q-card class="bg-primary text-white" style="width: 600px">
         <q-card-section>
           <div class="text-h6">Success</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Your account has been activated successfully.
-          You can now login with your credentials and start using the app.
+          Your account has been activated successfully. You can now login with
+          your credentials and start using the app.
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -37,14 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useUserStore } from '../../stores/userStore'
-
+import { useUserStore } from '../../stores/userStore';
 
 const userStore = useUserStore();
 const route = useRoute();
-
 
 const showErrorDialog: Ref<boolean> = ref(false);
 const showActivatedDialog: Ref<boolean> = ref(false);
@@ -67,8 +65,8 @@ onMounted(async () => {
   const user = await userStore.activationLink(activationToken.value);
   if (user) {
     showActivatedDialog.value = true;
-  }else{
+  } else {
     showErrorDialog.value = false;
   }
-})
+});
 </script>

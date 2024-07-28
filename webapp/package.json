@@ -2,7 +2,7 @@
   "name": "webapp",
   "version": "0.0.1",
   "description": "The Web app tha allow users to quickly create model(in json and yaml) format for Koodu generator",
-  "productName": "Model generator Webapp",
+  "productName": "Koodu Model generator",
   "author": "Alex <mboutchouangalex+github@gmail.com>",
   "private": true,
   "scripts": {
