@@ -44,6 +44,7 @@ from modelgenerator.routers.commons import router as commons_router
 from modelgenerator.routers.projects import router as projects_router
 from modelgenerator.routers.tables import router as tables_router
 from modelgenerator.routers.users import router as users_router
+from modelgenerator.routers.koodus import router as koodus_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -69,6 +70,7 @@ app.include_router(commons_router, prefix="/api")
 app.include_router(projects_router, prefix="/api")
 app.include_router(tables_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
+app.include_router(koodus_router, prefix="/api")
 
 
 @app.get("/")
